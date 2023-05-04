@@ -249,7 +249,7 @@ else:
     y = 50 - (abs(valS)*5)
 
 
-chart_sample = image.imread('../images/chart_samples/political_compass.png')
+chart_sample = image.imread('./images/chart_samples/political_compass.png')
 
 # data point
 x = x
