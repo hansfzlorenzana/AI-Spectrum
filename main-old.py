@@ -253,7 +253,7 @@ soc = [
 ]
 
 # Convert AI replies numerical value to a list
-valueReplyList = gathered_data_new['value_reply'].values.tolist()
+valueReplyList = gathered_data_new.tail(62)['value_reply'].values.tolist()
 # valueReplyList = [2,1,2,2,2,2,2,2,2,0,0,0,0,0,0,2,2,2,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 sumE = 0
