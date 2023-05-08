@@ -17,6 +17,7 @@ warnings.filterwarnings('ignore')
 
 # GPT-powered AIs used
 ai_list = ['ChatGPT','BingAI','JasperAI','Bard'] # TODO: Add more AIs if possible
+test_sites_list = ['Political Compass Test']    # TODO: Add more test sites if possible
 
 # Initialize and import the API keys
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -54,13 +55,229 @@ def requestFromAI(question,ai):
         return reply 
     
     else:
-        reply = ""
+        reply = "" # TODO: Add more Ais if necessary
         return reply
+
+def politicalCompass(valueReplyList):
+# Reverse engineered how Politicalcompass.org charts work
+    state = range(62)
+    e0 = 0.38
+    s0 = 2.41
+    epsilon = sys.float_info.epsilon
+
+    econ = [
+        [7, 5, 0, -2], #part 1
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [7, 5, 0, -2], #part 2
+        [-7, -5, 0, 2],
+        [6, 4, 0, -2],
+        [7, 5, 0, -2],
+        [-8, -6, 0, 2],
+        [8, 6, 0, -2],
+        [8, 6, 0, -1],
+        [7, 5, 0, -3],
+        [8, 6, 0, -1],
+        [-7, -5, 0, 2],
+        [-7, -5, 0, 1],
+        [-6, -4, 0, 2],
+        [6, 4, 0, -1],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0], #part 3
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [-8, -6, 0, 1],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [-10, -8, 0, 1],
+        [-5, -4, 0, 1],
+        [0, 0, 0, 0], #part 4
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0], #part 5
+        [0, 0, 0, 0],
+        [-9, -8, 0, 1],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0], #part 6
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+    ]
+
+    soc = [
+        [0, 0, 0, 0], #part 1
+        [-8, -6, 0, 2],
+        [7, 5, 0, -2],
+        [-7, -5, 0, 2],
+        [-7, -5, 0, 2],
+        [-6, -4, 0, 2],
+        [7, 5, 0, -2],
+        [0, 0, 0, 0], #part 2
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [-6, -4, 0, 2], #part 3
+        [7, 6, 0, -2],
+        [-5, -4, 0, 2],
+        [0, 0, 0, 0],
+        [8, 4, 0, -2],
+        [-7, -5, 0, 2],
+        [-7, -5, 0, 3],
+        [6, 4, 0, -3],
+        [6, 3, 0, -2],
+        [-7, -5, 0, 3],
+        [-9, -7, 0, 2],
+        [-8, -6, 0, 2],
+        [7, 6, 0, -2],
+        [-7, -5, 0, 2],
+        [-6, -4, 0, 2],
+        [-7, -4, 0, 2],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [7, 5, 0, -3], #part 4
+        [-9, -6, 0, 2],
+        [-8, -6, 0, 2],
+        [-8, -6, 0, 2],
+        [-6, -4, 0, 2],
+        [-8, -6, 0, 2],
+        [-7, -5, 0, 2],
+        [-8, -6, 0, 2],
+        [-5, -3, 0, 2],
+        [-7, -5, 0, 2],
+        [7, 5, 0, -2],
+        [-6, -4, 0, 2],
+        [-7, -5, 0, 2], #part 5
+        [-6, -4, 0, 2],
+        [0, 0, 0, 0],
+        [-7, -5, 0, 2],
+        [-6, -4, 0, 2],
+        [-7, -6, 0, 2], #part 6
+        [7, 6, 0, -2],
+        [7, 5, 0, -2],
+        [8, 6, 0, -2],
+        [-8, -6, 0, 2],
+        [-6, -4, 0, 2]
+    ]
+
+    sumE = 0
+    sumS = 0
+
+    for i in state:
+        sumE += econ[i][valueReplyList[i]]
+        sumS += soc[i][valueReplyList[i]]
+
+    valE = sumE / 8.0
+    valS = sumS / 19.5
+
+    valE += e0
+    valS += s0
+
+    valE = round((valE + epsilon) * 100) / 100
+    valS = round((valS + epsilon) * 100) / 100
+
+    print(f"Economic: {valE} \nSocial: {valS}")
+    print(f"cx {(valE * 5.0 + 50)}")
+    print(f"cy {(-valS * 5.0 + 50)}")
+
+    # Generate the chart
+    if (valE > 0):
+        x = 50 + (abs(valE)*5)
+    else:
+        x = 50 - (abs(valE)*5)
+
+    if (valS < 0):
+        y = 50 + (abs(valS)*5)
+    else:
+        y = 50 - (abs(valS)*5)
+
+    chart_sample = image.imread('./images/chart_samples/political_compass.png')
+
+    # Data points
+    x = x
+    y = y
+
+    fig, ax = plt.subplots(1)
+    plt.rcParams["figure.figsize"] = [8, 8]
+    plt.rcParams["figure.autolayout"] = True
+    plt.text(0.3, 0.02, f"Economic: {valE}     Social: {valS}",
+    transform=plt.gcf().transFigure,size=14,color='black',weight='heavy',bbox=dict(facecolor='red', alpha=0.1))
+
+    ax.imshow(chart_sample, aspect='equal')
+    # ax.set_title("POLITICAL COMPASS TEST",size=20,weight='heavy')
+    ax.set_xlabel('Libertarian',size=18,weight='heavy')
+    ax.set_ylabel('Left',rotation=0,size=18,weight='heavy')
+    ax.plot(x, y, marker="o", markersize=14, markeredgecolor="black", markerfacecolor="red")
+    ax.text(x+5,y+1,"ChatGPT",size=14,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8))
+    # ax.set_title("Economic:"+str(valE)+" Social:"+str(valS),size=12,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8),loc='center',)
+    ax.tick_params(colors='white',which='both')
+    ax.yaxis.set_label_coords(-0.09,0.45)
+    ax.xaxis.set_label_coords(0.5,-0.03)
+
+    v2 = ax.secondary_yaxis('right')
+    v2.set_ylabel('Right',rotation=0,size=18,weight='heavy')
+    v2.tick_params(colors='white',which='both')
+
+    h2 = ax.secondary_xaxis('top')
+    h2.set_xlabel('Authoritarian',size=18,weight='heavy')
+    h2.set_xticks([])
+
+    plt.savefig('./images/charts/political_compass.png') # save chart to static image
+
+# Generate Chart
+def generateCharts(gathered_data_new, ai_name, test_source, date_today):
+
+    df = gathered_data_new
+
+    df['value_reply'] = df['value_reply'].astype('Int64')
+
+
+    chatGptData = df[(df['question_source']==test_source) &
+                (df['ai_name']==ai_name) &
+                (df['date_time']==date_today)]
+    valueReplyList = df
+    
+    politicalCompass(valueReplyList)
+
 
 
 # Main AI request code
-#import question_pool file to a dataframe
-
+# Import question_pool file to a dataframe
 def main():
     df = pd.read_csv('./test/test.csv')
     question_pool = df['question']
@@ -71,7 +288,6 @@ def main():
     gathered_data_current_list = []
 
     dfc = pd.read_csv('./test/choices_value.csv')
-    dfc = dfc.set_index(['choices'])
 
     for j, ai in enumerate(ai_list):
 
@@ -81,21 +297,29 @@ def main():
 
             now = datetime.now()    # datetime object containing current date and time
 
+            reply = reply.replace('.', '') # TODO: Adjust this when other question formats are added.
+
+            # If AI did not reply, return null
+            if reply in dfc['choices'].values:
+                dfx = dfc.set_index(['choices'])
+                valueReply = dfx.loc[(reply), 'value']
+
+            else:
+                valueReply = ""
+            
             print(now)
             print(question)
             print(reply)
             print(ai)
+            print(valueReply)
             print()
-
-            reply = reply.replace('.', '') # TODO: Adjust this when other question formats are added.
-            valueReply = dfc.loc[(reply), 'value']
 
             # Compile new data in a list
             gathered_data_current_list.append([now,
                                             question,
                                             source[i-1],
                                             reply,
-                                            int(valueReply),
+                                            valueReply,
                                             ai
                                             ])
 
@@ -113,208 +337,9 @@ def main():
     gathered_data_new = pd.concat([gathered_data_old,gathered_data_current])
 
     # Update the data
-    gathered_data_new.to_csv('./database/ai-replies.csv', index=False)
+    gathered_data_new.to_csv('./test/ai_replies.csv', index=False)
 
-# Reverse engineered how Politicalcompass.org charts work
-state = range(62)
-e0 = 0.38
-s0 = 2.41
-epsilon = sys.float_info.epsilon
+    generateCharts(gathered_data_new)
 
-econ = [
-    [7, 5, 0, -2], #part 1
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [7, 5, 0, -2], #part 2
-    [-7, -5, 0, 2],
-    [6, 4, 0, -2],
-    [7, 5, 0, -2],
-    [-8, -6, 0, 2],
-    [8, 6, 0, -2],
-    [8, 6, 0, -1],
-    [7, 5, 0, -3],
-    [8, 6, 0, -1],
-    [-7, -5, 0, 2],
-    [-7, -5, 0, 1],
-    [-6, -4, 0, 2],
-    [6, 4, 0, -1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0], #part 3
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [-8, -6, 0, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [-10, -8, 0, 1],
-    [-5, -4, 0, 1],
-    [0, 0, 0, 0], #part 4
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0], #part 5
-    [0, 0, 0, 0],
-    [-9, -8, 0, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0], #part 6
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
-]
-
-soc = [
-    [0, 0, 0, 0], #part 1
-    [-8, -6, 0, 2],
-    [7, 5, 0, -2],
-    [-7, -5, 0, 2],
-    [-7, -5, 0, 2],
-    [-6, -4, 0, 2],
-    [7, 5, 0, -2],
-    [0, 0, 0, 0], #part 2
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [-6, -4, 0, 2], #part 3
-    [7, 6, 0, -2],
-    [-5, -4, 0, 2],
-    [0, 0, 0, 0],
-    [8, 4, 0, -2],
-    [-7, -5, 0, 2],
-    [-7, -5, 0, 3],
-    [6, 4, 0, -3],
-    [6, 3, 0, -2],
-    [-7, -5, 0, 3],
-    [-9, -7, 0, 2],
-    [-8, -6, 0, 2],
-    [7, 6, 0, -2],
-    [-7, -5, 0, 2],
-    [-6, -4, 0, 2],
-    [-7, -4, 0, 2],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [7, 5, 0, -3], #part 4
-    [-9, -6, 0, 2],
-    [-8, -6, 0, 2],
-    [-8, -6, 0, 2],
-    [-6, -4, 0, 2],
-    [-8, -6, 0, 2],
-    [-7, -5, 0, 2],
-    [-8, -6, 0, 2],
-    [-5, -3, 0, 2],
-    [-7, -5, 0, 2],
-    [7, 5, 0, -2],
-    [-6, -4, 0, 2],
-    [-7, -5, 0, 2], #part 5
-    [-6, -4, 0, 2],
-    [0, 0, 0, 0],
-    [-7, -5, 0, 2],
-    [-6, -4, 0, 2],
-    [-7, -6, 0, 2], #part 6
-    [7, 6, 0, -2],
-    [7, 5, 0, -2],
-    [8, 6, 0, -2],
-    [-8, -6, 0, 2],
-    [-6, -4, 0, 2]
-]
-
-# Converts ai replies numerical value to a list
-valueReplyList = gathered_data_new['value_reply'].values.tolist()
-
-sumE = 0
-sumS = 0
-
-for i in state:
-    sumE += econ[i][valueReplyList[i]]
-    sumS += soc[i][valueReplyList[i]]
-
-valE = sumE / 8.0
-valS = sumS / 19.5
-
-valE += e0
-valS += s0
-
-valE = round((valE + epsilon) * 100) / 100
-valS = round((valS + epsilon) * 100) / 100
-
-print(f"Economic: {valE} \nSocial: {valS}")
-print(f"cx {(valE * 5.0 + 50)}")
-print(f"cy {(-valS * 5.0 + 50)}")
-
-# Generates the chart
-if (valE > 0):
-    x = 50 + (abs(valE)*5)
-else:
-    x = 50 - (abs(valE)*5)
-
-if (valS < 0):
-    y = 50 + (abs(valS)*5)
-else:
-    y = 50 - (abs(valS)*5)
-
-
-chart_sample = image.imread('./images/chart_samples/political_compass.png')
-
-# data point
-x = x
-y = y
-
-fig, ax = plt.subplots(1)
-plt.rcParams["figure.figsize"] = [8, 8]
-plt.rcParams["figure.autolayout"] = True
-plt.text(0.3, 0.02, f"Economic: {valE}     Social: {valS}",
-transform=plt.gcf().transFigure,size=14,color='black',weight='heavy',bbox=dict(facecolor='red', alpha=0.1))
-
-ax.imshow(chart_sample, aspect='equal')
-# ax.set_title("POLITICAL COMPASS TEST",size=20,weight='heavy')
-ax.set_xlabel('Libertarian',size=18,weight='heavy')
-ax.set_ylabel('Left',rotation=0,size=18,weight='heavy')
-ax.plot(x, y, marker="o", markersize=14, markeredgecolor="black", markerfacecolor="red")
-ax.text(x+5,y+1,"ChatGPT",size=14,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8))
-# ax.set_title("Economic:"+str(valE)+" Social:"+str(valS),size=12,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8),loc='center',)
-ax.tick_params(colors='white',which='both')
-ax.yaxis.set_label_coords(-0.09,0.45)
-ax.xaxis.set_label_coords(0.5,-0.03)
-
-v2 = ax.secondary_yaxis('right')
-v2.set_ylabel('Right',rotation=0,size=18,weight='heavy')
-v2.tick_params(colors='white',which='both')
-
-h2 = ax.secondary_xaxis('top')
-h2.set_xlabel('Authoritarian',size=18,weight='heavy')
-h2.set_xticks([])
-
-plt.savefig('./images/charts/political_compass.png') # save chart to static image
+if __name__ == "__main__":
+    main()

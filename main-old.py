@@ -16,7 +16,7 @@ load_dotenv()
 warnings.filterwarnings('ignore')
 
 # GPT-powered AIs used
-ai_list = ['ChatGPT','BingAI','JasperAI','Bard'] # TODO: Add more AIs if possible
+ai_list = ['ChatGPT'] # TODO: Add more AIs if possible
 
 # Initialize and import the API keys. API key as environment variable.
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -38,37 +38,37 @@ def requestFromAI(question,ai):
         reply = response['choices'][0]['message']['content']
         return reply
     
-    elif ai == "BingAI":
-        # TODO: Add functionality for BingAI
-        reply = ""
-        return reply
+    # elif ai == "BingAI":
+    #     # TODO: Add functionality for BingAI
+    #     reply = ""
+    #     return reply
     
-    elif ai == "JasperAI":
-        # TODO: Add functionality for JasperAI
-        reply = ""
-        return reply
+    # elif ai == "JasperAI":
+    #     # TODO: Add functionality for JasperAI
+    #     reply = ""
+    #     return reply
     
-    elif ai == "Bard":
-        # TODO: Add functionality for Bard
-        reply = ""
-        return reply 
+    # elif ai == "Bard":
+    #     # TODO: Add functionality for Bard
+    #     reply = ""
+    #     return reply 
     
-    else:
-        reply = ""
-        return reply
+    # else:
+    #     reply = ""
+    #     return reply
 
 
 # Main AI request code
 # Import question_pool file to a dataframe
-df = pd.read_csv('./test/test.csv')
+df = pd.read_csv('./database/questions_pool.csv')
 question_pool = df['question']
 source = df['source']
 
-gathered_data_old = pd.read_csv('./test/ai_replies.csv')
+gathered_data_old = pd.read_csv('./database/ai_replies.csv')
 
 gathered_data_current_list = []
 
-dfc = pd.read_csv('./test/choices_value.csv')
+dfc = pd.read_csv('./database/choices_value.csv')
 dfc = dfc.set_index(['choices'])
 
 for j, ai in enumerate(ai_list):
@@ -79,11 +79,7 @@ for j, ai in enumerate(ai_list):
 
         now = datetime.now()    # datetime object containing current date and time
 
-        print(now)
-        print(question)
-        print(reply)
-        print(ai)
-        print()
+
 
         reply = reply.replace('.', '') # TODO: Adjust this when other question formats are added.
         valueReply = dfc.loc[(reply), 'value']
@@ -96,6 +92,13 @@ for j, ai in enumerate(ai_list):
                                         int(valueReply),
                                         ai
                                         ])
+        
+        print(now)
+        print(question)
+        print(reply)
+        print(ai)
+        print(int(valueReply))
+        print()
 
         # OpenAI limit is at 3 RPM (request per minute)
         # Added a 60-second wait time for every 3 questions asked before requesting again.
@@ -111,7 +114,7 @@ gathered_data_current = pd.DataFrame(gathered_data_current_list,columns=['date_t
 gathered_data_new = pd.concat([gathered_data_old,gathered_data_current])
 
 # Update the data
-gathered_data_new.to_csv('./test/ai-replies.csv', index=False)
+gathered_data_new.to_csv('./database/ai_replies.csv', index=False)
 
 # Reverse engineered how Politicalcompass.org charts work
 state = range(62)
@@ -251,6 +254,7 @@ soc = [
 
 # Convert AI replies numerical value to a list
 valueReplyList = gathered_data_new['value_reply'].values.tolist()
+# valueReplyList = [2,1,2,2,2,2,2,2,2,0,0,0,0,0,0,2,2,2,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 sumE = 0
 sumS = 0
@@ -283,35 +287,36 @@ if (valS < 0):
 else:
     y = 50 - (abs(valS)*5)
 
-chart_sample = image.imread('./images/chart_samples/political_compass.png')
+chart_sample = image.imread('./images/chart-samples/political_compass.png')
 
 # Data points
 x = x
 y = y
 
 fig, ax = plt.subplots(1)
-plt.rcParams["figure.figsize"] = [8, 8]
+plt.rcParams["figure.figsize"] = [10, 10]
 plt.rcParams["figure.autolayout"] = True
-plt.text(0.3, 0.02, f"Economic: {valE}     Social: {valS}",
+plt.text(0.25, 0.01, f"Economic: {valE}     Social: {valS}",
 transform=plt.gcf().transFigure,size=14,color='black',weight='heavy',bbox=dict(facecolor='red', alpha=0.1))
 
 ax.imshow(chart_sample, aspect='equal')
 # ax.set_title("POLITICAL COMPASS TEST",size=20,weight='heavy')
-ax.set_xlabel('Libertarian',size=18,weight='heavy')
-ax.set_ylabel('Left',rotation=0,size=18,weight='heavy')
+ax.set_xlabel('Libertarian',size=15,weight='heavy')
+ax.set_ylabel('Left',rotation=0,size=15,weight='heavy')
 ax.plot(x, y, marker="o", markersize=14, markeredgecolor="black", markerfacecolor="red")
 ax.text(x+5,y+1,"ChatGPT",size=14,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8))
 # ax.set_title("Economic:"+str(valE)+" Social:"+str(valS),size=12,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8),loc='center',)
 ax.tick_params(colors='white',which='both')
-ax.yaxis.set_label_coords(-0.09,0.45)
-ax.xaxis.set_label_coords(0.5,-0.03)
+ax.yaxis.set_label_coords(-0.07,0.45)
+ax.xaxis.set_label_coords(0.5,-0.02)
 
 v2 = ax.secondary_yaxis('right')
-v2.set_ylabel('Right',rotation=0,size=18,weight='heavy')
+v2.set_ylabel('Right',rotation=0,size=15,weight='heavy',loc="center")
+# v2.yaxis.set_label_coords(-1,0.5)
 v2.tick_params(colors='white',which='both')
 
 h2 = ax.secondary_xaxis('top')
-h2.set_xlabel('Authoritarian',size=18,weight='heavy')
+h2.set_xlabel('Authoritarian',size=15,weight='heavy')
 h2.set_xticks([])
 
 plt.savefig('./images/charts/political_compass.png') # save chart to static image
