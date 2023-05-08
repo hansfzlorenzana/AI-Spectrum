@@ -11,6 +11,7 @@ import pandas as pd
 import sys
 import time
 import warnings
+import pytz
 
 load_dotenv()
 warnings.filterwarnings('ignore')
@@ -77,9 +78,10 @@ for j, ai in enumerate(ai_list):
         
         reply = requestFromAI(question,ai)
 
-        now = datetime.now()    # datetime object containing current date and time
-
-
+        # datetime object containing current date and time
+        tz_NY = pytz.timezone('America/New_York') 
+        datetime_NY = datetime.now(tz_NY)
+        now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
 
         reply = reply.replace('.', '') # TODO: Adjust this when other question formats are added.
         valueReply = dfc.loc[(reply), 'value']
@@ -115,6 +117,12 @@ gathered_data_new = pd.concat([gathered_data_old,gathered_data_current])
 
 # Update the data
 gathered_data_new.to_csv('./database/ai_replies.csv', index=False)
+
+# Get last update date and time; changed dataframe name to not be confused with gathered_data_new
+df_last_update = pd.read_csv('./database/ai_replies.csv')
+timezone = datetime_NY.strftime("%Z")
+df_last_update['date_time'] = pd.to_datetime(df_last_update['date_time']).dt.strftime(f'%I:%M%p {timezone} on %B %d, %Y')
+last_updated = df_last_update['date_time'].tail(1)
 
 # Reverse engineered how Politicalcompass.org charts work
 state = range(62)

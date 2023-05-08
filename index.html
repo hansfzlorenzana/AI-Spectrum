@@ -22,6 +22,9 @@
 </head>
   
 <body>
+    <div class ="displayLastUpdate">
+        <b>Charts update every 2 hours</b> | Last Updated: <span id="displayLastUpdated"></span> 
+    </div>
     <h1>The Political Bias of AI</h1>
     <div class="chart">
         <h2>Political Compass Test</h2>
@@ -33,5 +36,15 @@
     </div>
     
 </body>
+
+<script type="text/javascript">
+    var request = new XMLHttpRequest();
+    request.open('GET', 'last_updated.txt', false);
+    request.send();
+
+    var textFileContent = request.responseText
+
+    document.getElementById("displayLastUpdated").innerHTML = textFileContent;
+</script>
   
 </html>
