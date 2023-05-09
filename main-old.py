@@ -124,6 +124,12 @@ timezone = datetime_NY.strftime("%Z")
 df_last_update['date_time'] = pd.to_datetime(df_last_update['date_time']).dt.strftime(f'%I:%M%p {timezone} on %B %d, %Y')
 last_updated = df_last_update['date_time'].tail(1)
 
+# Save to txt file
+path = r'./last_updated.txt'
+with open(path, 'w') as f:
+    df_string = last_updated.to_string(header=False, index=False)
+    f.write(df_string)
+
 # Reverse engineered how Politicalcompass.org charts work
 state = range(62)
 e0 = 0.38
