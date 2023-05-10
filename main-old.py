@@ -310,7 +310,7 @@ coords_data_current_list.append([date_time_coords,
 coords_data_current = pd.DataFrame(coords_data_current_list, columns=['date_time','econ_value','soc_value','test_source','ai_name'])
 coords_data_new = pd.concat([coords_data_old, coords_data_current])
 
-coords_data_new.to_csv('./database/coordinates_update.csv', index=False)
+coords_data_new.to_csv('./database/coordinates_logs.csv', index=False)
 
 # Generate the chart
 if (valE > 0):
