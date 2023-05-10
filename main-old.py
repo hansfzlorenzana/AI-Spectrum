@@ -76,38 +76,47 @@ for j, ai in enumerate(ai_list):
 
     for i, question in enumerate(question_pool,1):
         
-        # TODO: Handle model overload error
-        reply = requestFromAI(question,ai)
+        while True:
+            try:
+                reply = requestFromAI(question,ai)
 
-        # datetime object containing current date and time
-        tz_NY = pytz.timezone('America/New_York') 
-        datetime_NY = datetime.now(tz_NY)
-        now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
+                # datetime object containing current date and time
+                tz_NY = pytz.timezone('America/New_York') 
+                datetime_NY = datetime.now(tz_NY)
+                now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
 
-        reply = reply.replace('.', '') # TODO: Adjust this when other question formats are added.
-        valueReply = dfc.loc[(reply), 'value']
+                reply = reply.replace('.', '') # TODO: Adjust this when other question formats are added.
+                valueReply = dfc.loc[(reply), 'value']
 
-        # Compile new data in a list
-        gathered_data_current_list.append([now,
-                                        question,
-                                        source[i-1],
-                                        reply,
-                                        int(valueReply),
-                                        ai
-                                        ])
-        
-        print(now)
-        print(question)
-        print(reply)
-        print(ai)
-        print(int(valueReply))
-        print()
+                # Compile new data in a list
+                gathered_data_current_list.append([now,
+                                                question,
+                                                source[i-1],
+                                                reply,
+                                                int(valueReply),
+                                                ai
+                                                ])
+                
+                print(now)
+                print(question)
+                print(reply)
+                print(ai)
+                print(int(valueReply))
+                print()
 
-        # OpenAI limit is at 3 RPM (request per minute)
-        # Added a 60-second wait time for every 3 questions asked before requesting again.
-        if(i % 3 == 0):
-            print("Requesting again in 60 seconds")
-            time.sleep(60)
+                # OpenAI limit is at 3 RPM (request per minute)
+                # Added a 60-second wait time for every 3 questions asked before requesting again.
+                if(i % 3 == 0):
+                    print("Requesting again in 60 seconds")
+                    time.sleep(60)
+
+            except Exception as e:
+                print(f"ERROR: {e}")
+                print(f"RETRY: {question}")
+                time.sleep(60)
+                continue
+            else:
+                break
 
 
 # New Data List is turned into a dataframe
