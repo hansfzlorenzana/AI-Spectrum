@@ -76,6 +76,7 @@ for j, ai in enumerate(ai_list):
 
     for i, question in enumerate(question_pool,1):
         
+        # TODO: Handle model overload error
         reply = requestFromAI(question,ai)
 
         # datetime object containing current date and time
@@ -105,7 +106,7 @@ for j, ai in enumerate(ai_list):
         # OpenAI limit is at 3 RPM (request per minute)
         # Added a 60-second wait time for every 3 questions asked before requesting again.
         if(i % 3 == 0):
-            print("requesting again in 60 seconds")
+            print("Requesting again in 60 seconds")
             time.sleep(60)
 
 
@@ -289,6 +290,27 @@ valS = round((valS + epsilon) * 100) / 100
 print(f"Economic: {valE} \nSocial: {valS}")
 print(f"cx {(valE * 5.0 + 50)}")
 print(f"cy {(-valS * 5.0 + 50)}")
+
+# Save new coords to coords log. It is used for the time series chart
+df_coords = pd.read_csv('./database/ai_replies.csv')
+date_time_coords = df_coords['date_time'].tail(1).values.tolist()[0]
+test_coords = df_coords['question_source'].tail(1).values.tolist()[0]
+ai_name_coords = df_coords['ai_name'].tail(1).values.tolist()[0]
+
+coords_data_old = pd.read_csv('./database/coordinates_logs.csv')
+coords_data_current_list = []
+
+coords_data_current_list.append([date_time_coords,
+                                 valE,
+                                 valS,
+                                 test_coords,
+                                 ai_name_coords
+                                ])
+
+coords_data_current = pd.DataFrame(coords_data_current_list, columns=['date_time','econ_value','soc_value','test_source','ai_name'])
+coords_data_new = pd.concat([coords_data_old, coords_data_current])
+
+coords_data_new.to_csv('./database/coordinates_update.csv', index=False)
 
 # Generate the chart
 if (valE > 0):
