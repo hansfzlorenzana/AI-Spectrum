@@ -158,6 +158,11 @@
         vertical-align: super;
         line-height: 0;
       }
+
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+      }
     </style>
       <span style="font-size: 16;">
         <p>
@@ -169,7 +174,7 @@
       <p>
     </span>
     <!--...-->
-    <table>
+    <table class="center">
       <script type="text/javascript" src="https://www.google.com/jsapi"></script>
       <script type='text/javascript'>
         google.charts.load('current', {
@@ -212,7 +217,7 @@
               'legend': 'right',
               backgroundColor: '#FFFFFF',
               lineWidth: 4,
-              colors: ['purple', 'blue'],
+              colors: ['darkOrange', 'black'],
               title: "Political Compass Test Coordinates Over Time",
               // omit width, since we set this in CSS
               chartArea: {
@@ -236,7 +241,7 @@
                 chartOptions: {
                   height: 50,
                   width: 700,
-                  colors: ['purple', 'blue'],
+                  colors: ['darkOrange', 'black'],
                   backgroundColor: '#FFFFFF',
                   // omit width, since we set this in CSS
                   chartArea: {
@@ -319,7 +324,7 @@
       </style>
       <div id="dashboard_div">
         <br />
-        <input id="lastDay" type="button" style="font-size:20px" "font: bold" value="Last Day" />
+        <input id="lastDay" type="button" style="font-size:20px" style="font: bold" value="Last Day" />
         <input id="lastWeek" type="button" style="font-size:20px" style="font: bold" value="Last Week" />
         <input id="lastMonth" type="button" style="font-size:20px" value="Last Month" />
         <input id="max" type="button" style="font-size:20px" onclick="window.location.href=''" value="Maximum" />
@@ -331,16 +336,10 @@
         <div style="margin-bottom:-70px; width:100%;" id="WIN_chart_div"></div>
         <div style="margin-top:-160px; width:100%;" id="WIN_control_div"></div>
         <a name="chart">
+      </div>
     </table>
-    </div>
-    <div>
-      <span style="font-size: 88;">
-        <br>
-      </span>
-    </div>
-    <center>
-      <p style="font-size: 10pt;">Copyright 2023, X
-    </center>
+
+
     <script type="text/javascript">
       <!-- 
       var timer = setInterval("autoRefresh()", 1000 * 5 * 60);
