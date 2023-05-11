@@ -1,7 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
     <meta property="og:title" content="ChatGPT Political Bias" />
     <meta property="og:description" content="ChatGPT Political Bias" />
@@ -11,45 +10,358 @@
     <!-- <meta property="fb:admins" content="" /> -->
     <meta property="og:url" content="https://hansfzlorenzana.github.io/chatgpt-bias/" />
     <meta property="og:site_name" content="ChatGPT Bias" />
-<!-- 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@maximlott">
-    <meta name="twitter:creator" content="@maximlott">
-    <meta name="twitter:title" content="Homicide Mapped: % change of homicide rates during Covid19">
-    <meta name="twitter:description" content="="Homicide Mapped: % change of homicide rates during Covid19">
-    <meta name="twitter:image" content=""> -->
+    <!-- 
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@maximlott"><meta name="twitter:creator" content="@maximlott"><meta name="twitter:title" content="Homicide Mapped: % change of homicide rates during Covid19"><meta name="twitter:description" content="="Homicide Mapped: % change of homicide rates during Covid19"><meta name="twitter:image" content=""> -->
     <link rel="stylesheet" href="./styles/styles.css" type="text/css">
-</head>
-  
-<body>
-    <div class ="displayLastUpdate">
-        <b>Charts update every 2 hours</b> | Last Updated: <span id="displayLastUpdated"></span> 
+  </head>
+  <body>
+    <div class="displayLastUpdate">
+      <b>Charts update every 2 hours</b> | Last Updated: <span id="displayLastUpdated"></span>
     </div>
     <div class="appTitle">
-        <h1>AI Spectrum</h1>
+      <h1>AI Spectrum</h1>
     </div>
     <div class="appSubtitle">
-        <h2>The Political Bias of AIs</h2>
+      <h2>The Political Bias of AIs</h2>
     </div>
     <div class="chart">
-        <h2>Political Compass Test</h2>
-        <img src="images/charts/political_compass.png" 
-            style="position:relative; border:none;"
-            alt="Political Compass Test Result"
-            title="Political Compass Test Result" 
-        />
+      <h2>Political Compass Test</h2>
+      <img src="images/charts/political_compass.png" style="position:relative; border:none;" alt="Political Compass Test Result" title="Political Compass Test Result" />
     </div>
 
-</body>
+    <!-- From ElectionBettingOdds -->
+    <style type="text/css">
+      select {
+        font-family: Times;
+        font-size: 16px;
+      }
+    </style>
+    <style type="text/css">
+      table {
+        display: inline-block;
+        margin: 0 10px;
+        border-collapse: collapse;
+      }
 
-<script type="text/javascript">
+      .container {
+        display: flex;
+        align-items: top;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .inlineTable {
+        display: inline-block;
+        vertical-align: top
+      }
+
+      .notbold {
+        font-weight: normal
+      }
+
+      .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 340px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 110%;
+        left: 50%;
+        margin-left: -170px;
+        margin-bottom: 10px;
+      }
+
+      .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: black transparent transparent transparent;
+      }
+
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: .9;
+      }
+
+      .candidate-tooltip {
+        position: relative;
+        display: inline-block;
+      }
+
+      .candidate-tooltip .tooltiptext {
+        visibility: hidden;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 0%;
+        left: 110%;
+        margin-left: -5px;
+      }
+
+      .candidate-tooltip .tooltiptext table tr td {
+        color: #fff;
+        font-weight: bold;
+        /*
+              Make the table headers will stay on one line. With this, we no
+              longer have to set width on .candidate-tooltip .tooltiptext.
+              (Without this, and without tooltip width, it would make the table more
+              narrow and the headers would line wrap)
+              */
+        white-space: nowrap;
+      }
+
+      .candidate-tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -5px;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent black transparent transparent;
+      }
+
+      .candidate-tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: .9;
+      }
+    </style>
+    <style>
+      nav {
+        width: 620px;
+        padding: 3px;
+        border: 3px solid gray;
+        margin: 0;
+        font-size: 16pt;
+        /* font-weight:bold; */
+      }
+
+      sup {
+        font-size: 0.5em;
+        vertical-align: super;
+        line-height: 0;
+      }
+    </style>
+      <span style="font-size: 16;">
+        <p>
+      </span>
+    <span style="font-size: 16;">
+      <p>
+    </span>
+    <span style="font-size: 5;">
+      <p>
+    </span>
+    <!--...-->
+    <table>
+      <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+      <script type='text/javascript'>
+        google.charts.load('current', {
+          packages: ['line']
+        });
+
+        function drawChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('datetime', 'X');
+          data.addColumn('number', 'Economic');
+          data.addColumn('number', 'Social');
+          data.addRows([
+            [new Date(2023, 05, 08, 07, 02, 02), -2.87, -3.03],
+            [new Date(2023, 05, 08, 08, 20, 37), -2.37, -2.82],
+            [new Date(2023, 05, 08, 10, 20, 35), -2.37, -3.03],
+            [new Date(2023, 05, 08, 14, 20, 33), -2.87, -3.03],
+            [new Date(2023, 05, 08, 14, 20, 31), -2.37, -3.03],
+            [new Date(2023, 05, 08, 18, 20, 26), -2.87, -3.03],
+            [new Date(2023, 05, 08, 22, 20, 32), -2.12, -3.03],
+            [new Date(2023, 05, 09, 04, 20, 35), -2.87, -2.56],
+            [new Date(2023, 05, 09, 10, 20, 32), -1.62, -2.82],
+            [new Date(2023, 05, 09, 16, 20, 29), -2.87, -3.03],
+            [new Date(2023, 05, 10, 06, 20, 34), -2.37, -3.03],
+            [new Date(2023, 05, 10, 08, 20, 35), -2.87, -3.03],
+            [new Date(2023, 05, 10, 11, 37, 04), -2.37, -3.03],
+            [new Date(2023, 05, 10, 12, 20, 31), -2.87, -3.03],
+            [new Date(2023, 05, 10, 13, 21, 05), -1.62, -2.82],
+            [new Date(2023, 05, 10, 14, 22, 00), -2.87, -3.03],
+            [new Date(2023, 05, 10, 16, 20, 30), -2.12, -2.82],
+            [new Date(2023, 05, 10, 18, 20, 28), -2.37, -3.03],
+            [new Date(2023, 05, 10, 20, 20, 29), -2.12, -3.03]
+          ]);
+          var chart = new google.visualization.ChartWrapper({
+            chartType: 'LineChart',
+            containerId: 'WIN_chart_div',
+            options: {
+              height: 600,
+              width: 700,
+              'legend': 'right',
+              backgroundColor: '#FFFFFF',
+              lineWidth: 4,
+              colors: ['purple', 'blue'],
+              title: "Political Compass Test Coordinates Over Time",
+              // omit width, since we set this in CSS
+              chartArea: {
+                width: '73%',
+                top: 40,
+                bottom: 200,
+                left: 40,
+                // this should be the same as the ChartRangeFilter
+              }
+            }
+          });
+          var view = new google.visualization.DataView(data);
+          var viewColumns = [0, 1, 2];
+          view.setColumns(viewColumns);
+          var control = new google.visualization.ControlWrapper({
+            controlType: 'ChartRangeFilter',
+            containerId: 'WIN_control_div',
+            options: {
+              filterColumnIndex: 0,
+              ui: {
+                chartOptions: {
+                  height: 50,
+                  width: 700,
+                  colors: ['purple', 'blue'],
+                  backgroundColor: '#FFFFFF',
+                  // omit width, since we set this in CSS
+                  chartArea: {
+                    width: '73%',
+                    top: 0,
+                    left: 40,
+                    // this should be the same as the ChartRangeFilter
+                  }
+                }
+              }
+            }
+          });
+          var dashboard = new google.visualization.Dashboard(document.querySelector('#dashboard_div'));
+          dashboard.bind([control], [chart]);
+          dashboard.draw(view);
+
+          function zoomLastDay() {
+            var range = data.getColumnRange(0);
+            control.setState({
+              range: {
+                start: new Date(range.max.getFullYear(), range.max.getMonth(), range.max.getDate() - 1),
+                end: range.max
+              }
+            });
+            control.draw();
+          }
+
+          function zoomLastWeek() {
+            var range = data.getColumnRange(0);
+            control.setState({
+              range: {
+                start: new Date(range.max.getFullYear(), range.max.getMonth(), range.max.getDate() - 7),
+                end: range.max
+              }
+            });
+            control.draw();
+          }
+
+          function zoomLastMonth() {
+            // zoom here sets the month back 1, which can have odd effects when the last month has more days than the previous month
+            // eg: if the last day is March 31, then zooming last month will give a range of March 3 - March 31, as this sets the start date to February 31, which doesn't exist
+            // you can tweak this to make it function differently if you want
+            var range = data.getColumnRange(0);
+            control.setState({
+              range: {
+                start: new Date(range.max.getFullYear(), range.max.getMonth() - 1, range.max.getDate()),
+                end: range.max
+              }
+            });
+            control.draw();
+          }
+          var runOnce = google.visualization.events.addListener(dashboard, 'ready', function() {
+            google.visualization.events.removeListener(runOnce);
+            if (document.addEventListener) {
+              document.querySelector('#lastDay').addEventListener('click', zoomLastDay);
+              document.querySelector('#lastWeek').addEventListener('click', zoomLastWeek);
+              document.querySelector('#lastMonth').addEventListener('click', zoomLastMonth);
+            } else if (document.attachEvent) {
+              document.querySelector('#lastDay').attachEvent('onclick', zoomLastDay);
+              document.querySelector('#lastWeek').attachEvent('onclick', zoomLastWeek);
+              document.querySelector('#lastMonth').attachEvent('onclick', zoomLastMonth);
+            } else {
+              document.querySelector('#lastDay').onclick = zoomLastDay;
+              document.querySelector('#lastWeek').onclick = zoomLastWeek;
+              document.querySelector('#lastMonth').onclick = zoomLastMonth;
+            }
+          });
+        }
+        google.load('visualization', '1.1', {
+          packages: ['controls'],
+          callback: drawChart
+        });
+      </script>
+      <style type="text/css">
+        input {
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          border-radius: 5px;
+        }
+      </style>
+      <div id="dashboard_div">
+        <br />
+        <input id="lastDay" type="button" style="font-size:20px" "font: bold" value="Last Day" />
+        <input id="lastWeek" type="button" style="font-size:20px" style="font: bold" value="Last Week" />
+        <input id="lastMonth" type="button" style="font-size:20px" value="Last Month" />
+        <input id="max" type="button" style="font-size:20px" onclick="window.location.href=''" value="Maximum" />
+        <select onChange="window.location.href=this.value">
+          <option value="" selected>Go to another chart</option>
+          <option value="/President2024.html">2024 - Presidential Winner</option>
+        </select>
+        <input id="About" type="button" style="font-size:20px" onclick="window.location.href='/chart_notes.html'" value="About" />
+        <div style="margin-bottom:-70px; width:100%;" id="WIN_chart_div"></div>
+        <div style="margin-top:-160px; width:100%;" id="WIN_control_div"></div>
+        <a name="chart">
+    </table>
+    </div>
+    <div>
+      <span style="font-size: 88;">
+        <br>
+      </span>
+    </div>
+    <center>
+      <p style="font-size: 10pt;">Copyright 2023, X
+    </center>
+    <script type="text/javascript">
+      <!-- 
+      var timer = setInterval("autoRefresh()", 1000 * 5 * 60);
+
+      function autoRefresh() {
+        self.location.reload(true);
+      }
+      //
+      -->
+    </script>
+    </div>
+    </div>
+    <!-- END of From ElectionBettingOdds -->
+
+  </body>
+
+  <script type="text/javascript">
     var request = new XMLHttpRequest();
     request.open('GET', 'last_updated.txt', false);
     request.send();
-
     var textFileContent = request.responseText
-
     document.getElementById("displayLastUpdated").innerHTML = textFileContent;
-</script>
-  
+  </script>
+
 </html>
