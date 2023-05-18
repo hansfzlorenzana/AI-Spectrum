@@ -409,6 +409,6 @@ h2 = ax.secondary_xaxis('top')
 h2.set_xlabel('Authoritarian',size=15,weight='heavy')
 h2.set_xticks([])
 
-plt.savefig(f'political_compass.png') # save chart to static image
+plt.savefig(f'./images/charts/political_compass.png') # save chart to static image
 
-print("Update Chart: Done")
+print("Update Chart: DONE")
