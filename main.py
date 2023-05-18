@@ -46,7 +46,7 @@ def requestFromAI(question,ai):
     #     # TODO: Add functionality for BingAI
     #     reply = ""
     #     return reply
-    
+
     elif ai == "Bard":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
         bard_token = os.getenv('BARD_TOKEN')

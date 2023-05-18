@@ -1,3 +1,8 @@
 0 */4 * * * ~/run.sh >> run.log 2>&1
 0 */4 * * * echo `date` ‘Run this command every 2 hours’ >> test.log
 */40 */4 * * * ~/push.sh >> push.log 2>&1
+
+
+BARD API: https://github.com/acheong08/Bard
+BING API: https://github.com/acheong08/EdgeGPT
+ChatGPT API: https://platform.openai.com/account/api-keys
