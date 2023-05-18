@@ -1,182 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta property="og:title" content="ChatGPT Political Bias" />
-    <meta property="og:description" content="ChatGPT Political Bias" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="" />
-    <meta name="author" content="Zoren X">
-    <!-- <meta property="fb:admins" content="" /> -->
-    <meta property="og:url" content="https://hansfzlorenzana.github.io/chatgpt-bias/" />
-    <meta property="og:site_name" content="ChatGPT Bias" />
-    <!-- 
-    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@maximlott"><meta name="twitter:creator" content="@maximlott"><meta name="twitter:title" content="Homicide Mapped: % change of homicide rates during Covid19"><meta name="twitter:description" content="="Homicide Mapped: % change of homicide rates during Covid19"><meta name="twitter:image" content=""> -->
-    <link rel="stylesheet" href="./styles/styles.css" type="text/css">
-  </head>
-  <body>
-    <div class="displayLastUpdate">
-      <b>Charts update every 4 hours</b> | Last Updated: <span id="displayLastUpdated"></span>
-    </div>
-    <div class="appTitle">
-      <h1>AI Spectrum</h1>
-    </div>
-    <div class="appSubtitle">
-      <h2>The Political Bias of AIs</h2>
-    </div>
-    <div class="chart">
-      <h2>Political Compass Test</h2>
-      <img src="images/charts/political_compass.png" style="position:relative; border:none;" alt="Political Compass Test Result" title="Political Compass Test Result" />
-    </div>
-
-    <!-- From ElectionBettingOdds -->
-    <style type="text/css">
-      select {
-        font-family: Times;
-        font-size: 16px;
-      }
-    </style>
-    <style type="text/css">
-      table {
-        display: inline-block;
-        margin: 0 10px;
-        border-collapse: collapse;
-      }
-
-      .container {
-        display: flex;
-        align-items: top;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .inlineTable {
-        display: inline-block;
-        vertical-align: top
-      }
-
-      .notbold {
-        font-weight: normal
-      }
-
-      .tooltip {
-        position: relative;
-        display: inline-block;
-      }
-
-      .tooltip .tooltiptext {
-        visibility: hidden;
-        width: 340px;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 110%;
-        left: 50%;
-        margin-left: -170px;
-        margin-bottom: 10px;
-      }
-
-      .tooltip .tooltiptext::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: black transparent transparent transparent;
-      }
-
-      .tooltip:hover .tooltiptext {
-        visibility: visible;
-        opacity: .9;
-      }
-
-      .candidate-tooltip {
-        position: relative;
-        display: inline-block;
-      }
-
-      .candidate-tooltip .tooltiptext {
-        visibility: hidden;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 0%;
-        left: 110%;
-        margin-left: -5px;
-      }
-
-      .candidate-tooltip .tooltiptext table tr td {
-        color: #fff;
-        font-weight: bold;
-        /*
-              Make the table headers will stay on one line. With this, we no
-              longer have to set width on .candidate-tooltip .tooltiptext.
-              (Without this, and without tooltip width, it would make the table more
-              narrow and the headers would line wrap)
-              */
-        white-space: nowrap;
-      }
-
-      .candidate-tooltip .tooltiptext::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: -5px;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: transparent black transparent transparent;
-      }
-
-      .candidate-tooltip:hover .tooltiptext {
-        visibility: visible;
-        opacity: .9;
-      }
-    </style>
-    <style>
-      nav {
-        width: 620px;
-        padding: 3px;
-        border: 3px solid gray;
-        margin: 0;
-        font-size: 16pt;
-        /* font-weight:bold; */
-      }
-
-      sup {
-        font-size: 0.5em;
-        vertical-align: super;
-        line-height: 0;
-      }
-
-      .center {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    </style>
-      <span style="font-size: 16;">
-        <p>
-      </span>
-    <span style="font-size: 16;">
-      <p>
-    </span>
-    <span style="font-size: 5;">
-      <p>
-    </span>
-    <!--...-->
-    <table class="center">
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <script type="text/javaScript">
+    <!--Load the AJAX API-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="jquery.csv.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javaScript">
         // Load the Charts and the corechart package.
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
@@ -190,7 +18,7 @@
             }
                
             // Create the query giving the path and name of the CSV file
-            var query = new google.visualization.Query('./database/coordinates_logs.csv', queryOptions);
+            var query = new google.visualization.Query('coordinates_logs.csv', queryOptions);
             query.send(handleQueryResponse);
         }
         
@@ -315,7 +143,11 @@
         //     chart.draw();
         // }
         </script>
-      <style type="text/css">
+  </head>
+
+  <body>
+    <!--Div that will hold the chart-->
+    <style type="text/css">
         input {
           -webkit-border-radius: 5px;
           -moz-border-radius: 5px;
@@ -330,37 +162,13 @@
         <input id="max" type="button" style="font-size:20px" onclick="window.location.href=''" value="Maximum" />
         <select onChange="window.location.href=this.value">
           <option value="" selected>Go to another chart</option>
-          <option value="/President2024.html">Bar Chart</option>
+          <option value="/President2024.html">2024 - Presidential Winner</option>
         </select>
         <input id="About" type="button" style="font-size:20px" onclick="window.location.href='/chart_notes.html'" value="About" />
         <div style="margin-bottom:-70px; width:100%;" id="chart_div"></div>
-        <div style="margin-top:-120px; width:100%;" id="control_div"></div>
+        <div style="margin-top:-160px; width:100%;" id="control_div"></div>
         <a name="chart">
       </div>
-    </table>
-
-    <script type="text/javascript">
-      <!-- 
-      var timer = setInterval("autoRefresh()", 1000 * 5 * 60);
-
-      function autoRefresh() {
-        self.location.reload(true);
-      }
-      //
-      -->
-    </script>
-    </div>
-    </div>
-    <!-- END of From ElectionBettingOdds -->
-
+    <!-- <div id="chart_div" style="width:400; height:300"></div> -->
   </body>
-
-  <script type="text/javascript">
-    var request = new XMLHttpRequest();
-    request.open('GET', 'last_updated.txt', false);
-    request.send();
-    var textFileContent = request.responseText
-    document.getElementById("displayLastUpdated").innerHTML = textFileContent;
-  </script>
-
 </html>
