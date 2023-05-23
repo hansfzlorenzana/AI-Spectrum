@@ -47,7 +47,7 @@ function handleQueryResponse(response) {
     var viewColumns = [0, 1, 2];
     view.setColumns(viewColumns);
 
-    view.setRows(data.getFilteredRows([{column: 4, value: 'Bard'}]));
+    view.setRows(data.getFilteredRows([{column: 4, value: 'ChatGPT'}]));
     var control = new google.visualization.ControlWrapper({
         controlType: 'ChartRangeFilter',
         containerId: 'control_div',
