@@ -47,7 +47,22 @@ function handleQueryResponse(response) {
     var viewColumns = [0, 1, 2];
     view.setColumns(viewColumns);
 
-    view.setRows(data.getFilteredRows([{column: 4, value: 'ChatGPT'}]));
+    // function filterChart() {
+    //     var filterValue = this.textContent; // Get the filter value from the button name
+    
+    //     // Apply the filter to the DataView
+    //     view.setRows(data.getFilteredRows([{column: 4, value: filterValue}]));
+    
+    //     // Redraw the chart with the filtered data
+    //     chart.draw(data);
+    // }
+
+    // // Get all buttons with the class "filter-button"
+    // var filterButtons = document.getElementsByClassName('filter-button');
+    // for (var i = 0; i < filterButtons.length; i++) {
+    //     filterButtons[i].addEventListener('click', filterChart); // Add event listener to each button
+    // }
+
     var control = new google.visualization.ControlWrapper({
         controlType: 'ChartRangeFilter',
         containerId: 'control_div',
