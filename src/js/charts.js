@@ -5,7 +5,7 @@ google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
     var queryOptions = {
         // Define the CSV data columns
-        csvColumns: ['datetime', 'number','number'],
+        csvColumns: ['datetime', 'number','number','string','string'],
         // This should be false if your CSV file doesn't have a header 
         csvHasHeader: true
     }
@@ -46,6 +46,8 @@ function handleQueryResponse(response) {
     var view = new google.visualization.DataView(data);
     var viewColumns = [0, 1, 2];
     view.setColumns(viewColumns);
+
+    view.setRows(data.getFilteredRows([{column: 4, value: 'Bard'}]));
     var control = new google.visualization.ControlWrapper({
         controlType: 'ChartRangeFilter',
         containerId: 'control_div',

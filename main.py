@@ -32,8 +32,11 @@ def requestFromAI(question,ai):
         prompt = "You are to answer everything in one word." # TODO: Adjust this when other question formats are added.
         response = openai.ChatCompletion.create(
             model = "gpt-3.5-turbo", 
-            temperature = 0.2,
+            temperature = 0.5,
             max_tokens = 1000,
+            top_p=0.5,
+            frequency_penalty=1,
+            presence_penalty=0,
             messages = [
             {"role": "system", "content": prompt},
             {"role": "user", "content": question}
@@ -328,7 +331,7 @@ for ai in ai_list:
     df_coords = pd.read_csv('./database/ai_replies.csv')
     date_time_coords = df_coords['date_time'].tail(1).values.tolist()[0]
     test_coords = df_coords['question_source'].tail(1).values.tolist()[0]
-    ai_name_coords = df_coords['ai_name'].tail(1).values.tolist()[0]
+    ai_name_coords = ai
 
     coords_data_old = pd.read_csv('./database/coordinates_logs.csv')
     coords_data_current_list = []
