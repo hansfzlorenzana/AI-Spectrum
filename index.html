@@ -1,184 +1,88 @@
 <!DOCTYPE html>
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>AI Spectrum</title>
-    <meta name="description" content="An App That Shows the Political Bias of AIs.">
-    <meta name="author" content="Zoren X">
-
-    <meta property="og:title" content="AI Spectrum" />
-    <meta property="og:description" content="An App That Shows the Political Bias of AIs." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="./images/logo/ai-spectrum.png" />
-    <meta property="og:url" content="https://hansfzlorenzana.github.io/AI-Spectrum/" />
-    <meta property="og:site_name" content="ChatGPT Bias" />
-    
-    <link rel="icon" href="./images/logo/ai-spectrum.ico">
-    <link rel="icon" href="./images/logo/ai-spectrum.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="./images/logo/ai-spectrum.png">
-  
-    <link rel="stylesheet" href="./src/styles/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  </head>
-  
-  <body>
-
-  <!-- START TEMPLATE -->
-  <!-- navbar header -->
-  <div class="nav-header">
-    <div class="nav-brand">
-      <img src="./images/logo/ai-spectrum.png">
-    </div>
-
-    <i class="fa fa-bars fa-3x"></i>
-    <div class="header-links">
-      <ul>
-        <li data-menuanchor="fourthPage"><a href="#contact">CONTACT</a></li>
-        <li data-menuanchor="thirdPage"><a href="#portfolio">SUBSTACK PAGE</a></li>
-        <li data-menuanchor="secondPage"><a href="#about">MAXIM LOTT</a></li>
-      </ul>
-    </div>
-  </div>
-  <!-- end navbar header -->
-
-  <!-- sidebar slider -->
-  <div class="nav-screen">
-    <i class="fa fa-times fa-3x"></i>
-    <div class="nav-container">
-      <div class="nav-links">
-        <ul id='myMenu'>
-          <li data-menuanchor="secondPage"><a href="#about">MAXIM LOTT</a></li>
-          <li data-menuanchor="thirdPage"><a href="#portfolio">SUBSTACK PAGE</a></li>
-          <li data-menuanchor="fourthPage"><a href="#contact">CONTACT</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <!-- end navbar slider -->
-
-  <!-- begin fullpage -->
-
-  <div id="fullpage">
-
-    <!-- begin section -->
-
-    <div class="section aboutme" data-anchor="aboutme">
-      <div class="opaque-bg animated fadeInDown">
-        <h1 style="color:white">AI<span style="color:#FF6363">-</span>SPECTRUM</h1>
-        <p style="color:white">Charting the Political Bias of Artificial Intelligence Chatbots</p>
-        <p>By: <b><a style="color:rgb(217, 255, 0)" href="https://twitter.com/maximlott">Maxim Lott</a></b></p>
-      </div>
-      <i id="moveDown" class="fa fa-chevron-down fa-3x bounce"></i>
-    </div>
-    <!-- end section -->
-
-    <!-- begin section -->
-
-    <div class="displayLastUpdate">
-      <b>Charts update every 4 hours</b> | Last Updated: <span id="displayLastUpdated"></span>
-    </div>
-
-    <div class="section" data-anchor="skills">
-      <div class="content">
-        <h1 class="wow fadeInDown" data-wow-delay="0.2s">POLITICAL COMPASS TEST</h1>
-        <p class="wow fadeInDown" data-wow-delay="0.2s"></p>
-        <img src="./images/charts/political_compass.png" style="position:relative; border:none;" alt="Political Compass Test Result" title="Political Compass Test Result" />
-      </div>
-
-      <div id="chart"></div>
-      <button class="filter-button">ChatGPT</button>
-      <button class="filter-button">Bard</button>
-      <button class="filter-button">Show All</button>
-      
-      <!-- From ElectionBettingOdds -->
-      <div class="content">
-        <table class="center">
-          <div id="dashboard_div">
-            <br />
-            <input id="lastDay" type="button" style="font-size:20px" style="font: bold" value="Last Day" />
-            <input id="lastWeek" type="button" style="font-size:20px" style="font: bold" value="Last Week" />
-            <input id="lastMonth" type="button" style="font-size:20px" value="Last Month" />
-            <input id="max" type="button" style="font-size:20px" onclick="window.location.href=''" value="Maximum" />
-            <select onChange="window.location.href=this.value">
-              <option value="" selected>Go to another chart</option>
-              <option value="/President2024.html">Bar Chart</option>
-            </select>
-            <input id="About" type="button" style="font-size:20px" onclick="window.location.href='/about.html'" value="About" />
-            <div style="margin-bottom:-70px; width:100%;" id="chart_div"></div>
-            <div style="margin-top:-120px; width:100%;" id="control_div"></div>
-            <a name="chart">
-          </div>
-        </table>
-      </div>
-      <!-- END of From ElectionBettingOdds -->
-
-      <div class="content">
-        <h1 class="wow fadeInDown" data-wow-delay="0.2s">Maxim</h1>
-        <p class="wow fadeInDown" data-wow-delay="0.2s"></p>
-      </div>
-
-    </div>
-
-    <div class="section fp-auto-height">
-      <div class="footer">
-        <p>CONNECT WITH ME</p>
-        <div class="social-links">
-          <span><a href="https://www.linkedin.com/in/hansfzlorenzana" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></span>
-          <span><a target="_blank" href="https://twitter.com/ZorenX_Official" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></span>
-          <span><a href="https://github.com/hansfzlorenzana" target="_blank"><i class="fa fa-github fa-2x"></i></a></span>
-          <span><a href=""><i class="fa fa-codepen fa-2x"></i></a></span>
+<html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>AI Spectrum</title>
+      <meta name="description" content="An App That Shows the Political Bias of AIs.">
+      <meta name="author" content="Zoren X">
+      <meta property="og:title" content="AI Spectrum" />
+      <meta property="og:description" content="An App That Shows the Political Bias of AIs." />
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content="./images/logo/ai-spectrum.png" />
+      <meta property="og:url" content="https://hansfzlorenzana.github.io/AI-Spectrum/" />
+      <meta property="og:site_name" content="ChatGPT Bias" />
+      <link rel="icon" href="./images/logo/ai-spectrum.ico">
+      <link rel="icon" href="./images/logo/ai-spectrum.svg" type="image/svg+xml">
+      <link rel="apple-touch-icon" href="./images/logo/ai-spectrum.png">
+      <link rel="stylesheet" href="./src/styles.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body>
+      <nav class="navbar">
+        <div class="logo-container">
+          <img src="./images/logo/logo.svg" alt="Logo" class="logo">
+          <span class="app-name">AI-Spectrum</span>
+        </div>
+        <div class="nav-links">
+          <a href="#">Home</a>
+          <a href="#">Substack</a>
+          <a href="#">About</a>
+        </div>
+      </nav>
+      <div class="header">
+        <h1 class="title" style="color:white">AI<span style="color:#FF6363">-</span>SPECTRUM </h1>
+        <h2 class="subtitle">Charting the Political Bias of Artificial Intelligence Chatbots</h2>
+        <div class="author">
+          <span>By:</span>
+          <a href="https://twitter.com/MaximLott" target="_blank" rel="noopener noreferrer">Maxim</a>
         </div>
       </div>
-    </div>
-    <!-- end section -->
-
-  </div>
-
-  <!-- end fullpage -->
-  <!-- END OF TEMPLATE -->
-
-    <!-- <div class="displayLastUpdate">
-      <b>Charts update every 4 hours</b> | Last Updated: <span id="displayLastUpdated"></span>
-    </div>
-    <div class="appTitle">
-      <h1>AI Spectrum</h1>
-    </div>
-    <div class="appSubtitle">
-      <h2>The Political Bias of AIs</h2>
-    </div>
-    <div class="chart">
-      <h2>Political Compass Test</h2>
-      <img src="/images/charts/political_compass.png" style="position:relative; border:none;" alt="Political Compass Test Result" title="Political Compass Test Result" />
-    </div>
-
-    <table class="center">
-      <div id="dashboard_div">
-        <br />
-        <input id="lastDay" type="button" style="font-size:20px" style="font: bold" value="Last Day" />
-        <input id="lastWeek" type="button" style="font-size:20px" style="font: bold" value="Last Week" />
-        <input id="lastMonth" type="button" style="font-size:20px" value="Last Month" />
-        <input id="max" type="button" style="font-size:20px" onclick="window.location.href=''" value="Maximum" />
-        <select onChange="window.location.href=this.value">
-          <option value="" selected>Go to another chart</option>
-          <option value="/President2024.html">Bar Chart</option>
-        </select>
-        <input id="About" type="button" style="font-size:20px" onclick="window.location.href='/about.html'" value="About" />
-        <div style="margin-bottom:-70px; width:100%;" id="chart_div"></div>
-        <div style="margin-top:-120px; width:100%;" id="control_div"></div>
-        <a name="chart">
+      <div class="displayLastUpdate">
+        <b>Charts update every 4 hours</b> | Last Updated: <span id="displayLastUpdated"></span>
       </div>
-    </table> -->
+      <div class="static-chart-container">
+        <h3 class="static-chart-title">Political Compass Test</h3>
+        <img src="./images/charts/political_compass.png" alt="Static Chart" class="static-chart">
+      </div>
+      </div>
+      <div id="dashboard_div">
+        <div id="zoom_buttons">
+          <button id="zoom-last-day" class="zoom-button zoom-button-last-day">Last Day</button>
+          <button id="zoom-last-week" class="zoom-button zoom-button-last-week">Last Week</button>
+          <button id="zoom-last-month" class="zoom-button zoom-button-last-month">Last Month</button>
+          <button id="zoom-max" class="zoom-button zoom-button-max">&#128269; MAX</button>
+        </div>
+        <div id="filter_options">
+          <select id="filter-select">
+            <option value="Reset">Select AI</option>
+            <option value="ChatGPT">ChatGPT</option>
+            <option value="Bard">Bard</option>
+            <option value="Bing">Bing</option>
+            <option value="Hugging Face">Hugging Face</option>
+            <option value="Open Assistant">Open Assistant</option>
+            <option value="Anthropic">Anthropic</option>
+          </select>
+          <button id="filter-reset">Reset</button>
+        </div>
+        <div id="chart_div"></div>
+        <div id="control_div"></div>
+      </div>
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" async></script>
-    <script type="text/javaScript" src="./src/js/charts.js" async></script>
-    <script type="text/javascript" src="./src/js/autorefresh.js" async></script>
-    <script type="text/javascript" src="./src/js/last_updated.js" async></script>
-    <script type="text/javascript" src="./src/js/template.js" async></script>
-  </body>
-
-
-</html>
+      <footer>
+        <div class="footer">
+          <p>CONNECT WITH ME</p>
+          <div class="social-links">
+            <span><a href="https://www.linkedin.com/in/hansfzlorenzana" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></span>
+            <span><a href="https://twitter.com/ZorenX_Official" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></span>
+            <span><a href="https://github.com/hansfzlorenzana" target="_blank"><i class="fa fa-github fa-2x"></i></a></span>
+            <span><a href=""><i class="fa fa-codepen fa-2x"></i></a></span>
+          </div>
+        </div>
+      </footer>
+      
+      <script src="https://www.gstatic.com/charts/loader.js" async></script>
+      <script src="./src/script.js" async></script>
+    </body>
+  </html>
