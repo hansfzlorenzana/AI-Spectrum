@@ -14,3 +14,15 @@ https://chat.openai.com/
 
 HugChat API: https://github.com/Soulter/hugging-chat-api
 https://huggingface.co/chat/
+
+Claude API: https://github.com/ading2210/poe-api
+https://poe.com/Claude-instant
+
+Sage API: https://github.com/ading2210/poe-api
+https://poe.com/Sage
+
+Dragonfly API: https://github.com/ading2210/poe-api
+https://poe.com/Dragonfly
+
+NeevaAI API: https://github.com/ading2210/poe-api
+https://poe.com/NeevaAI

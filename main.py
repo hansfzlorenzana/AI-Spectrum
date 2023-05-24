@@ -15,16 +15,20 @@ import warnings
 import pytz
 import re
 from hugchat import hugchat
+import poe
+from random import randrange
 
 load_dotenv()
 warnings.filterwarnings('ignore')
 
 # GPT-powered AIs used
-ai_list = ['ChatGPT','HugChat','Bard'] # TODO: Add more AIs if possible
+ai_list = ['Sage','Claude','Bard','ChatGPT','HugChat'] # TODO: Add more AIs if possible
 
 # Initialize and import the API keys. API key as environment variable.
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
+bard_token = os.getenv('BARD_TOKEN')
+poe_token = os.getenv('POE_TOKEN')
 
 '''Request from OPENAI ChatGPT API'''
 def requestFromAI(question,ai):
@@ -53,7 +57,6 @@ def requestFromAI(question,ai):
 
     elif ai == "Bard":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
-        bard_token = os.getenv('BARD_TOKEN')
         chatbot = Chatbot(bard_token)
         response = chatbot.ask(f'{prompt} {question}')
         reply = response['content']
@@ -70,6 +73,30 @@ def requestFromAI(question,ai):
             )
         reply=response
         return reply
+    
+    elif ai == "Claude":
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        client = poe.Client(poe_token)
+        for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True):
+            response = chunk["text_new"]
+            
+        reply=response
+        timer = randrange(60, 100)
+        print(f'Waiting {timer} seconds...')
+        time.sleep(timer)
+        return reply
+
+    elif ai == "Sage":
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        client = poe.Client(poe_token)
+        for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True):
+            response = chunk["text_new"]
+            
+        reply=response
+        timer = randrange(60, 100)
+        print(f'Waiting {timer} seconds...')
+        time.sleep(timer)
+        return reply   
     
     # else:
     #     reply = ""
@@ -412,6 +439,24 @@ ax.text(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values
         chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0]+1,
         chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_name'].values.tolist()[0],
         size=14,color='white',weight='heavy',bbox=dict(facecolor='orange', alpha=0.8))
+
+#Plot Claude
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0],
+        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="brown")
+ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]+5,
+        chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]+1,
+        chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
+        size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
+
+#Plot Sage
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
+        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="violet")
+ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]+5,
+        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+        chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+        size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
 
 #TODO: Plot Bing Chat
 # ax.plot(chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['x'].values.tolist()[0],
