@@ -4,5 +4,13 @@
 
 
 BARD API: https://github.com/acheong08/Bard
+https://bard.google.com/
+
 BING API: https://github.com/acheong08/EdgeGPT
+https://www.bing.com/chat
+
 ChatGPT API: https://platform.openai.com/account/api-keys
+https://chat.openai.com/
+
+HugChat API: https://github.com/Soulter/hugging-chat-api
+https://huggingface.co/chat/

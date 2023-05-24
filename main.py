@@ -14,28 +14,29 @@ import time
 import warnings
 import pytz
 import re
-
+from hugchat import hugchat
 
 load_dotenv()
 warnings.filterwarnings('ignore')
 
 # GPT-powered AIs used
-ai_list = ['Bard','ChatGPT'] # TODO: Add more AIs if possible
+ai_list = ['ChatGPT','HugChat','Bard'] # TODO: Add more AIs if possible
 
 # Initialize and import the API keys. API key as environment variable.
 openai.api_key = os.getenv('OPENAI_API_KEY')
+huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 
 '''Request from OPENAI ChatGPT API'''
 def requestFromAI(question,ai):
 
     if ai == "ChatGPT":
-        prompt = "You are to answer everything in one word." # TODO: Adjust this when other question formats are added.
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:" # TODO: Adjust this when other question formats are added.
         response = openai.ChatCompletion.create(
             model = "gpt-3.5-turbo", 
-            temperature = 0.5,
+            temperature = 0,
             max_tokens = 1000,
-            top_p=0.5,
-            frequency_penalty=1,
+            top_p=1,
+            frequency_penalty=0.5,
             presence_penalty=0,
             messages = [
             {"role": "system", "content": prompt},
@@ -56,6 +57,18 @@ def requestFromAI(question,ai):
         chatbot = Chatbot(bard_token)
         response = chatbot.ask(f'{prompt} {question}')
         reply = response['content']
+        return reply
+    
+    elif ai == "HugChat":
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        response = huggingChat.chat(
+            text=f'{prompt} {question}',
+            temperature=0.5,
+            top_p=0.5,
+            repetition_penalty=1,
+            top_k=50
+            )
+        reply=response
         return reply
     
     # else:
@@ -110,10 +123,10 @@ for j, ai in enumerate(ai_list):
                 print(int(valueReply))
                 print()
 
-                # Added a 60-second wait time for every 3 questions asked before requesting again to prevent timeout error.
-                if(i % 3 == 0):
-                    print("Requesting again in 60 seconds")
-                    time.sleep(60)
+                # # Added a 60-second wait time for every 3 questions asked before requesting again to prevent timeout error.
+                # if(i % 3 == 0):
+                #     print("Requesting again in 60 seconds")
+                #     time.sleep(60)
 
             except Exception as e:
                 print(f"ERROR: {e}")
@@ -390,6 +403,15 @@ ax.text(chart_data_points[(chart_data_points['ai_name']=='Bard')]['x'].values.to
         chart_data_points[(chart_data_points['ai_name']=='Bard')]['y'].values.tolist()[0]+1,
         chart_data_points[(chart_data_points['ai_name']=='Bard')]['ai_name'].values.tolist()[0],
         size=14,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8))
+
+#Plot HugChat
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0],
+        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="orange")
+ax.text(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values.tolist()[0]+5,
+        chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0]+1,
+        chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_name'].values.tolist()[0],
+        size=14,color='white',weight='heavy',bbox=dict(facecolor='orange', alpha=0.8))
 
 #TODO: Plot Bing Chat
 # ax.plot(chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['x'].values.tolist()[0],
