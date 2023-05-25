@@ -1,6 +1,6 @@
 0 */4 * * * ~/run.sh >> run.log 2>&1
 0 */4 * * * echo `date` ‘Run this command every 4 hours’ >> test.log
-*/40 */4 * * * ~/push.sh >> push.log 2>&1
+*/40 */6 * * * ~/push.sh >> push.log 2>&1
 
 
 BARD API: https://github.com/acheong08/Bard

@@ -22,13 +22,21 @@ load_dotenv()
 warnings.filterwarnings('ignore')
 
 # GPT-powered AIs used
-ai_list = ['Sage','Claude','Bard','ChatGPT','HugChat'] # TODO: Add more AIs if possible
+ai_list = ['HugChat',
+        #    'Sage',
+        #    'Claude',
+           'Bard',
+           'ChatGPT'
+           ] 
+# TODO: Add more AIs if possible
+# TODO: Sage and Claude AI using POE is not working. My account gets banned everytime.
+# TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
 
 # Initialize and import the API keys. API key as environment variable.
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
-poe_token = os.getenv('POE_TOKEN')
+poe_token = [os.getenv('POE_TOKEN1'),os.getenv('POE_TOKEN2')]
 
 '''Request from OPENAI ChatGPT API'''
 def requestFromAI(question,ai):
@@ -440,23 +448,23 @@ ax.text(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values
         chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_name'].values.tolist()[0],
         size=14,color='white',weight='heavy',bbox=dict(facecolor='orange', alpha=0.8))
 
-#Plot Claude
-ax.plot(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
-        chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="brown")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
+# #TODO: Plot Claude
+# ax.plot(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
+#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0],
+#         marker="o", markersize=14, markeredgecolor="black", markerfacecolor="brown")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]+5,
+#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
 
-#Plot Sage
-ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
-        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="violet")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+# #TODO: Plot Sage
+# ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
+#         marker="o", markersize=14, markeredgecolor="black", markerfacecolor="violet")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]+5,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
 
 #TODO: Plot Bing Chat
 # ax.plot(chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['x'].values.tolist()[0],
