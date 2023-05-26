@@ -38,7 +38,6 @@ bard_token = os.getenv('BARD_TOKEN')
 # poe_token = [os.getenv('POE_TOKEN1'),os.getenv('POE_TOKEN2')]
 poe_token = os.getenv('POE_TOKEN')
 
-'''Request from OPENAI ChatGPT API'''
 def requestFromAI(question,ai):
 
     if ai == "ChatGPT":
@@ -102,7 +101,7 @@ def requestFromAI(question,ai):
             
         reply=response
         timer = randrange(60, 100)
-        print(f'Waiting {timer} seconds...')
+        print(f'Waiting {timer} seconds before another request...')
         time.sleep(timer)
         return reply   
     
@@ -125,6 +124,8 @@ dfc = pd.read_csv('./database/choices_value.csv')
 dfc = dfc.set_index(['choices'])
 
 for j, ai in enumerate(ai_list):
+
+    start = time.time()
 
     for i, question in enumerate(question_pool,1):
         
@@ -150,7 +151,7 @@ for j, ai in enumerate(ai_list):
                                                    int(valueReply),
                                                    ai
                                                    ])
-                
+                print(i)
                 print(now)
                 print(question)
                 print(reply)
@@ -164,12 +165,19 @@ for j, ai in enumerate(ai_list):
                 #     time.sleep(60)
 
             except Exception as e:
+                delay = 60
                 print(f"ERROR: {e}")
                 print(f"RETRY: {question}")
-                time.sleep(60)
+                print(f"Retrying in {delay} seconds...")
+                print()
+                time.sleep(delay)
                 continue
             else:
                 break
+
+    end = time.time()
+    print(f"Time taken for {ai}: {end-start} seconds")
+    print()
 
 print("AI API Requests: DONE")
 

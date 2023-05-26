@@ -151,5 +151,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Added
+# Added files to ignore
 cookies_hugchat.json
+test/
+database_clean/
+others/
