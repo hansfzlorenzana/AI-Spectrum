@@ -36,7 +36,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
 # poe_token = [os.getenv('POE_TOKEN1'),os.getenv('POE_TOKEN2')]
-poe_token = os.getenv('POE_TOKEN1')
+poe_token = os.getenv('POE_TOKEN')
 
 '''Request from OPENAI ChatGPT API'''
 def requestFromAI(question,ai):
