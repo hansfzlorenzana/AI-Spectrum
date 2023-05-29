@@ -25,7 +25,9 @@ warnings.filterwarnings('ignore')
 ai_list = ['Claude',
            'HugChat',
            'Bard',
-           'ChatGPT'
+           'ChatGPT',
+           'Sage',
+           'Dragonfly'
            ] 
 # TODO: Add more AIs if possible
 # TODO: Sage and Claude AI using POE is not working. My account gets banned everytime.
@@ -89,7 +91,7 @@ def requestFromAI(question,ai):
             
         reply=response
         timer = randrange(100, 120)
-        print(f'Waiting {timer} seconds...')
+        print(f'Waiting {timer} seconds before another request...')
         time.sleep(timer)
         return reply
 
@@ -100,10 +102,22 @@ def requestFromAI(question,ai):
             response = chunk["text_new"]
             
         reply=response
-        timer = randrange(60, 100)
+        timer = randrange(100, 120)
         print(f'Waiting {timer} seconds before another request...')
         time.sleep(timer)
-        return reply   
+        return reply
+    
+    elif ai == "Dragonfly":
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        client = poe.Client(poe_token)
+        for chunk in client.send_message("nutria", f'{prompt} {question}', with_chat_break=True):
+            response = chunk["text_new"]
+            
+        reply=response
+        timer = randrange(100, 120)
+        print(f'Waiting {timer} seconds before another request...')
+        time.sleep(timer)
+        return reply     
     
     # else:
     #     reply = ""
@@ -456,7 +470,7 @@ ax.text(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values
         chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_name'].values.tolist()[0],
         size=14,color='white',weight='heavy',bbox=dict(facecolor='orange', alpha=0.8))
 
-#TODO: Plot Claude
+#Plot Claude
 ax.plot(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0],
         marker="o", markersize=14, markeredgecolor="black", markerfacecolor="brown")
@@ -465,14 +479,23 @@ ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.
         chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
         size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
 
-# #TODO: Plot Sage
-# ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
-#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
-#         marker="o", markersize=14, markeredgecolor="black", markerfacecolor="violet")
-# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]+5,
-#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
-#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
-#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+#Plot Sage
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
+        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="violet")
+ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]+5,
+        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+        chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+        size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+
+#Plot Dragonfly
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['y'].values.tolist()[0],
+        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="darkgreen")
+ax.text(chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['x'].values.tolist()[0]+5,
+        chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['y'].values.tolist()[0]+1,
+        chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['ai_name'].values.tolist()[0],
+        size=14,color='white',weight='heavy',bbox=dict(facecolor='darkgreen', alpha=0.8))
 
 #TODO: Plot Bing Chat
 # ax.plot(chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['x'].values.tolist()[0],
