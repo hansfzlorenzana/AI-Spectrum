@@ -21,16 +21,17 @@ from random import randrange
 load_dotenv()
 warnings.filterwarnings('ignore')
 
+start = time.time() # Measuring time it takes to get all request
+
 # GPT-powered AIs used
-ai_list = ['Claude',
+ai_list = ['Sage',
            'HugChat',
+           'Claude',
            'Bard',
            'ChatGPT',
-           'Sage',
            'Dragonfly'
            ] 
 # TODO: Add more AIs if possible
-# TODO: Sage and Claude AI using POE is not working. My account gets banned everytime.
 # TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
 
 # Initialize and import the API keys. API key as environment variable.
@@ -38,7 +39,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
 # poe_token = [os.getenv('POE_TOKEN1'),os.getenv('POE_TOKEN2')]
-poe_token = os.getenv('POE_TOKEN')
+poe_token = os.getenv('POE_TOKEN3')
 
 def requestFromAI(question,ai):
 
@@ -87,7 +88,7 @@ def requestFromAI(question,ai):
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True):
-            response = chunk["text_new"]
+            response = chunk["text"]
             
         reply=response
         timer = randrange(100, 120)
@@ -99,7 +100,7 @@ def requestFromAI(question,ai):
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
         client = poe.Client(poe_token)
         for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True):
-            response = chunk["text_new"]
+            response = chunk["text"]
             
         reply=response
         timer = randrange(100, 120)
@@ -111,7 +112,7 @@ def requestFromAI(question,ai):
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
         client = poe.Client(poe_token)
         for chunk in client.send_message("nutria", f'{prompt} {question}', with_chat_break=True):
-            response = chunk["text_new"]
+            response = chunk["text"]
             
         reply=response
         timer = randrange(100, 120)
@@ -139,8 +140,6 @@ dfc = dfc.set_index(['choices'])
 
 for j, ai in enumerate(ai_list):
 
-    start = time.time()
-
     for i, question in enumerate(question_pool,1):
         
         while True:
@@ -152,6 +151,7 @@ for j, ai in enumerate(ai_list):
                 datetime_NY = datetime.now(tz_NY)
                 now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
 
+                reply = reply.strip()
                 reply = re.sub(r"[^a-zA-Z0-9\s]+", "", reply) # TODO: Adjust this when other question formats are added.
                 reply = reply.title()
 
@@ -188,10 +188,6 @@ for j, ai in enumerate(ai_list):
                 continue
             else:
                 break
-
-    end = time.time()
-    print(f"Time taken for {ai}: {end-start} seconds")
-    print()
 
 print("AI API Requests: DONE")
 
@@ -521,3 +517,15 @@ h2.set_xticks([])
 plt.savefig(f'./images/charts/political_compass.png') # save chart to static image
 
 print("Update Chart: DONE")
+
+
+# Measuring time it takes to get all request
+end = time.time()
+time_taken = end - start
+time_taken_min = time_taken/60
+time_taken_hr = time_taken_min/60
+print()
+print("--TIME TAKEN--")
+print(f'{time_taken:.2f} seconds')
+print(f'{time_taken_min:.2f} minutes')
+print(f'{time_taken_hr:.2f} hours')
