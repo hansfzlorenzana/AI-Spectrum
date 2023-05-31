@@ -19,8 +19,8 @@ start = time.time() # Measuring time it takes to get all request
 
 # GPT-powered AIs used
 ai_list = ['Bard',
-           'HugChat',
            'Claude',
+           'HugChat',
            'Sage',
            'ChatGPT',
            'Dragonfly'
