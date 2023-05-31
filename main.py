@@ -1,22 +1,16 @@
 from datetime import datetime
+from random import randrange
 from dotenv import load_dotenv
-from matplotlib import colors
-from matplotlib.ticker import AutoMinorLocator
 from matplotlib import image
-from Bard import Chatbot
-import openai
-import numpy as np
 import matplotlib.pyplot as plt
-import os
 import pandas as pd
-import sys
-import time
-import warnings
-import pytz
-import re
+
+from Bard import Chatbot
 from hugchat import hugchat
 import poe
-from random import randrange
+import openai
+
+import os, sys, time, warnings, pytz, re
 
 load_dotenv()
 warnings.filterwarnings('ignore')
