@@ -18,8 +18,8 @@ warnings.filterwarnings('ignore')
 start = time.time() # Measuring time it takes to get all request
 
 # GPT-powered AIs used
-ai_list = ['Bard',
-           'Claude',
+ai_list = ['Claude',
+           'Bard',
            'HugChat',
            'Sage',
            'ChatGPT',
