@@ -22,11 +22,11 @@ ai_list = ['Claude',
            'Bard',
            'HugChat',
            'Sage',
-           'ChatGPT',
-           'Dragonfly'
+           'ChatGPT'
            ] 
 # TODO: Add more AIs if possible
 # TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
+# UPDATE: Dragonfly and NeevaAI are deprecated.
 
 # Initialize and import the API keys. API key as environment variable.
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -34,6 +34,7 @@ huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
 # poe_token = [os.getenv('POE_TOKEN1'),os.getenv('POE_TOKEN2')]
 poe_token = os.getenv('POE_TOKEN3')
+poe_token2 = os.getenv('POE_TOKEN4')
 
 def requestFromAI(question,ai):
 
@@ -82,7 +83,7 @@ def requestFromAI(question,ai):
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True, timeout=60):
-            response = chunk["text_new"]
+            response = chunk["text"]
             
         reply=response
         timer = randrange(100, 120)
@@ -90,29 +91,20 @@ def requestFromAI(question,ai):
         time.sleep(timer)
         return reply
 
+    # elif ai == "Claude":
+    # TODO: Handle Websocket ERROR
+
     elif ai == "Sage":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
-        client = poe.Client(poe_token)
+        client = poe.Client(poe_token2)
         for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True, timeout=60):
-            response = chunk["text_new"]
+            response = chunk["text"]
             
         reply=response
         timer = randrange(100, 120)
         print(f'Waiting {timer} seconds before another request...')
         time.sleep(timer)
         return reply
-    
-    elif ai == "Dragonfly":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
-        client = poe.Client(poe_token)
-        for chunk in client.send_message("nutria", f'{prompt} {question}', with_chat_break=True, timeout=60):
-            response = chunk["text_new"]
-            
-        reply=response
-        timer = randrange(100, 120)
-        print(f'Waiting {timer} seconds before another request...')
-        time.sleep(timer)
-        return reply     
     
     # else:
     #     reply = ""
@@ -478,14 +470,6 @@ ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.to
         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
 
-#Plot Dragonfly
-ax.plot(chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['x'].values.tolist()[0],
-        chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="darkgreen")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='Dragonfly')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='darkgreen', alpha=0.8))
 
 #TODO: Plot Bing Chat
 # ax.plot(chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['x'].values.tolist()[0],
