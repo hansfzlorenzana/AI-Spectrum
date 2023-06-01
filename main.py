@@ -428,57 +428,141 @@ ax.set_ylabel('Left',rotation=0,size=15,weight='heavy')
 #Plot CHATGPT
 ax.plot(chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['x'].values.tolist()[0],
         chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="green")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='green', alpha=0.8))
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="green")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['x'].values.tolist()[0]+5,
+#         chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='green', alpha=0.8))
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['x'].values.tolist()[0]+20, 
+                    chart_data_points[(chart_data_points['ai_name']=='ChatGPT')]['y'].values.tolist()[0]-10), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="g"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='g'),
+            )
 
 #Plot Bard
 ax.plot(chart_data_points[(chart_data_points['ai_name']=='Bard')]['x'].values.tolist()[0],
         chart_data_points[(chart_data_points['ai_name']=='Bard')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="red")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='Bard')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='Bard')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='Bard')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8))
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="red")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Bard')]['x'].values.tolist()[0]+5,
+#         chart_data_points[(chart_data_points['ai_name']=='Bard')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Bard')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='red', alpha=0.8))
+
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Bard')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='Bard')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='Bard')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='Bard')]['x'].values.tolist()[0]-15, 
+                    chart_data_points[(chart_data_points['ai_name']=='Bard')]['y'].values.tolist()[0]+5), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="r"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='r'),
+            )
 
 #Plot HugChat
 ax.plot(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values.tolist()[0],
         chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="orange")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='orange', alpha=0.8))
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="orange")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values.tolist()[0]+5,
+#         chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='orange', alpha=0.8))
+
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['x'].values.tolist()[0]+20, 
+                    chart_data_points[(chart_data_points['ai_name']=='HugChat')]['y'].values.tolist()[0]+5), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="orange"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='orange'),
+            )
 
 #Plot Claude
 ax.plot(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="brown")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="brown")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]-2,
+#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]-10,
+#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
+
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]-10, 
+                    chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]-20), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="brown"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='brown'),
+            )
 
 #Plot Sage
 ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
-        marker="o", markersize=14, markeredgecolor="black", markerfacecolor="violet")
-ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]+5,
-        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
-        chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
-        size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="violet")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
 
-
-#TODO: Plot Bing Chat
-# ax.plot(chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['x'].values.tolist()[0],
-#         chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['y'].values.tolist()[0],
-#         marker="o", markersize=14, markeredgecolor="black", markerfacecolor="blue")
-# ax.text(chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['x'].values.tolist()[0]+5,
-#         chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['y'].values.tolist()[0]+1,
-#         chart_data_points[(chart_data_points['ai_name']=='Bing Chat')]['ai_name'].values.tolist()[0],
-#         size=14,color='white',weight='heavy',bbox=dict(facecolor='blue', alpha=0.8))
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20, 
+                    chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+5), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="violet"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='violet'),
+            )
 
 ax.tick_params(colors='white',which='both')
 ax.yaxis.set_label_coords(-0.07,0.45)

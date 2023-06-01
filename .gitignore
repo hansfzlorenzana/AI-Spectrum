@@ -157,3 +157,5 @@ test/
 database_clean/
 others/
 previous.html
+test_chart.py
+test_chart.ipynb
