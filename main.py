@@ -9,6 +9,8 @@ from Bard import Chatbot
 from hugchat import hugchat
 import poe
 import openai
+import gpt4free
+from gpt4free import Provider
 
 import os, sys, time, warnings, pytz, re
 
@@ -18,7 +20,8 @@ warnings.filterwarnings('ignore')
 start = time.time() # Measuring time it takes to get all request
 
 # GPT-powered AIs used
-ai_list = ['Claude',
+ai_list = ['YouChat',
+           'Claude',
            'Bard',
            'HugChat',
            'Sage',
@@ -35,6 +38,9 @@ bard_token = os.getenv('BARD_TOKEN')
 # poe_token = [os.getenv('POE_TOKEN1'),os.getenv('POE_TOKEN2')]
 poe_token = os.getenv('POE_TOKEN3')
 poe_token2 = os.getenv('POE_TOKEN4')
+
+def checkAIStatus():
+    pass
 
 def requestFromAI(question,ai):
 
@@ -91,9 +97,6 @@ def requestFromAI(question,ai):
         time.sleep(timer)
         return reply
 
-    # elif ai == "Claude":
-    # TODO: Handle Websocket ERROR
-
     elif ai == "Sage":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
         client = poe.Client(poe_token2)
@@ -104,6 +107,12 @@ def requestFromAI(question,ai):
         timer = randrange(100, 120)
         print(f'Waiting {timer} seconds before another request...')
         time.sleep(timer)
+        return reply
+    
+    elif ai == "YouChat":
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        response = gpt4free.Completion.create(Provider.You, prompt=f'{prompt} {question}')
+        reply = response
         return reply
     
     # else:
@@ -562,6 +571,34 @@ ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name']
             arrowprops=dict(arrowstyle="simple",
                             connectionstyle="arc3,rad=0",
                             fc='violet'),
+            )
+
+#Plot YouChat
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0],
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="blue")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0]-20, 
+                    chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0]+5), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="blue"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='blue'),
             )
 
 ax.tick_params(colors='white',which='both')
