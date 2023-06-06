@@ -1,7 +1,7 @@
 Bard==0.1
 beautifulsoup4==4.12.2
 EdgeGPT==0.7.1
-EdgeGPT==0.8.1
+EdgeGPT==0.9.1
 faiss_cpu==1.7.4
 ffmpeg_downloader==0.2.0
 GoogleBard==1.2.0
