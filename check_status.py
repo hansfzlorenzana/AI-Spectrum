@@ -136,7 +136,7 @@ def check_ai_responses(ai_names, responses):
 
     for ai, response in zip(ai_names, responses):
         ai_status = "Okay" if is_ai_response_okay(response) else "Not okay"
-        ai_statuses.append(f"{ai}: {ai_status}")
+        ai_statuses.append(f"{ai}: {response} {ai_status}")
 
     return ai_statuses
 
