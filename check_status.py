@@ -135,7 +135,7 @@ def check_ai_responses(ai_names, responses):
     ai_statuses = []
 
     for ai, response in zip(ai_names, responses):
-        ai_status = "Okay" if is_ai_response_okay(response) else "Not okay"
+        ai_status = "OK" if is_ai_response_okay(response) else "NOT OK"
         ai_statuses.append(f"{ai}: {response} {ai_status}")
 
     return ai_statuses
@@ -153,13 +153,14 @@ def main():
         try:
             reply = requestFromAI(question, ai)
             ai_responses.append(reply)
-            ai_statuses.append(f"{ai}: Okay")
+            ai_statuses.append(f"{ai}: OK")
         except Exception as e:
             ai_responses.append(str(e))
-            ai_statuses.append(f"{ai}: Error")
+            ai_statuses.append(f"{ai}: ERROR!")
 
     for ai_status in ai_statuses:
         print(ai_status)
+
 
 main()
 
