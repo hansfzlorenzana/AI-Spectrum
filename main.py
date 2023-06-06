@@ -5,13 +5,13 @@ from matplotlib import image
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from Bard import Chatbot
+from Bard import Chatbot as bard
 from hugchat import hugchat
 import poe
 import openai
 import gpt4free
 from gpt4free import Provider
-from revChatGPT.V1 import Chatbot
+from revChatGPT.V1 import Chatbot as gpt4
 from OpenAIAuth import Auth0
 
 import os, sys, time, warnings, pytz, re
@@ -22,13 +22,13 @@ warnings.filterwarnings('ignore')
 start = time.time() # Measuring time it takes to get all request
 
 # Set-up AIs
-ai_list = ['YouChat',
+ai_list = ['ChatGPT-4',
+           'YouChat',
            'Claude',
            'Bard',
            'HugChat',
            'Sage',
            'ChatGPT'
-        #    'ChatGPT-4'
            ] 
 # TODO: Add more AIs if possible
 # TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
@@ -44,9 +44,6 @@ gpt4_email = os.getenv('OPENAI_GPT4_EMAIL')
 gpt4_password = os.getenv('OPENAI_GPT4_PASSWORD')
 gpt4_auth = Auth0(email=gpt4_email, password=gpt4_password)
 gpt4_access_token = gpt4_auth.auth()
-
-def checkAIStatus():
-    pass
 
 def requestFromAI(question,ai):
 
@@ -74,7 +71,7 @@ def requestFromAI(question,ai):
 
     elif ai == "Bard":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        chatbot = Chatbot(bard_token)
+        chatbot = bard(bard_token)
         response = chatbot.ask(f'{prompt} {question}')
         reply = response['content']
         return reply
@@ -123,7 +120,7 @@ def requestFromAI(question,ai):
     
     elif ai == "ChatGPT-4":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        chatbot = Chatbot(config={
+        chatbot = gpt4(config={
             "access_token": gpt4_access_token
             })
         response = ""
@@ -134,17 +131,12 @@ def requestFromAI(question,ai):
                                 ):
             response = data["message"]
         reply = response
+        timer = randrange(432,435) # Wait for 432 seconds every request. Totaling to 25 requests every 3 hours.
+        print(f'Waiting {timer} seconds before another request...')
+        time.sleep(timer)
         return reply
-    
-    # TODO: 25 requests every 3 hours. If limit reached within timeframe, wait for 3 hours or run other AIs
-
-    # else:
-    #     reply = ""
-    #     return reply
-
 
 # Main AI request code
-# Import question_pool file to a dataframe
 df = pd.read_csv('./database/questions_pool.csv')
 question_pool = df['question']
 source = df['source']
@@ -164,7 +156,7 @@ for j, ai in enumerate(ai_list):
             try:
                 reply = requestFromAI(question,ai)
 
-                # datetime object containing current date and time
+                # Log Date and Time
                 tz_NY = pytz.timezone('America/New_York') 
                 datetime_NY = datetime.now(tz_NY)
                 now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
@@ -611,6 +603,34 @@ ax.annotate(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['ai_nam
             xycoords='data',
             xytext=(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0]-20, 
                     chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0]+5), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="blue"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='blue'),
+            )
+
+#Plot ChatGPT-4
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['y'].values.tolist()[0],
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="blue")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['x'].values.tolist()[0]-20, 
+                    chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['y'].values.tolist()[0]+5), 
             textcoords='data',
             size=14, 
             va="center", 
