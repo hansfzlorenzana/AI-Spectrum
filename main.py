@@ -22,13 +22,13 @@ warnings.filterwarnings('ignore')
 start = time.time() # Measuring time it takes to get all request
 
 # Set-up AIs
-ai_list = ['ChatGPT-4',
-           'YouChat',
+ai_list = ['YouChat',
            'Claude',
            'Bard',
            'HugChat',
            'Sage',
-           'ChatGPT'
+           'ChatGPT',
+           'ChatGPT-4'
            ] 
 # TODO: Add more AIs if possible
 # TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
