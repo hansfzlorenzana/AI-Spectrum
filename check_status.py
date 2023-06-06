@@ -141,7 +141,7 @@ def check_ai_responses(ai_names, responses):
     return ai_statuses
 
 def is_ai_response_okay(response):
-    return response is not None and ('error' not in response or isinstance(response, Exception))
+    return response is not None and (not any(word in response.lower() for word in ['error', 'unable', 'try']) or isinstance(response, Exception))
 
 question = "If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations. Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
 
