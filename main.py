@@ -11,6 +11,8 @@ import poe
 import openai
 import gpt4free
 from gpt4free import Provider
+from revChatGPT.V1 import Chatbot
+from OpenAIAuth import Auth0
 
 import os, sys, time, warnings, pytz, re
 
@@ -19,25 +21,29 @@ warnings.filterwarnings('ignore')
 
 start = time.time() # Measuring time it takes to get all request
 
-# GPT-powered AIs used
+# Set-up AIs
 ai_list = ['YouChat',
            'Claude',
            'Bard',
            'HugChat',
            'Sage',
            'ChatGPT'
+        #    'ChatGPT-4'
            ] 
 # TODO: Add more AIs if possible
 # TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
 # UPDATE: Dragonfly and NeevaAI are deprecated.
 
-# Initialize and import the API keys. API key as environment variable.
+# Set-up API Keys and Tokens
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
-# poe_token = [os.getenv('POE_TOKEN1'),os.getenv('POE_TOKEN2')]
 poe_token = os.getenv('POE_TOKEN3')
 poe_token2 = os.getenv('POE_TOKEN4')
+gpt4_email = os.getenv('OPENAI_GPT4_EMAIL')
+gpt4_password = os.getenv('OPENAI_GPT4_PASSWORD')
+gpt4_auth = Auth0(email=gpt4_email, password=gpt4_password)
+gpt4_access_token = gpt4_auth.auth()
 
 def checkAIStatus():
     pass
@@ -45,7 +51,7 @@ def checkAIStatus():
 def requestFromAI(question,ai):
 
     if ai == "ChatGPT":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:" # TODO: Adjust this when other question formats are added.
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = openai.ChatCompletion.create(
             model = "gpt-3.5-turbo", 
             temperature = 0,
@@ -67,14 +73,14 @@ def requestFromAI(question,ai):
     #     return reply
 
     elif ai == "Bard":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         chatbot = Chatbot(bard_token)
         response = chatbot.ask(f'{prompt} {question}')
         reply = response['content']
         return reply
     
     elif ai == "HugChat":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = huggingChat.chat(
             text=f'{prompt} {question}',
             temperature=0.5,
@@ -86,7 +92,7 @@ def requestFromAI(question,ai):
         return reply
     
     elif ai == "Claude":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
@@ -98,7 +104,7 @@ def requestFromAI(question,ai):
         return reply
 
     elif ai == "Sage":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         client = poe.Client(poe_token2)
         for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
@@ -110,11 +116,28 @@ def requestFromAI(question,ai):
         return reply
     
     elif ai == "YouChat":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (put your one word answer here.). Do not use any special characters. The question is:"  # TODO: Adjust this when other question formats are added.
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = gpt4free.Completion.create(Provider.You, prompt=f'{prompt} {question}')
         reply = response
         return reply
     
+    elif ai == "ChatGPT-4":
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        chatbot = Chatbot(config={
+            "access_token": gpt4_access_token
+            })
+        response = ""
+        for data in chatbot.ask(prompt=f'{prompt} {question}',
+                                conversation_id='55cf6e4f-15f0-46d4-bf39-5b4d3770bef8', # Continue conversation in 'AI Spectrum Test' Chat
+                                parent_id='076cc04a-567f-42e3-974c-36bd3de2dc78',
+                                model='gpt-4', # gpt-4-browsing, text-davinci-002-render-sha, gpt-4, gpt-4-plugins
+                                ):
+            response = data["message"]
+        reply = response
+        return reply
+    
+    # TODO: 25 requests every 3 hours. If limit reached within timeframe, wait for 3 hours or run other AIs
+
     # else:
     #     reply = ""
     #     return reply
@@ -616,7 +639,6 @@ h2.set_xticks([])
 plt.savefig(f'./images/charts/political_compass.png') # save chart to static image
 
 print("Update Chart: DONE")
-
 
 # Measuring time it takes to get all request
 end = time.time()
