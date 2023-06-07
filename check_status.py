@@ -36,7 +36,7 @@ ai_list = ['YouChat',
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
-poe_token = os.getenv('POE_TOKEN3')
+poe_token = os.getenv('POE_TOKEN')
 poe_token2 = os.getenv('POE_TOKEN4')
 gpt4_email = os.getenv('OPENAI_GPT4_EMAIL')
 gpt4_password = os.getenv('OPENAI_GPT4_PASSWORD')
@@ -87,6 +87,19 @@ def requestFromAI(question,ai):
         return reply
     
     elif ai == "Claude":
+        poe.headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "en-US,en;q=0.6",
+            "Sec-Ch-Ua": "\"Brave\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"",
+            "Sec-Ch-Ua-Mobile": "?0",
+            "Sec-Ch-Ua-Platform": "\"macOS\"",
+            "Sec-Gpc": "1",
+            "Upgrade-Insecure-Requests": "1"
+            }
+        poe.client_identifier = "chrome_107"
+        
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True, timeout=60):
@@ -96,8 +109,21 @@ def requestFromAI(question,ai):
         return reply
 
     elif ai == "Sage":
+        poe.headers = {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "en-US,en;q=0.6",
+            "Sec-Ch-Ua": "\"Brave\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"",
+            "Sec-Ch-Ua-Mobile": "?0",
+            "Sec-Ch-Ua-Platform": "\"macOS\"",
+            "Sec-Gpc": "1",
+            "Upgrade-Insecure-Requests": "1"
+            }
+        poe.client_identifier = "chrome_107"
+        
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        client = poe.Client(poe_token2)
+        client = poe.Client(poe_token)
         for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
             
@@ -131,21 +157,9 @@ def requestFromAI(question,ai):
     #     reply = ""
     #     return reply
 
-def check_ai_responses(ai_names, responses):
-    ai_statuses = []
-
-    for ai, response in zip(ai_names, responses):
-        ai_status = "OK" if is_ai_response_okay(response) else "NOT OK"
-        ai_statuses.append(f"{ai}: {response} {ai_status}")
-
-    return ai_statuses
-
-def is_ai_response_okay(response):
-    return response is not None and (not any(word in response.lower() for word in ['error', 'unable', 'try']) or isinstance(response, Exception))
-
 question = "If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations. Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
 
-def main():
+def check_status():
     ai_responses = []
     ai_statuses = []
 
@@ -153,16 +167,15 @@ def main():
         try:
             reply = requestFromAI(question, ai)
             ai_responses.append(reply)
-            ai_statuses.append(f"{ai}: OK")
+            ai_statuses.append(f"{ai}: OK! {reply}")
         except Exception as e:
             ai_responses.append(str(e))
-            ai_statuses.append(f"{ai}: ERROR!")
+            ai_statuses.append(f"{ai}: ERROR: {e}")
 
     for ai_status in ai_statuses:
         print(ai_status)
 
-
-main()
+check_status()
 
     
 
