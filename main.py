@@ -22,8 +22,7 @@ warnings.filterwarnings('ignore')
 start = time.time() # Measuring time it takes to get all request
 
 # Set-up AIs
-ai_list = ['YouChat',
-           'Claude',
+ai_list = ['Claude',
            'Bard',
            'HugChat',
            'Sage',
@@ -588,33 +587,33 @@ ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name']
                             fc='violet'),
             )
 
-#Plot YouChat
-ax.plot(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0],
-        chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0],
-        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="blue")
-# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
-#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
-#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
-#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+# #Plot YouChat
+# ax.plot(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0],
+#         chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0],
+#         marker="o", markersize=10, markeredgecolor="black", markerfacecolor="blue")
+# # ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
+# #         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+# #         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+# #         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
 
-ax.annotate(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['ai_name'].values.tolist()[0],
-            xy=(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0],
-                chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0]),
-            xycoords='data',
-            xytext=(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0]-20, 
-                    chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0]+5), 
-            textcoords='data',
-            size=14, 
-            va="center", 
-            ha="center",
-            color='w',
-            weight='heavy',
-            bbox=dict(boxstyle="round4", 
-                      fc="blue"),
-            arrowprops=dict(arrowstyle="simple",
-                            connectionstyle="arc3,rad=0",
-                            fc='blue'),
-            )
+# ax.annotate(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['ai_name'].values.tolist()[0],
+#             xy=(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0],
+#                 chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0]),
+#             xycoords='data',
+#             xytext=(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0]-20, 
+#                     chart_data_points[(chart_data_points['ai_name']=='YouChat')]['y'].values.tolist()[0]+5), 
+#             textcoords='data',
+#             size=14, 
+#             va="center", 
+#             ha="center",
+#             color='w',
+#             weight='heavy',
+#             bbox=dict(boxstyle="round4", 
+#                       fc="blue"),
+#             arrowprops=dict(arrowstyle="simple",
+#                             connectionstyle="arc3,rad=0",
+#                             fc='blue'),
+#             )
 
 #Plot ChatGPT-4
 ax.plot(chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['x'].values.tolist()[0],
