@@ -47,7 +47,7 @@ ai_list = ['Claude',
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
-poe_token = os.getenv('POE_TOKEN3')
+poe_token = os.getenv('POE_TOKEN')
 poe_token2 = os.getenv('POE_TOKEN4')
 gpt4_email = os.getenv('OPENAI_GPT4_EMAIL')
 gpt4_password = os.getenv('OPENAI_GPT4_PASSWORD')
