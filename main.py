@@ -256,6 +256,22 @@ with open(path, 'w') as f:
 
 print("Update Last Updated DateTime: DONE")
 
+# Get latest update date and time for each AI
+ai_latest_updates = []
+for ai in ai_list:
+    df_ai_update = pd.read_csv('./database/ai_replies.csv')
+    df_ai_updates = df_ai_update[df_ai_update["ai_name"] == ai]
+    df_ai_updates['date_time'] = pd.to_datetime(df_ai_updates['date_time']).dt.strftime(f'%I:%M%p {timezone} on %B %d, %Y')
+    last_updated = df_ai_updates['date_time'].tail(1).to_string(header=False, index=False)
+    ai_latest_updates.append(f'{ai}: {last_updated}')
+
+# Save the latest updates to ai_last_update.txt
+path = r'./ai_last_update.txt'
+with open(path, 'w') as f:
+    f.write('\n'.join(ai_latest_updates))
+
+print("Update AI Last Updated DateTime: DONE")
+
 # Political Compass Chart
 data_point_list = []
 
@@ -434,7 +450,8 @@ for ai in ai_list:
     y = y
 
     # Save new coords to coords log. It is used for the time series chart
-    df_coords = pd.read_csv('./database/ai_replies.csv')
+    df_coord = pd.read_csv('./database/ai_replies.csv')
+    df_coords = df_coord[df_coord["ai_name"]==ai]
     date_time_coords = df_coords['date_time'].tail(1).values.tolist()[0]
     test_coords = df_coords['question_source'].tail(1).values.tolist()[0]
     ai_name_coords = ai
