@@ -9,10 +9,13 @@ from Bard import Chatbot as bard
 from hugchat import hugchat
 import poe
 import openai
-import gpt4free
-from gpt4free import Provider
-from revChatGPT.V1 import Chatbot as gpt4
+from lib.gpt4free.gpt4free import you
+from lib.gpt4free.gpt4free import deepai
+from revChatGPT.V1 import Chatbot as chatgpt4
 from OpenAIAuth import Auth0
+from freeGPT import gpt3 as you3
+from freeGPT import gpt4 as forefront
+from freeGPT import alpaca_7b as chatllama
 
 import os, sys, time, warnings, pytz, re
 
@@ -26,11 +29,12 @@ ai_list = ['YouChat',
            'HugChat',
            'Sage',
            'ChatGPT',
-           'ChatGPT-4'
+           'ChatGPT-4',
+           'Deep AI',
+           'Forefront',
+           'Alpaca 7B',
+           'YouChat Free'
            ] 
-# TODO: Add more AIs if possible
-# TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
-# UPDATE: Dragonfly and NeevaAI are deprecated.
 
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv('OPENAI_API_KEY')
@@ -86,59 +90,35 @@ def requestFromAI(question,ai):
         reply=response
         return reply
     
-    elif ai == "Claude":
-        poe.headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Accept-Language": "en-US,en;q=0.6",
-            "Sec-Ch-Ua": "\"Brave\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"",
-            "Sec-Ch-Ua-Mobile": "?0",
-            "Sec-Ch-Ua-Platform": "\"macOS\"",
-            "Sec-Gpc": "1",
-            "Upgrade-Insecure-Requests": "1"
-            }
-        poe.client_identifier = "chrome_107"
-        
+    elif ai == "Claude":        
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
-            
         reply=response
         return reply
 
     elif ai == "Sage":
-        poe.headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Accept-Language": "en-US,en;q=0.6",
-            "Sec-Ch-Ua": "\"Brave\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"",
-            "Sec-Ch-Ua-Mobile": "?0",
-            "Sec-Ch-Ua-Platform": "\"macOS\"",
-            "Sec-Gpc": "1",
-            "Upgrade-Insecure-Requests": "1"
-            }
-        poe.client_identifier = "chrome_107"
-        
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         client = poe.Client(poe_token)
         for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
-            
         reply=response
         return reply
     
     elif ai == "YouChat":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = gpt4free.Completion.create(Provider.You, prompt=f'{prompt} {question}')
-        reply = response
+        response = you.Completion.create(
+            prompt=f'{prompt} {question}',
+            detailed=True,
+            include_links=True, )
+        reply = response.dict()
+        reply = reply['text']
         return reply
     
     elif ai == "ChatGPT-4":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        chatbot = gpt4(config={
+        chatbot = chatgpt4(config={
             "access_token": gpt4_access_token
             })
         response = ""
@@ -150,6 +130,32 @@ def requestFromAI(question,ai):
             response = data["message"]
         reply = response
         return reply
+
+    elif ai == 'Deep AI':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+
+        response = []
+        for chunk in deepai.Completion.create(f'{prompt} {question}'):
+            response.append(chunk)
+        reply = ''.join(response)
+        return reply
+    
+    elif ai == 'Forefront':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        print('Not yet implemented')
+
+    elif ai == 'Alpaca 7B':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = chatllama.Completion.create(prompt=f'{prompt} {question}')
+        reply = response
+        return reply
+    
+    elif ai == 'YouChat Free':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = you3.Completion.create(prompt=f'{prompt} {question}')
+        reply = response['text']
+        return reply
+
     
     # TODO: 25 requests every 3 hours. If limit reached within timeframe, wait for 3 hours or run other AIs
 
@@ -172,7 +178,7 @@ def check_status():
             ai_responses.append(str(e))
             ai_statuses.append(f"{ai}: ERROR: {e}")
 
-    for ai_status in ai_statuses:
+    for ai_status in ai_statuses:                                                           
         print(ai_status)
 
 check_status()
