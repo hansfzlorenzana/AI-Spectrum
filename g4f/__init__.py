@@ -41,7 +41,6 @@ class Completion:
     def __you_service(prompt: str, **kwargs) -> str:
         return you.Completion.create(prompt, **kwargs).text
 
-
     @staticmethod
     def __fore_front_service(prompt: str, **kwargs) -> str:
         return forefront.Completion.create(prompt=prompt, **kwargs).text

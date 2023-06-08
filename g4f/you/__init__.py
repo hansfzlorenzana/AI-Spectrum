@@ -10,7 +10,6 @@ from retrying import retry
 from tls_client import Session
 from tls_client.response import Response
 
-
 class YouResponse(BaseModel):
     text: Optional[str] = None
     links: List[str] = []
@@ -37,7 +36,7 @@ class Completion:
     ) -> YouResponse:
         if chat is None:
             chat = []
-
+        # proxy = '128.199.114.221:60879'
         proxies = {'http': 'http://' + proxy, 'https': 'http://' + proxy} if proxy else {}
 
         client = Session(client_identifier='chrome_108')

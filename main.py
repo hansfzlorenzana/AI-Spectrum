@@ -9,10 +9,14 @@ from Bard import Chatbot as bard
 from hugchat import hugchat
 import poe
 import openai
-import gpt4free
-from gpt4free import Provider
-from revChatGPT.V1 import Chatbot as gpt4
+from g4f import you
+from g4f import deepai
+from g4f import forefront
+from revChatGPT.V1 import Chatbot as chatgpt4
 from OpenAIAuth import Auth0
+from freeGPT import gpt3 as you3
+from freeGPT import gpt4 as forefront3
+from freeGPT import alpaca_7b as chatllama
 
 import os, sys, time, warnings, pytz, re
 
@@ -27,8 +31,14 @@ ai_list = ['Claude',
            'HugChat',
            'Sage',
            'ChatGPT',
-           'ChatGPT-4'
+           'ChatGPT-4',
+           'Deep AI',
+           'Alpaca 7B'
+        #    'YouChat Free',
+        #    'YouChat',
+        #    'Forefront'
            ] 
+
 # TODO: Add more AIs if possible
 # TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
 # UPDATE: Dragonfly and NeevaAI are deprecated.
@@ -87,39 +97,36 @@ def requestFromAI(question,ai):
         reply=response
         return reply
     
-    elif ai == "Claude":
+    elif ai == "Claude":        
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
-            
         reply=response
-        timer = randrange(100, 120)
-        print(f'Waiting {timer} seconds before another request...')
-        time.sleep(timer)
         return reply
 
     elif ai == "Sage":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        client = poe.Client(poe_token2)
+        client = poe.Client(poe_token)
         for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
-            
         reply=response
-        timer = randrange(100, 120)
-        print(f'Waiting {timer} seconds before another request...')
-        time.sleep(timer)
         return reply
     
-    elif ai == "YouChat":
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = gpt4free.Completion.create(Provider.You, prompt=f'{prompt} {question}')
-        reply = response
-        return reply
+    # elif ai == "YouChat":
+    # # TODO: Re-add YouChat
+    #     prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+    #     response = you.Completion.create(
+    #         prompt=f'{prompt} {question}',
+    #         detailed=True,
+    #         include_links=True, )
+    #     reply = response.dict()
+    #     reply = reply['text']
+    #     return reply
     
     elif ai == "ChatGPT-4":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        chatbot = gpt4(config={
+        chatbot = chatgpt4(config={
             "access_token": gpt4_access_token
             })
         response = ""
@@ -130,10 +137,34 @@ def requestFromAI(question,ai):
                                 ):
             response = data["message"]
         reply = response
-        timer = randrange(432,435) # Wait for 432 seconds every request. Totaling to 25 requests every 3 hours.
-        print(f'Waiting {timer} seconds before another request...')
-        time.sleep(timer)
         return reply
+
+    elif ai == 'Deep AI':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+
+        response = []
+        for chunk in deepai.Completion.create(f'{prompt} {question}'):
+            response.append(chunk)
+        reply = ''.join(response)
+        return reply
+    
+    # elif ai == 'Forefront':
+    # # TODO: Re-add Forefront
+    #     prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+    #     print('Not yet implemented')
+
+    elif ai == 'Alpaca 7B':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = chatllama.Completion.create(prompt=f'{prompt} {question}')
+        reply = response
+        return reply
+    
+    # elif ai == 'YouChat Free':
+    # # TODO: Re-add YouChat
+    #     prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+    #     response = you3.Completion.create(prompt=f'{prompt} {question}')
+    #     reply = response['text']
+    #     return reply
 
 # Main AI request code
 df = pd.read_csv('./database/questions_pool.csv')
@@ -641,6 +672,62 @@ ax.annotate(chart_data_points[(chart_data_points['ai_name']=='ChatGPT-4')]['ai_n
             arrowprops=dict(arrowstyle="simple",
                             connectionstyle="arc3,rad=0",
                             fc='blue'),
+            )
+
+#Plot DeepAI
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='Deep AI')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='Deep AI')]['y'].values.tolist()[0],
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="skyblue")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Deep AI')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='Deep AI')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='Deep AI')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='Deep AI')]['x'].values.tolist()[0]-20, 
+                    chart_data_points[(chart_data_points['ai_name']=='Deep AI')]['y'].values.tolist()[0]+5), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="skyblue"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='skyblue'),
+            )
+
+#Plot Alpaca 7b
+ax.plot(chart_data_points[(chart_data_points['ai_name']=='Alpaca 7B')]['x'].values.tolist()[0],
+        chart_data_points[(chart_data_points['ai_name']=='Alpaca 7B')]['y'].values.tolist()[0],
+        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="salmon")
+# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+
+ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Alpaca 7B')]['ai_name'].values.tolist()[0],
+            xy=(chart_data_points[(chart_data_points['ai_name']=='Alpaca 7B')]['x'].values.tolist()[0],
+                chart_data_points[(chart_data_points['ai_name']=='Alpaca 7B')]['y'].values.tolist()[0]),
+            xycoords='data',
+            xytext=(chart_data_points[(chart_data_points['ai_name']=='Alpaca 7B')]['x'].values.tolist()[0]-20, 
+                    chart_data_points[(chart_data_points['ai_name']=='Alpaca 7B')]['y'].values.tolist()[0]+5), 
+            textcoords='data',
+            size=14, 
+            va="center", 
+            ha="center",
+            color='w',
+            weight='heavy',
+            bbox=dict(boxstyle="round4", 
+                      fc="salmon"),
+            arrowprops=dict(arrowstyle="simple",
+                            connectionstyle="arc3,rad=0",
+                            fc='salmon'),
             )
 
 ax.tick_params(colors='white',which='both')
