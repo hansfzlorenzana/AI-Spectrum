@@ -1,4 +1,4 @@
-from zteky.gpt4free.gpt4free import you
+from g4f import you
 
 prompt = "Hi"
 response = you.Completion.create(

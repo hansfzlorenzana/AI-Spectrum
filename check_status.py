@@ -9,8 +9,8 @@ from Bard import Chatbot as bard
 from hugchat import hugchat
 import poe
 import openai
-from zteky.gpt4free.gpt4free import you
-from zteky.gpt4free.gpt4free import deepai
+from g4f import you
+from g4f import deepai
 from revChatGPT.V1 import Chatbot as chatgpt4
 from OpenAIAuth import Auth0
 from freeGPT import gpt3 as you3
