@@ -102,7 +102,11 @@ def requestFromAI(question,ai):
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
+        timer=time(randrange)
         reply=response
+        timer = randrange(100, 120)
+        print(f'Waiting {timer} seconds before another request...')
+        time.sleep(timer)
         return reply
 
     elif ai == "Sage":
@@ -111,6 +115,9 @@ def requestFromAI(question,ai):
         for chunk in client.send_message("capybara", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
         reply=response
+        timer = randrange(100, 120)
+        print(f'Waiting {timer} seconds before another request...')
+        time.sleep(timer)
         return reply
     
     # elif ai == "YouChat":
@@ -137,6 +144,9 @@ def requestFromAI(question,ai):
                                 ):
             response = data["message"]
         reply = response
+        timer = randrange(432,435) # Wait for 432 seconds every request. Totaling to 25 requests every 3 hours.
+        print(f'Waiting {timer} seconds before another request...')
+        time.sleep(timer)
         return reply
 
     elif ai == 'Deep AI':
