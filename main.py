@@ -26,14 +26,14 @@ warnings.filterwarnings('ignore')
 start = time.time() # Measuring time it takes to get all request
 
 # Set-up AIs
-ai_list = ['Claude',
-           'Bard',
+ai_list = ['Bard',
            'HugChat',
-           'Sage',
            'ChatGPT',
            'ChatGPT-4',
            'Deep AI',
            'Alpaca 7B'
+        #    'Claude',
+        #    'Sage',
         #    'YouChat Free',
         #    'YouChat',
         #    'Forefront'
@@ -47,7 +47,7 @@ ai_list = ['Claude',
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
-poe_token = os.getenv('POE_TOKEN5')
+poe_token = os.getenv('POE_TOKEN')
 poe_token2 = os.getenv('POE_TOKEN4')
 gpt4_email = os.getenv('OPENAI_GPT4_EMAIL')
 gpt4_password = os.getenv('OPENAI_GPT4_PASSWORD')
@@ -73,10 +73,10 @@ def requestFromAI(question,ai):
         reply = response['choices'][0]['message']['content']
         return reply
     
-    # elif ai == "Bing Chat":
-    #     # TODO: Add functionality for BingAI
-    #     reply = ""
-    #     return reply
+    elif ai == "Bing Chat":
+        # TODO: Add functionality for BingAI
+        reply = ""
+        print(reply)
 
     elif ai == "Bard":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
@@ -119,16 +119,16 @@ def requestFromAI(question,ai):
         time.sleep(timer)
         return reply
     
-    # elif ai == "YouChat":
-    # # TODO: Re-add YouChat
-    #     prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-    #     response = you.Completion.create(
-    #         prompt=f'{prompt} {question}',
-    #         detailed=True,
-    #         include_links=True, )
-    #     reply = response.dict()
-    #     reply = reply['text']
-    #     return reply
+    elif ai == "YouChat":
+    # TODO: Re-add YouChat
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = you.Completion.create(
+            prompt=f'{prompt} {question}',
+            detailed=True,
+            include_links=True, )
+        reply = response.dict()
+        reply = reply['text']
+        return reply
     
     elif ai == "ChatGPT-4":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
@@ -157,10 +157,10 @@ def requestFromAI(question,ai):
         reply = ''.join(response)
         return reply
     
-    # elif ai == 'Forefront':
-    # # TODO: Re-add Forefront
-    #     prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-    #     print('Not yet implemented')
+    elif ai == 'Forefront':
+    # TODO: Re-add Forefront
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        print('Not yet implemented')
 
     elif ai == 'Alpaca 7B':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
@@ -168,12 +168,12 @@ def requestFromAI(question,ai):
         reply = response
         return reply
     
-    # elif ai == 'YouChat Free':
-    # # TODO: Re-add YouChat
-    #     prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-    #     response = you3.Completion.create(prompt=f'{prompt} {question}')
-    #     reply = response['text']
-    #     return reply
+    elif ai == 'YouChat Free':
+    # TODO: Re-add YouChat
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = you3.Completion.create(prompt=f'{prompt} {question}')
+        reply = response['text']
+        return reply
 
 # Main AI request code
 df = pd.read_csv('./database/questions_pool.csv')
@@ -588,61 +588,61 @@ ax.annotate(chart_data_points[(chart_data_points['ai_name']=='HugChat')]['ai_nam
                             fc='orange'),
             )
 
-#Plot Claude
-ax.plot(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
-        chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0],
-        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="brown")
-# ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]-2,
-#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]-10,
-#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
-#         size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
+# #Plot Claude
+# ax.plot(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
+#         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0],
+#         marker="o", markersize=10, markeredgecolor="black", markerfacecolor="brown")
+# # ax.text(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]-2,
+# #         chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]-10,
+# #         chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
+# #         size=14,color='white',weight='heavy',bbox=dict(facecolor='brown', alpha=0.8))
 
-ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
-            xy=(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
-                chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]),
-            xycoords='data',
-            xytext=(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]-10, 
-                    chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]-20), 
-            textcoords='data',
-            size=14, 
-            va="center", 
-            ha="center",
-            color='w',
-            weight='heavy',
-            bbox=dict(boxstyle="round4", 
-                      fc="brown"),
-            arrowprops=dict(arrowstyle="simple",
-                            connectionstyle="arc3,rad=0",
-                            fc='brown'),
-            )
+# ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Claude')]['ai_name'].values.tolist()[0],
+#             xy=(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0],
+#                 chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]),
+#             xycoords='data',
+#             xytext=(chart_data_points[(chart_data_points['ai_name']=='Claude')]['x'].values.tolist()[0]-10, 
+#                     chart_data_points[(chart_data_points['ai_name']=='Claude')]['y'].values.tolist()[0]-20), 
+#             textcoords='data',
+#             size=14, 
+#             va="center", 
+#             ha="center",
+#             color='w',
+#             weight='heavy',
+#             bbox=dict(boxstyle="round4", 
+#                       fc="brown"),
+#             arrowprops=dict(arrowstyle="simple",
+#                             connectionstyle="arc3,rad=0",
+#                             fc='brown'),
+#             )
 
-#Plot Sage
-ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
-        chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
-        marker="o", markersize=10, markeredgecolor="black", markerfacecolor="violet")
-# ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
-#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
-#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
-#         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
+# #Plot Sage
+# ax.plot(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
+#         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0],
+#         marker="o", markersize=10, markeredgecolor="black", markerfacecolor="violet")
+# # ax.text(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20,
+# #         chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+1,
+# #         chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+# #         size=14,color='white',weight='heavy',bbox=dict(facecolor='violet', alpha=0.8))
 
-ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
-            xy=(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
-                chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]),
-            xycoords='data',
-            xytext=(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20, 
-                    chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+5), 
-            textcoords='data',
-            size=14, 
-            va="center", 
-            ha="center",
-            color='w',
-            weight='heavy',
-            bbox=dict(boxstyle="round4", 
-                      fc="violet"),
-            arrowprops=dict(arrowstyle="simple",
-                            connectionstyle="arc3,rad=0",
-                            fc='violet'),
-            )
+# ax.annotate(chart_data_points[(chart_data_points['ai_name']=='Sage')]['ai_name'].values.tolist()[0],
+#             xy=(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0],
+#                 chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]),
+#             xycoords='data',
+#             xytext=(chart_data_points[(chart_data_points['ai_name']=='Sage')]['x'].values.tolist()[0]-20, 
+#                     chart_data_points[(chart_data_points['ai_name']=='Sage')]['y'].values.tolist()[0]+5), 
+#             textcoords='data',
+#             size=14, 
+#             va="center", 
+#             ha="center",
+#             color='w',
+#             weight='heavy',
+#             bbox=dict(boxstyle="round4", 
+#                       fc="violet"),
+#             arrowprops=dict(arrowstyle="simple",
+#                             connectionstyle="arc3,rad=0",
+#                             fc='violet'),
+#             )
 
 # #Plot YouChat
 # ax.plot(chart_data_points[(chart_data_points['ai_name']=='YouChat')]['x'].values.tolist()[0],

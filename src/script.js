@@ -238,8 +238,6 @@ function handleQueryResponse(response) {
   var zoomMaxButton = document.getElementById('zoom-max');
   zoomMaxButton.addEventListener('click', zoomMax);
 
-
-
   var lastDayButton = document.getElementById('zoom-last-day');
   lastDayButton.addEventListener('click', zoomLastDay);
 
@@ -317,4 +315,5 @@ function toggleAIUpdatesContainer(containerId) {
         container.style.display = "none";
     }
 }
+  
 

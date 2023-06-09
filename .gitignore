@@ -156,8 +156,9 @@ cookies_hugchat.json
 test/
 database_clean/
 others/
-previous.html
+test_page.html
 test_chart.py
-test_chart.ipynb
-test.py
+test_ai.py
+test_logs.py
 accounts.txt
+polchart/
