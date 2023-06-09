@@ -50,10 +50,8 @@
       <div id="displayAIUpdates">
       </div>
 
-      <div class="static-chart-container">
-        <h3 class="static-chart-title">Political Compass Test</h3>
-        <img src="./images/charts/political_compass.png" alt="Static Chart" class="static-chart">
-      </div>
+      <div id="politicalTestChartContainer"style="display: flex; justify-content: center; align-items: center;"></div>
+
       </div>
       <div id="dashboard_div">
         <div id="zoom_buttons">
@@ -72,7 +70,9 @@
             <option value="Claude">Anthropic Claude</option>
             <option value="Sage">Quora Sage</option>
             <option value="ChatGPT-4">OpenAI ChatGPT-4</option>
-            <option value="YouChat">You YouChat</option>
+            <option value="YouChat">YouChat</option>
+            <option value="Deep AI">Deep AI</option>
+            <option value="Alpaca 7B">Stanford Alpaca</option>
           </select>
           <button id="filter-reset">Reset</button>
         </div>
@@ -93,6 +93,16 @@
       </footer>
       
       <script src="https://www.gstatic.com/charts/loader.js" async></script>
+      <script src="./src/polchartLine.js" async></script>
+
       <script src="./src/script.js" async></script>
+      
+      <script src="https://code.highcharts.com/highcharts.js" async></script>
+      <script src="https://code.highcharts.com/modules/data.js" async></script>
+      <script src="https://code.highcharts.com/modules/exporting.js" async></script>
+      <script src="https://code.highcharts.com/modules/export-data.js" async></script>
+      <script src="https://code.highcharts.com/modules/accessibility.js" async></script>
+      <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0" async></script>
+      <script src="./src/polchart.js" async></script>
     </body>
   </html>
