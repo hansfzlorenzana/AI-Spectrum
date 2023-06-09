@@ -241,7 +241,7 @@ function getRandomColor() {
 // Function to get the marker symbol based on AI name
 function getMarkerSymbol(aiName) {
   // Generate the icon path based on the AI name
-  var iconPath = './images/ai-icons/' + aiName.toLowerCase() + '.png';
+  var iconPath = './images/ai-icons/' + aiName + '.png';
 
   // Return the icon path
   return iconPath;
