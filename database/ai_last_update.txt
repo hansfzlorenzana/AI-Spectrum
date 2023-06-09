@@ -1,0 +1,10 @@
+Alpaca 7B: 11:20AM EDT on June 09, 2023
+Bard: 12:30AM EDT on June 09, 2023
+ChatGPT: 01:30AM EDT on June 09, 2023
+ChatGPT-4: 10:40AM EDT on June 09, 2023
+Claude: 12:20AM EDT on June 09, 2023
+Deep AI: 11:10AM EDT on June 09, 2023
+Forefront: 11:20AM EDT on June 09, 2023
+HugChat: 12:35AM EDT on June 09, 2023
+Sage: 01:00AM EDT on June 09, 2023
+YouChat: 10:59AM EDT on June 09, 2023

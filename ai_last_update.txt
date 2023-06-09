@@ -1,7 +1,0 @@
-Claude: 11:59PM EDT on June 06, 2023
-Bard: 12:11AM EDT on June 07, 2023
-HugChat: 12:12AM EDT on June 07, 2023
-Sage: 02:12AM EDT on June 07, 2023
-ChatGPT: 02:32AM EDT on June 07, 2023
-ChatGPT-4: 10:59AM EDT on June 07, 2023
-YouChat: 10:47PM EDT on June 04, 2023
