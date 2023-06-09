@@ -47,7 +47,7 @@ ai_list = ['Claude',
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
 bard_token = os.getenv('BARD_TOKEN')
-poe_token = os.getenv('POE_TOKEN')
+poe_token = os.getenv('POE_TOKEN5')
 poe_token2 = os.getenv('POE_TOKEN4')
 gpt4_email = os.getenv('OPENAI_GPT4_EMAIL')
 gpt4_password = os.getenv('OPENAI_GPT4_PASSWORD')
@@ -102,7 +102,6 @@ def requestFromAI(question,ai):
         client = poe.Client(poe_token)
         for chunk in client.send_message("a2", f'{prompt} {question}', with_chat_break=True, timeout=60):
             response = chunk["text"]
-        timer=time(randrange)
         reply=response
         timer = randrange(100, 120)
         print(f'Waiting {timer} seconds before another request...')
