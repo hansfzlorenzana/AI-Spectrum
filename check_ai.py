@@ -33,7 +33,8 @@ ai_list = ['YouChat',
            'Deep AI',
            'Forefront',
            'Alpaca 7B',
-           'YouChat Free'
+           'YouChat Free',
+           'Bing Chat'
            ] 
 
 # Set-up API Keys and Tokens
@@ -66,10 +67,10 @@ def requestFromAI(question,ai):
         reply = response['choices'][0]['message']['content']
         return reply
     
-    # elif ai == "Bing Chat":
-    #     # TODO: Add functionality for BingAI
-    #     reply = ""
-    #     return reply
+    elif ai == "Bing Chat":
+        # TODO: Add functionality for BingAI
+        reply = ""
+        return reply
 
     elif ai == "Bard":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
