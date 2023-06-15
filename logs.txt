@@ -1,0 +1,36 @@
+-------------
+AI LLMS
+-------------
+ADDED:
+- OpenAI ChatGPT 3.5 (thru Official API)
+- OpenAI ChatGPT 4 (thru https://github.com/acheong08/ChatGPT)
+- Google Bard (thru https://github.com/acheong08/Bard)
+- OpenAssistant HugChat (via HuggingFace thru https://github.com/Soulter/hugging-chat-api)
+
+
+TEMPORARILY REMOVED (w/ errors):
+- Anthropic Claude (via Quora Poe thru https://github.com/ading2210/poe-api)
+- Quora Sage (via Quora Poe thru https://github.com/ading2210/poe-api)
+- Forefront (thru https://github.com/xtekky/gpt4free)
+- YouChat (thru https://github.com/xtekky/gpt4free)
+- Stanford Alpaca 7B (via Chatllama thru https://github.com/Ruu3f/freeGPT)
+- Microsoft Bing (thru https://github.com/acheong08/EdgeGPT)
+
+TO ADD:
+- iFlytke Spark
+- ChatGLM
+- Vicuna
+- Koala
+- Dolly
+- Facebook LLaMA
+- StableLM
+- ChatRWKV
+
+----------
+CHARTS
+----------
+ADDED:
+- Political Compass Test (https://www.politicalcompass.org/test)
+
+TO ADD:
+- 8Values (https://8values.github.io/)

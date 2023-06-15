@@ -29,8 +29,8 @@ start = time.time()  # Measuring time it takes to get all request
 ai_list = [
        'HugChat',
        'Bard',
-       'ChatGPT',
-       'ChatGPT-4',
+    #    'ChatGPT',
+    #    'ChatGPT-4',
     #    'DeepAI',
     #    'Alpaca-7B',
     #    'Claude',
@@ -292,6 +292,8 @@ def saveLatestDateTimeForEachAI():
 
 def politicalCompassTestChart():
     testName = "Political Compass Test"
+    columns = ["date_time", "econ_value", "soc_value", "test_source", "ai_name"]
+
     for ai in ai_list:
         '''Reverse engineered how Politicalcompass.org charts work'''
         state = range(62)
@@ -428,7 +430,14 @@ def politicalCompassTestChart():
             [-8, -6, 0, 2],
             [-6, -4, 0, 2],
         ]
+        
+        # # WHERE PREVIOUS ERROR IS
+        # ai_replies = pd.read_csv("./database/ai_replies.csv")
+        # ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai)]
+        # ai_replies_per_ai = ai_replies[(ai_replies["question_source"] == testName)]
+        # valueReplyList = ai_replies_per_ai.tail(62)["value_reply"].values.tolist()
 
+        # FIX (Filter by multiple conditions. Previous filter accounted for the testName filter only.)
         ai_replies = pd.read_csv("./database/ai_replies.csv")
         ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai) & (ai_replies["question_source"] == testName)]
         valueReplyList = ai_replies_per_ai.tail(62)["value_reply"].values.tolist()
@@ -459,7 +468,7 @@ def politicalCompassTestChart():
 
         current_coords_logs_df = pd.DataFrame(
             current_coords_logs,
-            columns=["date_time", "econ_value", "soc_value", "test_source", "ai_name"],
+            columns=columns,
         )
         combine_new_to_old_coords = pd.concat(
             [existing_coords_logs, current_coords_logs_df]

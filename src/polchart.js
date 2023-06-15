@@ -11,7 +11,7 @@ fetch('./database/political_compass_test_logs.csv')
     // Filter and retrieve the latest rows of each AI
     var latestData = getLatestRows(data, 'ai_name');
 
-    Highcharts.chart('politicalTestChartContainer', {
+    var chart = Highcharts.chart('politicalTestChart', {
       chart: {
         plotBackgroundImage: './images/chart-samples/political_compass.png',
         type: 'scatter',
@@ -91,15 +91,21 @@ fetch('./database/political_compass_test_logs.csv')
           fontSize: '40px' // Adjust the font size of the title
         }
       },
+      subtitle: {
+        text: 'https://www.politicalcompass.org/test/',
+        margin: 50,
+        y: 100,
+        x: -50
+      },
       credits: {
         enabled: false
     },
     legend: {
         layout: 'vertical',
         align: 'right',
-        verticalAlign: 'top',
+        verticalAlign: 'middle',
         x: 10,
-        y: 200,
+        y: 50,
         itemMarginBottom: 10,
         itemStyle: {
             color: '#000000',
@@ -123,13 +129,13 @@ fetch('./database/political_compass_test_logs.csv')
         }
       },
       
-      
       tooltip: {
         formatter: function() {
           return '<b><span style="font-size: 16px;">'+ this.series.name +'</b><br/>'+
               '<b>Economic:</b> '+ this.x + '<br/>'+ ' <b>Social:</b> '+ this.y;
         }
       },
+      
       plotOptions: {
         series: {
           shadow: true
@@ -224,8 +230,41 @@ fetch('./database/political_compass_test_logs.csv')
         },
         color: getRandomColor()
       };
-    })
+    }),
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        // Make the labels less space demanding on mobile
+        chartOptions: {
+          xAxis: {
+            labels: {
+              formatter: function() {
+                return this.value.charAt(0);
+              }
+            }
+          },
+          yAxis: {
+            labels: {
+              align: 'left',
+              x: 0,
+              y: -2
+            },
+            title: {
+              text: ''
+            }
+          },
+          legend: {
+            align: 'center',
+            verticalAlign: 'bottom',
+            layout: 'horizontal'
+        }
+        }
+      }]
+    }
   });
+  
 });
 
 // Function to generate random color

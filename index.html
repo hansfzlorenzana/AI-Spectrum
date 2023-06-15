@@ -3,7 +3,7 @@
   <html lang="en">
     <head>
       <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>AI Spectrum</title>
       <meta name="description" content="An App That Shows the Political Bias of AIs.">
       <meta name="author" content="Zoren X">
@@ -42,17 +42,10 @@
       <div class="displayLastUpdate">
         <b>Charts update daily</b> | Last Updated: <span id="displayLastUpdated"></span>
       </div>
-
-      <div class="ai-update" onclick="toggleAIUpdatesContainer('displayAIUpdates')">
-        <span class="show_hide">SHOW LAST UPDATED DATE & TIME FOR EACH AI</span>
+      <div class="TestChartContainer">
+      <div id="politicalTestChart" class="testChart"></div>
       </div>
       
-      <div id="displayAIUpdates">
-      </div>
-
-      <div id="politicalTestChartContainer"style="display: flex; justify-content: center; align-items: center;"></div>
-
-      </div>
       <div id="dashboard_div">
         <div id="zoom_buttons">
           <button id="zoom-last-day" class="zoom-button zoom-button-last-day">Last Day</button>
@@ -76,8 +69,15 @@
           </select>
           <button id="filter-reset">Reset</button>
         </div>
-        <div id="chart_div"></div>
-        <div id="control_div"></div>
+        <div id="chart_div" class="chart"></div>
+        <div id="control_div" class="chart"></div>
+      </div>
+
+      <div class="ai-update" onclick="toggleAIUpdatesContainer('displayAIUpdates')">
+        <span class="show_hide">SHOW LAST UPDATED DATE & TIME FOR EACH AI</span>
+      </div>
+      
+      <div id="displayAIUpdates">
       </div>
 
       <footer>
@@ -92,17 +92,18 @@
         </div>
       </footer>
       
-      <script src="https://www.gstatic.com/charts/loader.js" async></script>
-      <script src="./src/polchartLine.js" async></script>
+      <script src="https://www.gstatic.com/charts/loader.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="./src/polchartLine.js"></script>
 
-      <script src="./src/script.js" async></script>
-      
-      <script src="https://code.highcharts.com/highcharts.js" async></script>
-      <script src="https://code.highcharts.com/modules/data.js" async></script>
-      <script src="https://code.highcharts.com/modules/exporting.js" async></script>
-      <script src="https://code.highcharts.com/modules/export-data.js" async></script>
-      <script src="https://code.highcharts.com/modules/accessibility.js" async></script>
-      <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0" async></script>
-      <script src="./src/polchart.js" async></script>
+      <script src="./src/script.js"></script>
+
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+      <script src="https://code.highcharts.com/modules/data.js"></script>
+      <script src="https://code.highcharts.com/modules/exporting.js"></script>
+      <script src="https://code.highcharts.com/modules/export-data.js"></script>
+      <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0"></script>
+      <script src="./src/polchart.js"></script>
     </body>
   </html>

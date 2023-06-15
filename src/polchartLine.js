@@ -41,8 +41,8 @@ google.charts.load('current', {
         containerId: 'chart_div',
         dataTable: data,
         options: {
-            width: 700,
-            height: 600,
+            width: '100%', // 700
+            height: 600, //600
             backgroundColor: '#FFFFFF',
             // curveType: 'function',
             colors: ['#FF8C00', '#000000'],
@@ -61,11 +61,7 @@ google.charts.load('current', {
             },
             chartArea: {
                 width: '80%',
-                height: '75%',
-                top: 50,
-                bottom: 20,
-                left: 60,
-                right: 60
+                height: '75%'
             },
             hAxis: {
                 gridLines: {
@@ -75,7 +71,7 @@ google.charts.load('current', {
                     color: '#666666',
                     fontSize: 11,
                     bold: true
-                }
+                  }
             },
             vAxis: {
                 title: 'Value',
@@ -102,8 +98,8 @@ google.charts.load('current', {
             ui: {
                 chartType: 'LineChart',
                 chartOptions: {
-                    width: 700,
-                    height: 100,
+                    width: '100%', //700
+                    height: 120, // 100
                     backgroundColor: '#FFFFFF',
                     colors: ['darkOrange', 'black'],
                     lineWidth: 1,
@@ -175,6 +171,7 @@ google.charts.load('current', {
             control.setState({}); // Reset the zoom state
             control.draw();
         }
+
     }
   
   
@@ -262,5 +259,20 @@ google.charts.load('current', {
     });
   
     filterChart('Reset');
+    
+    // Make Chart Responsive to any screen
+    function resizeHandler () {
+        filterChart('Reset');
+    
+    }
+    if (window.addEventListener) {
+        window.addEventListener('resize', resizeHandler, false);
+    }
+    else if (window.attachEvent) {
+        window.attachEvent('onresize', resizeHandler);
+    }
+
   }
-  
+
+
+
