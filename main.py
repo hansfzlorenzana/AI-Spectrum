@@ -32,12 +32,14 @@ ai_list = [
        'ChatGPT',
        'ChatGPT-4',
     #    'DeepAI',
-    #    'Alpaca-7B',
-    #    'Claude',
-    #    'Sage',
+       'Alpaca-7B',
+    #    'Bing',
+       'Claude',
+       'Sage',
     #    'YouChat Free',
     #    'YouChat',
     #    'Forefront'
+
 ]
 
 # TODO: Add more AIs if possible
@@ -76,10 +78,10 @@ def requestFromAI(question, ai):
         reply = response["choices"][0]["message"]["content"]
         return reply
 
-    elif ai == "Bing Chat":
+    elif ai == "Bing":
         # TODO: Add functionality for BingAI
         reply = ""
-        print(reply)
+        return reply
 
     elif ai == "Bard":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
@@ -150,14 +152,12 @@ def requestFromAI(question, ai):
         ):
             response = data["message"]
         reply = response
-        timer = randrange(
-            432, 435
-        )  # Wait for 432 seconds every request. Totaling to 25 requests every 3 hours.
+        timer = randrange(432, 435)  # Wait for 432 seconds every request. Totaling to 25 requests every 3 hours. (3 * 60 * 60) / 25
         print(f"Waiting {timer} seconds before another request...")
         time.sleep(timer)
         return reply
 
-    elif ai == "Deep AI":
+    elif ai == "DeepAI":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
 
         response = []
@@ -169,11 +169,12 @@ def requestFromAI(question, ai):
     elif ai == "Forefront":
         # TODO: Re-add Forefront
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        print("Not yet implemented")
+        reply = ""
+        return reply
 
-    elif ai == "Alpaca 7B":
+    elif ai == 'Alpaca-7B':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = chatllama.Completion.create(prompt=f"{prompt} {question}")
+        response = chatllama.Completion.create(prompt=f'{prompt} {question}')
         reply = response
         return reply
 
@@ -187,7 +188,7 @@ def requestFromAI(question, ai):
 
 def getRequests():
     df = pd.read_csv("./database/questions_pool.csv")
-    question_pool = df["question"]
+    question_pool = df["question_with_choices"]
     source = df["source"]
 
     latest_ai_replies = []
@@ -206,6 +207,8 @@ def getRequests():
                     datetime_NY = datetime.now(tz_NY)
                     now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
                     reply = reply.strip()
+                    reply_first_line = reply.splitlines()
+                    reply = reply_first_line[0]
                     reply = re.sub(
                         r"[^a-zA-Z0-9\s]+", "", reply
                     )  # TODO: Adjust this when other question formats are added.
@@ -230,11 +233,16 @@ def getRequests():
 
                 except Exception as e:
                     delay = 60
+                    print(i)
+                    print(now)
+                    print(reply)
+                    print(ai)
+                    print()
                     print(f"ERROR: {e}")
                     print(f"RETRY: {question}")
                     print(f"Retrying in {delay} seconds...")
                     print()
-                    time.sleep(delay)
+                    # time.sleep(delay)
                     continue
                 else:
                     break

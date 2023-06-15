@@ -1,0 +1,43 @@
+-----------------
+June 15, 2023
+-----------------
+
+ADDED:
+- 8values Chart: ONGOING
+
+ERRORS:
+- ChatGPT4 detected unusual behavior: FIXED
+- DeepAI banned after 26 requests
+- Bing don't want to respond to the questions
+- Alpaca 7B multiple response: FIXED
+- YouChat unable to fetch response on DigitalOcean
+- Claude automatic bans: FIXED
+- Sage automatic bans: FIXED
+- Forefront no response
+
+REMOVED:
+- Forefront
+- YouChat
+- Microsoft Bing
+- DeepAI
+
+-----------------
+June 14, 2023
+-----------------
+
+ADDED:
+- 
+
+ERRORS:
+- Display Error for smaller screen sizes: FIXED
+- Same coordinates logs for all AIs: FIXED
+- AI Timestamps repositioned at bottom of time series chart: FIXED
+
+REMOVED:
+- Anthropic Claude
+- Quora Sage
+- Forefront
+- YouChat
+- Stanford Alpaca 7B
+- Microsoft Bing
+- DeepAI

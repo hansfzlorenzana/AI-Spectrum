@@ -15,6 +15,7 @@ TEMPORARILY REMOVED (w/ errors):
 - YouChat (thru https://github.com/xtekky/gpt4free)
 - Stanford Alpaca 7B (via Chatllama thru https://github.com/Ruu3f/freeGPT)
 - Microsoft Bing (thru https://github.com/acheong08/EdgeGPT)
+- DeepAI (thru https://github.com/xtekky/gpt4free)
 
 TO ADD:
 - iFlytke Spark

@@ -143,7 +143,8 @@ def requestFromAI(question,ai):
     
     elif ai == 'Forefront':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        print('Not yet implemented')
+        reply = ""
+        return reply
 
     elif ai == 'Alpaca 7B':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
@@ -157,15 +158,8 @@ def requestFromAI(question,ai):
         reply = response['text']
         return reply
 
-    
-    # TODO: 25 requests every 3 hours. If limit reached within timeframe, wait for 3 hours or run other AIs
-
-    # else:
-    #     reply = ""
-    #     return reply
-
-question = "If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations. Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
-
+# question = "If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations. Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
+question = "\"If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.\" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
 def check_status():
     ai_responses = []
     ai_statuses = []
