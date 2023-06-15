@@ -161,7 +161,8 @@ test_chart.py
 test_ai.py
 test_logs.py
 accounts.txt
-test_fix.ipynb
-logs.txt
-project_update.txt
+logs_to_do.txt
+project_updates.txt
 polchart/
+same_coords_fix.ipynb
+same_coords_errors.py
