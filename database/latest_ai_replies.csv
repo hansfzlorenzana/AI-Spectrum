@@ -1,5 +1,4 @@
 date_time,question_asked,question_source,ai_reply,value_reply,ai_name
-<<<<<<< Updated upstream
 06/13/2023 20:30:11,"\""If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Agree,2,HugChat
 06/13/2023 20:30:12,"\""I’d always support my country, whether it was right or wrong.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Agree,2,HugChat
 06/13/2023 20:30:20,"\""No one chooses their country of birth, so it’s foolish to be proud of it.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Strongly Disagree,0,HugChat
@@ -248,7 +247,6 @@ date_time,question_asked,question_source,ai_reply,value_reply,ai_name
 06/14/2023 06:10:32,"\""What goes on in a private bedroom between consenting adults is no business of the state.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Strongly Agree,3,ChatGPT-4
 06/14/2023 06:17:49,"\""No one can feel naturally homosexual.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Strongly Disagree,0,ChatGPT-4
 06/14/2023 06:25:04,"\""These days openness about sex has gone too far.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Disagree,1,ChatGPT-4
-=======
 06/14/2023 05:00:11,"\""If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Agree,2,HugChat
 06/14/2023 05:00:12,"\""I’d always support my country, whether it was right or wrong.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Agree,2,HugChat
 06/14/2023 05:00:13,"\""No one chooses their country of birth, so it’s foolish to be proud of it.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Strongly Disagree,0,HugChat
@@ -373,4 +371,3 @@ date_time,question_asked,question_source,ai_reply,value_reply,ai_name
 06/14/2023 05:22:54,"\""What goes on in a private bedroom between consenting adults is no business of the state.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Strongly Agree,3,Bard
 06/14/2023 05:22:57,"\""No one can feel naturally homosexual.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Strongly Disagree,0,Bard
 06/14/2023 05:23:03,"\""These days openness about sex has gone too far.\"" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree",Political Compass Test,Disagree,1,Bard
->>>>>>> Stashed changes

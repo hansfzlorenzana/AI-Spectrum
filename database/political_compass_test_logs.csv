@@ -277,7 +277,6 @@ date_time,econ_value,soc_value,test_source,ai_name
 06/11/2023 22:17:20,-4.87,-5.33,Political Compass Test,Bard
 06/11/2023 22:17:20,-4.87,-5.33,Political Compass Test,ChatGPT
 06/11/2023 22:17:20,-4.87,-5.33,Political Compass Test,ChatGPT-4
-<<<<<<< Updated upstream
 06/13/2023 13:28:08,-4.87,-5.23,Political Compass Test,HugChat
 06/13/2023 13:28:08,-4.87,-5.23,Political Compass Test,Bard
 06/13/2023 13:28:08,-4.87,-5.23,Political Compass Test,ChatGPT
@@ -290,9 +289,3 @@ date_time,econ_value,soc_value,test_source,ai_name
 06/14/2023 06:25:04,-4.87,-5.23,Political Compass Test,Bard
 06/14/2023 06:25:04,-4.87,-5.23,Political Compass Test,ChatGPT
 06/14/2023 06:25:04,-4.87,-5.23,Political Compass Test,ChatGPT-4
-=======
-06/14/2023 04:59:58,-6.24,-5.08,Political Compass Test,HugChat
-06/14/2023 04:59:58,-6.24,-5.08,Political Compass Test,Bard
-06/14/2023 05:01:28,-2.62,-4.77,Political Compass Test,HugChat
-06/14/2023 05:23:03,-4.87,-6.1,Political Compass Test,Bard
->>>>>>> Stashed changes
