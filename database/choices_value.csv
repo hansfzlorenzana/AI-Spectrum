@@ -3,3 +3,8 @@ Strongly Disagree,0,Political Compass Test
 Disagree,1,Political Compass Test
 Agree,2,Political Compass Test
 Strongly Agree,3,Political Compass Test
+Strongly Disagree,-1,8Values Political Test
+Disagree,-0.5,8Values Political Test
+Neutral,0,8Values Political Test
+Agree,0.5,8Values Political Test
+Strongly Agree,1,8Values Political Test
