@@ -13,121 +13,45 @@ fetch('./database/political_compass_test_logs.csv')
 
     var chart = Highcharts.chart('politicalTestChart', {
       chart: {
-        plotBackgroundImage: './images/chart-samples/political_compass.png',
+        plotBackgroundImage: '/images/chart-samples/political_compass.png',
         type: 'scatter',
-        borderWidth: 1,
-        borderColor: '#ccc',
-        marginLeft: 100,
-        marginRight: 200,
-        marginBottom: 100,
-        marginTop: 200,
-        width: 700,
-        height: 700,
-        events: {
-          render: function() {
-            var chart = this,
-                xAxis = chart.xAxis[0],
-                yAxis = chart.yAxis[0],
-                labelStyle = {
-                  color: '#333',
-                  fontWeight: 'bold',
-                  fontSize: '12px'
-                };
-
-            // Add label on top of the chart
-            chart.renderer.text('Authoritarian', chart.plotLeft + (chart.plotWidth / 2), chart.plotTop - 20)
-              .attr({
-                align: 'center'
-              })
-              .css(labelStyle)
-              .css({
-                fontSize: '20px' // Adjust the font size of the label
-              })
-              .add();
-
-            // Add label on right side of the chart
-            chart.renderer.text('Right', chart.plotLeft + chart.plotWidth + 50, chart.plotTop + (chart.plotHeight / 2))
-              .attr({
-                align: 'center',
-                rotation: 0
-              })
-              .css(labelStyle)
-              .css({
-                fontSize: '20px' // Adjust the font size of the label
-              })
-              .add();
-
-            // Add label on bottom of the chart
-            chart.renderer.text('Libertarian', chart.plotLeft + (chart.plotWidth / 2), chart.plotTop + chart.plotHeight + 40)
-              .attr({
-                align: 'center'
-              })
-              .css(labelStyle)
-              .css({
-                fontSize: '20px' // Adjust the font size of the label
-              })
-              .add();
-
-            // Add label on left side of the chart
-            chart.renderer.text('Left', chart.plotLeft - 50, chart.plotTop + (chart.plotHeight / 2))
-              .attr({
-                align: 'center',
-                rotation: 0,
-              })
-              .css(labelStyle)
-              .css({
-                fontSize: '20px' // Adjust the font size of the label
-              })
-              .add();
-          }
-        }
       },
       title: {
         text: 'Political Compass Test',
-        margin: 50,
-        y: 80,
-        x: -50,
         style: {
-          fontSize: '40px' // Adjust the font size of the title
+          fontSize: '25px' // Adjust the font size of the title
         }
       },
       subtitle: {
         text: 'https://www.politicalcompass.org/test/',
-        margin: 50,
-        y: 100,
-        x: -50
       },
       credits: {
         enabled: false
     },
     legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
-        x: 10,
-        y: 50,
-        itemMarginBottom: 10,
-        itemStyle: {
-            color: '#000000',
-            fontSize: '16px' // Adjust the font size of the legend items
-        },
-        itemHoverStyle: {
-            color: 'darkorange'
-        },
-        itemMarginLeft: 500,
-        maxHeight: 380,
-        navigation: {
-          activeColor: '#3E576F',
-          animation: true,
-          arrowSize: 12,
-          inactiveColor: '#CCC',
-          style: {
-            fontWeight: 'bold',
-            color: '#333',
-            fontSize: '12px'
-          }
-        }
-      },
+		layout: 'vertical',
+		align: 'right',
+		verticalAlign: 'middle',
+		itemStyle: {
+			color: '#000000',
+			fontSize: '13px' // Adjust the font size of the legend items
+		},
+		itemHoverStyle: {
+			color: 'darkorange'
+		},
+		maxHeight: 380,
+		navigation: {
+		  activeColor: '#3E576F',
+		  animation: true,
+		  arrowSize: 12,
+		  inactiveColor: '#CCC',
+		  style: {
+			fontWeight: 'bold',
+			color: '#333',
+			fontSize: '12px'
+		  }
+		}
+	  },
       
       tooltip: {
         formatter: function() {
@@ -143,55 +67,22 @@ fetch('./database/political_compass_test_logs.csv')
         scatter: {
           marker: {
             symbol: 'circle',
-            radius: 8,
+            radius: 10,
             lineColor: 'white',
             lineWidth: 1
           }
         }
       },
-      xAxis: {
-        title: {
-          text: '',
-          align: 'high',
-          rotation: 0,
-          offset: 0,
-          x: 30,
-          y: -20,
-          style: {
-            fontWeight: 'bold'
-          }
-        },
-        labels: {
-          enabled: false
-        },
-        min: -10,
-        max: 10,
-        tickInterval: 1,
-        minorTickInterval: 1,
-        tickLength: 0,
-        gridLineWidth: 2,
-        minorGridLineWidth: 2,
-        minorTickLength: 0,
-        gridLineColor: '#bebdb2',
-        minorGridLineColor: '#bebdb2',
-        minorGridLineDashStyle: 'line',
-        showLastLabel: false,
-        showFirstLabel: false,
-        lineColor: '#ccc',
-        lineWidth: 0
-      },
-      yAxis: {
-        title: {
-          text: '',
-          align: 'high',
-          rotation: 0,
-          offset: 0,
-          x: 60,
-          y: -10,
-          style: {
-            fontWeight: 'bold'
-          }
-        },
+      xAxis: [{
+		title: {
+			text: 'Libertarian',
+			  rotation: 0,
+			  style: {
+				fontWeight: 'bold',
+				color: '#333',
+				fontSize: '20px'
+			  }
+		},
         labels: {
           enabled: false
         },
@@ -208,14 +99,70 @@ fetch('./database/political_compass_test_logs.csv')
         minorGridLineDashStyle: 'line',
         lineColor: '#ccc',
         lineWidth: 0
-      },
-      exporting: {
-        chartOptions: {
-            chart: {
-                height: 650
-            }
-        }
-    },
+      }, {
+		opposite: true,
+		title: {
+		  text: 'Authoritarian',
+		  rotation: 0,
+			  style: {
+				fontWeight: 'bold',
+				color: '#333',
+				fontSize: '20px'
+			  }
+		}
+	  }],
+      yAxis: [{
+		title: {
+			text: 'Left',
+			rotation: 0,
+				x: -20,
+				y: 0,
+			
+				style: {
+					fontWeight: 'bold',
+					color: '#333',
+					fontSize: '20px'
+				}
+		  },
+        labels: {
+          enabled: false
+        },
+        min: -10,
+        max: 10,
+        tickInterval: 1,
+        minorTickInterval: 1,
+        tickLength: 0,
+        gridLineWidth: 2,
+        minorGridLineWidth: 2,
+        minorTickLength: 0,
+        gridLineColor: '#bebdb2',
+        minorGridLineColor: '#bebdb2',
+        minorGridLineDashStyle: 'line',
+        lineColor: '#ccc',
+        lineWidth: 0
+    }, {
+		opposite: true,
+		title: {
+		  text: 'Right',
+		  rotation: 0,
+			  x: 20,
+			  y: 0,
+		  
+			  style: {
+				fontWeight: 'bold',
+				color: '#333',
+				fontSize: '20px'
+			  }
+		  
+		}
+	  }],
+    //   exporting: {
+    //     chartOptions: {
+    //         chart: {
+    //             height: 650
+    //         }
+    //     }
+    // },
     series: latestData.map(function(row) {
       return {
         name: row.ai_name,
@@ -225,44 +172,122 @@ fetch('./database/political_compass_test_logs.csv')
         }],
         marker: {
           symbol: 'url(' + getMarkerSymbol(row.ai_name) + ')',
-          width: 32,
-          height: 32
+          width: 25,
+          height: 25
         },
         color: getRandomColor()
       };
     }),
     responsive: {
-      rules: [{
-        condition: {
-          maxWidth: 500
-        },
-        // Make the labels less space demanding on mobile
-        chartOptions: {
-          xAxis: {
-            labels: {
-              formatter: function() {
-                return this.value.charAt(0);
-              }
-            }
+        rules: [{
+          condition: {
+            maxWidth: 500
           },
-          yAxis: {
-            labels: {
-              align: 'left',
-              x: 0,
-              y: -2
-            },
-            title: {
-              text: ''
-            }
+          // Make the labels less space demanding on mobile
+          chartOptions: {
+            legend: {
+              align: 'center',
+              verticalAlign: 'bottom',
+              layout: 'horizontal',
+			  maxHeight: 380,
+			  navigation: {
+				activeColor: '#3E576F',
+				animation: true,
+				arrowSize: 12,
+				inactiveColor: '#CCC',
+				style: {
+				  fontWeight: 'bold',
+				  color: '#333',
+				  fontSize: '12px'
+				}
+			  }
           },
-          legend: {
-            align: 'center',
-            verticalAlign: 'bottom',
-            layout: 'horizontal'
-        }
-        }
-      }]
-    }
+		  xAxis: [{
+			title: {
+				text: 'Libertarian',
+				  rotation: 0,
+				  style: {
+					fontWeight: 'bold',
+					color: '#333',
+					fontSize: '15px'
+				  }
+			},
+			labels: {
+			  enabled: false
+			},
+			min: -10,
+			max: 10,
+			tickInterval: 1,
+			minorTickInterval: 1,
+			tickLength: 0,
+			gridLineWidth: 2,
+			minorGridLineWidth: 2,
+			minorTickLength: 0,
+			gridLineColor: '#bebdb2',
+			minorGridLineColor: '#bebdb2',
+			minorGridLineDashStyle: 'line',
+			lineColor: '#ccc',
+			lineWidth: 0
+		  }, {
+			opposite: true,
+			title: {
+			  text: 'Authoritarian',
+			  rotation: 0,
+				  style: {
+					fontWeight: 'bold',
+					color: '#333',
+					fontSize: '15px'
+				  }
+			}
+		  }],
+		  yAxis: [{
+			title: {
+				text: 'Left',
+				rotation: 0,
+					x: -15,
+					y: 0,
+				
+					style: {
+						fontWeight: 'bold',
+						color: '#333',
+						fontSize: '15px'
+					}
+			  },
+			labels: {
+			  enabled: false
+			},
+			min: -10,
+			max: 10,
+			tickInterval: 1,
+			minorTickInterval: 1,
+			tickLength: 0,
+			gridLineWidth: 2,
+			minorGridLineWidth: 2,
+			minorTickLength: 0,
+			gridLineColor: '#bebdb2',
+			minorGridLineColor: '#bebdb2',
+			minorGridLineDashStyle: 'line',
+			lineColor: '#ccc',
+			lineWidth: 0
+		}, {
+			opposite: true,
+			title: {
+			  text: 'Right',
+			  rotation: 0,
+				  x: 15,
+				  y: 0,
+			  
+				  style: {
+					fontWeight: 'bold',
+					color: '#333',
+					fontSize: '15px'
+				  }
+			  
+			}
+		  }],
+          }
+        }]
+      }
   });
   
 });

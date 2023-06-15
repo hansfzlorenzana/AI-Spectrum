@@ -3,7 +3,7 @@
   <html lang="en">
     <head>
       <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>AI Spectrum</title>
       <meta name="description" content="An App That Shows the Political Bias of AIs.">
       <meta name="author" content="Zoren X">
@@ -20,17 +20,22 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
+      <!--  TOP NAVBAR -->
       <nav class="navbar">
         <div class="logo-container">
-          <img src="./images/logo/logo.svg" alt="Logo" class="logo">
+          <a href="#">
+            <img src="./images/logo/logo.svg" alt="Logo" class="logo">
+          </a>
           <span class="app-name">AI-Spectrum</span>
         </div>
         <div class="nav-links">
-          <a href="#">Home</a>
           <a href="https://maximumtruth.substack.com/" target="_blank">Substack</a>
-          <a href="#">About</a>
+          <a href="#">Charts</a>
+          <a href="#footer-id">Contact Me</a>
         </div>
       </nav>
+
+      <!-- HEADER -->
       <div class="header">
         <h1 class="title" style="color:white">AI<span style="color:#FF6363">-</span>SPECTRUM </h1>
         <h2 class="subtitle">Charting the Political Bias of Artificial Intelligence Chatbots</h2>
@@ -38,13 +43,19 @@
           <span>By:</span>
           <a href="https://twitter.com/MaximLott" target="_blank" rel="noopener noreferrer">Maxim Lott</a>
         </div>
+        <div class="social-links-header">
+          <span><a href="https://twitter.com/maximlott" target="_blank"><i class="fa fa-twitter fa-2x"></i></a></span>
+          <span><a href="https://www.instagram.com/maximum_truth/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a></span>
+        </div>
       </div>
+
+      <!-- LAST UPDATED -->
       <div class="displayLastUpdate">
         <b>Charts update daily</b> | Last Updated: <span id="displayLastUpdated"></span>
       </div>
-      <div class="TestChartContainer">
-      <div id="politicalTestChart" class="testChart"></div>
-      </div>
+
+      <!-- CHARTS -->
+      <div id="politicalTestChart" class="testChart" style="width: 600px; height: 500px;"></div>
       
       <div id="dashboard_div">
         <div id="zoom_buttons">
@@ -74,14 +85,17 @@
       </div>
 
       <div class="ai-update" onclick="toggleAIUpdatesContainer('displayAIUpdates')">
-        <span class="show_hide">SHOW LAST UPDATED DATE & TIME FOR EACH AI</span>
+        <span class="show_hide">▼</span>
+        Click to show recent timestamps for each AI
       </div>
       
       <div id="displayAIUpdates">
       </div>
 
+      <!-- FOOTER -->
+
       <footer>
-        <div class="footer">
+        <div id="footer-id" class="footer">
           <p>CONNECT WITH ME</p>
           <div class="social-links">
             <span><a href="https://www.linkedin.com/in/hansfzlorenzana" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a></span>
