@@ -26,6 +26,9 @@ TO ADD:
 - Facebook LLaMA
 - StableLM
 - ChatRWKV
+- T3nsor
+- Writesonic
+
 
 ----------
 CHARTS
