@@ -13,7 +13,7 @@ fetch('./database/political_compass_test_logs.csv')
 
     var chart = Highcharts.chart('politicalTestChart', {
       chart: {
-        plotBackgroundImage: '/images/chart-samples/political_compass.png',
+        plotBackgroundImage: './images/chart-samples/political_compass.png',
         type: 'scatter',
       },
       title: {
