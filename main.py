@@ -27,15 +27,15 @@ start = time.time()  # Measuring time it takes to get all request
 
 # Set-up AIs
 ai_list = [
-    #    'HugChat',
+       'HugChat',
        'Bard',
-    #    'ChatGPT',
-    #    'ChatGPT-4',
+       'ChatGPT',
+       'ChatGPT-4',
     #    'DeepAI',
-    #    'Alpaca-7B',
+       'Alpaca-7B',
     #    'Bing',
-    #    'Claude',
-    #    'Sage',
+       'Claude',
+       'Sage',
     #    'YouChat Free',
     #    'YouChat',
     #    'Forefront'
