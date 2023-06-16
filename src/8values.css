@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+
+  .chartRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .chartContainer {
+    flex-basis: calc(50% - 10px);
+    margin-bottom: 20px;
+  }
+
+  #title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  #subtitle {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  #subtitle a {
+    color: blue;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1024px) {
+    .chartContainer {
+      flex-basis: calc(50% - 10px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .chartContainer {
+      flex-basis: 100%;
+    }
+  }

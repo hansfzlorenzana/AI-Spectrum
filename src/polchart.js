@@ -8,8 +8,11 @@ fetch('./database/political_compass_test_logs.csv')
     var parsedData = Papa.parse(csvData, { header: true });
     var data = parsedData.data;
 
+	// Remove null rows in the csv
+	var aiDataWithoutNull = data.filter(row => Object.values(row).some(value => value !== ""));
+
     // Filter and retrieve the latest rows of each AI
-    var latestData = getLatestRows(data, 'ai_name');
+    var latestData = getLatestRows(aiDataWithoutNull, 'ai_name');
 
     var chart = Highcharts.chart('politicalTestChart', {
       chart: {

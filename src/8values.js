@@ -11,6 +11,8 @@ function loadCSV() {
   }
 
   function createChart(data) {
+
+
     // Define the axis names
     var axisNames = ['Economic Axis:', 'Diplomatic Axis:', 'Civil Axis:', 'Societal Axis:'];
 
@@ -20,7 +22,8 @@ function loadCSV() {
     // Iterate through each AI and extract the latest data
     aiNames.forEach((aiName, index) => {
       var aiData = data.filter(row => row.ai_name === aiName);
-      var latestData = aiData[aiData.length - 1]; // Get the latest data for the AI
+      var aiDataWithoutNull = aiData.filter(row => Object.values(row).some(value => value !== ""));
+      var latestData = aiDataWithoutNull[aiDataWithoutNull.length - 1]; // Get the latest data for the AI
 
       // Extract the axis values and calculate percentages
       var equality = Number(latestData.equality);
@@ -97,6 +100,7 @@ function loadCSV() {
           chart: {
             type: "bar",
             marginLeft: 100,
+            marginBottom: 40,
             marginRight: 100, // Increase the left margin to create more space
             spacingLeft: 0, // Reduce the space on the left side of the chart
             spacingRight: 0, // Reduce the space on the right side of the chart
@@ -134,46 +138,53 @@ function loadCSV() {
                   })
                   .add();
 
-                chart.renderer.text("Civil Axis: ", axis1, axis2*3.1)
+                chart.renderer.text("Civil Axis: ", axis1, axis2*3.0)
                   .css({
                     fontSize: '14px',
                     fontWeight: 'bold'
                   })
                   .add();
 
-                  chart.renderer.text(civilAxis, axis1 + 70, axis2*3.1)
+                  chart.renderer.text(civilAxis, axis1 + 70, axis2*3.0)
                   .css({
                     fontSize: '14px'
                   })
                   .add();
 
-                chart.renderer.text("Societal Axis: ", axis1, axis2*4.2)
+                chart.renderer.text("Societal Axis: ", axis1, axis2*4.0)
                   .css({
                     fontSize: '14px',
                     fontWeight: 'bold'
                   })
                   .add();
 
-                  chart.renderer.text(societalAxis, axis1 + 95, axis2*4.2)
+                  chart.renderer.text(societalAxis, axis1 + 95, axis2*4.0)
                   .css({
                     fontSize: '14px'
                   })
                   .add();
 
-                chart.renderer.text("Closest Match: " + ideology, axis1, axis2*5.3)
+                chart.renderer.text("Closest Match: ", axis1, axis2*5.0)
                   .css({
                     fontSize: '15px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    color: 'red'
                   })
                   .add();
+
+                chart.renderer.text(ideology, axis1 + 110, axis2*5.0)
+                .css({
+                  fontSize: '13px'
+                })
+                .add();
               }
             }
           },
           title: {
-            text: `8Values Chart (${aiName})`
+            text: `${aiName}: ${ideology}`
           },
           subtitle: {
-            text: 'https://www.idrlabs.com/8-values-political/test.php'
+            text: '8Values Poltiical Test'
           },
           xAxis: [{
             lineWidth: 0,
@@ -424,6 +435,7 @@ function loadCSV() {
           exporting: {
             enabled: true
           }
+          
         });
       });
     }
