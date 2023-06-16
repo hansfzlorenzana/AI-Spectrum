@@ -170,6 +170,25 @@ body {
   margin-bottom: 20px;
 }
 
+/* 8VALUES TEST CHART */
+.chartContainer {
+  display: inline-block;
+  width: 49%; /* Adjust the width as needed */
+  margin: 10px; /* Add margin between the containers */
+}
+
+.chartRow::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media (max-width: 768px) {
+  .chartContainer {
+    width: 80%;
+  }
+}
+
 /* POLITICAL COMPASS TEST LINE CHART */
 #filter_options {
   margin: 10px 0;

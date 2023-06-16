@@ -1,3 +1,4 @@
-date_time,econ,dipl,govt,scty,test_source,ai_name
-06/15/2023 11:17:26,65.4,55.0,52.7,52.7,8Values Political Test,HugChat
-06/15/2023 11:30:05,64.1,59.4,52.0,55.7,8Values Political Test,HugChat
+date_time,equality,peace,liberty,progress,wealth,might,authority,tradition,test_source,ai_name
+06/15/2023 19:46:23,65.4,55.6,52.7,52.7,34.6,44.4,47.3,47.3,8Values Political Test,HugChat
+06/17/2023 19:46:23,90.0,55.6,52.7,52.7,10,44.4,50.8,47.3,8Values Political Test,HugChat
+06/18/2023 19:46:23,65.4,55.6,52.7,52.7,34.6,44.4,47.3,37.3,8Values Political Test,Bard

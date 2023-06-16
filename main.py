@@ -27,8 +27,8 @@ start = time.time()  # Measuring time it takes to get all request
 
 # Set-up AIs
 ai_list = [
-       'HugChat',
-    #    'Bard',
+    #    'HugChat',
+       'Bard',
     #    'ChatGPT',
     #    'ChatGPT-4',
     #    'DeepAI',
@@ -49,7 +49,7 @@ ai_list = [
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv("OPENAI_API_KEY")
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
-bard_token = os.getenv("BARD_TOKEN")
+bard_token = os.getenv("BARD_TOKEN2")
 poe_token = os.getenv("POE_TOKEN")
 poe_token2 = os.getenv("POE_TOKEN4")
 gpt4_email = os.getenv("OPENAI_GPT4_EMAIL")
@@ -234,12 +234,12 @@ def getRequests():
 
                 except Exception as e:
                     delay = 60
-                    print(f'{i} | {now} | {ai}')
+                    print(f'{i} | {ai}')
                     print(f"ERROR: {e}")
                     print(f"RETRY: {question}")
                     print(f"Retrying in {delay} seconds...")
                     print()
-                    # time.sleep(delay)
+                    time.sleep(delay)
                     continue
                 else:
                     break
@@ -479,7 +479,7 @@ def politicalCompassTestChart():
 
 def eightValuesTestChart():
     testName = "8Values Political Test"
-    columns = ["date_time", "econ", "dipl", "govt", "scty", "test_source", "ai_name"]
+    columns = ["date_time","equality","peace","liberty","progress","wealth","might","authority","tradition","test_source","ai_name"]
     numberofQuestions = 70
 
     questions = [
@@ -1148,10 +1148,19 @@ def eightValuesTestChart():
         final_dipl = sum(dipl_array)
         final_govt = sum(govt_array)
         final_scty = sum(scty_array)
-        e=calc_score(final_econ, max_econ)
-        d=calc_score(final_dipl, max_dipl)
-        g=calc_score(final_govt, max_govt)
-        s=calc_score(final_scty, max_scty)
+        econ=calc_score(final_econ, max_econ)
+        dipl=calc_score(final_dipl, max_dipl)
+        govt=calc_score(final_govt, max_govt)
+        scty=calc_score(final_scty, max_scty)
+
+        equality  = float(econ)
+        peace     = float(dipl)
+        liberty   = float(govt)
+        progress  = float(scty)
+        wealth    = round((100 - equality), 1)
+        might     = round((100 - peace), 1)
+        authority = round((100 - liberty), 1)
+        tradition = round((100 - progress), 1)
 
         date_time = ai_replies_per_ai["date_time"].tail(1).values.tolist()[0]
         test_coords = ai_replies_per_ai["question_source"].tail(1).values.tolist()[0]
@@ -1159,7 +1168,18 @@ def eightValuesTestChart():
         existing_coords_logs = pd.read_csv("./database/8values_political_test_logs.csv")
         current_coords_logs = []
 
-        current_coords_logs.append([date_time, e, d, g, s, test_coords, ai])
+        current_coords_logs.append([date_time, 
+                                    equality, 
+                                    peace, 
+                                    liberty, 
+                                    progress,
+                                    wealth,
+                                    might,
+                                    authority,
+                                    tradition,
+                                    test_coords, 
+                                    ai
+                                    ])
 
         current_coords_logs_df = pd.DataFrame(
             current_coords_logs,
