@@ -101,7 +101,13 @@ fetch('./database/political_compass_test_logs.csv')
         minorGridLineColor: '#bebdb2',
         minorGridLineDashStyle: 'line',
         lineColor: '#ccc',
-        lineWidth: 0
+        lineWidth: 0,
+		plotLines: [{
+			color: 'black', // Set the color of the plot line
+			width: 4, // Set the width of the plot line
+			value: 0, // Set the position of the plot line at line number 10
+			zIndex: 1 // Set the z-index to bring the plot line above other chart elements
+		  }]
       }, {
 		opposite: true,
 		title: {
@@ -142,7 +148,13 @@ fetch('./database/political_compass_test_logs.csv')
         minorGridLineColor: '#bebdb2',
         minorGridLineDashStyle: 'line',
         lineColor: '#ccc',
-        lineWidth: 0
+        lineWidth: 0,
+		plotLines: [{
+			color: 'black', // Set the color of the plot line
+			width: 4, // Set the width of the plot line
+			value: 0, // Set the position of the plot line at line number 10
+			zIndex: 1 // Set the z-index to bring the plot line above other chart elements
+		  }]
     }, {
 		opposite: true,
 		title: {
