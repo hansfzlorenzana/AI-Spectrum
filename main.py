@@ -15,7 +15,6 @@ from g4f import forefront
 from revChatGPT.V1 import Chatbot as chatgpt4
 from OpenAIAuth import Auth0
 from freeGPT import gpt3 as you3
-from freeGPT import gpt4 as forefront3
 from freeGPT import alpaca_7b as chatllama
 
 import os, sys, time, warnings, pytz, re
@@ -178,11 +177,11 @@ def requestFromAI(question, ai):
         reply = response
         return reply
 
-    elif ai == "YouChat Free":
-        # TODO: Re-add YouChat
+    elif ai == 'YouChat Free':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = you3.Completion.create(prompt=f"{prompt} {question}")
-        reply = response["text"]
+        proxy = "145.239.85.58:9300" # Poland
+        response = you3.Completion.create(prompt=f'{prompt} {question}',chat=[], proxies={"https": "http://" + proxy})
+        reply = response['text']
         return reply
 
 

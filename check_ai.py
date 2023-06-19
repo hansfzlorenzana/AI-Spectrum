@@ -40,7 +40,7 @@ ai_list = ['YouChat',
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv('OPENAI_API_KEY')
 huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
-bard_token = os.getenv('BARD_TOKEN')
+bard_token = os.getenv('BARD_TOKEN2')
 poe_token = os.getenv('POE_TOKEN')
 poe_token2 = os.getenv('POE_TOKEN4')
 gpt4_email = os.getenv('OPENAI_GPT4_EMAIL')
@@ -154,7 +154,8 @@ def requestFromAI(question,ai):
     
     elif ai == 'YouChat Free':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = you3.Completion.create(prompt=f'{prompt} {question}')
+        proxy = "145.239.85.58:9300"
+        response = you3.Completion.create(prompt=f'{prompt} {question}',chat=[], proxies={"https": "http://" + proxy})
         reply = response['text']
         return reply
 
