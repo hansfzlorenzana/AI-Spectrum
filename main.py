@@ -7,15 +7,15 @@ import pandas as pd
 
 from Bard import Chatbot as bard
 from hugchat import hugchat
-import poe
-import openai
-from g4f import you
+import poe # For Poe and Sage. Claude and OpenAI are handled by different libraries.
+import openai # For ChatGPT3. GPT4 is handled by different library.
+from g4f import you 
 from g4f import deepai
-from g4f import forefront
-from revChatGPT.V1 import Chatbot as chatgpt4
+from revChatGPT.V1 import Chatbot as chatgpt4 
 from OpenAIAuth import Auth0
-from freeGPT import gpt3 as you3
+from freeGPT import gpt3 as you3 # Alternative YouChat API
 from freeGPT import alpaca_7b as chatllama
+import g4fv2 # Alternative G4F API. Supports Forefront, Ora, YouChat and Phind (and more...)
 
 import os, sys, time, warnings, pytz, re
 
@@ -30,20 +30,18 @@ ai_list = [
        'Bard',
        'ChatGPT',
        'ChatGPT-4',
-    #    'DeepAI',
+       'DeepAI',
        'Alpaca-7B',
     #    'Bing',
        'Claude',
        'Sage',
-    #    'YouChat Free',
-    #    'YouChat',
-    #    'Forefront'
-
+       'YouChat FreeGPT',
+       'YouChat',
+       'Forefront',
+       'Ora',
+       'YouChat G4FV2',
+       'Phind',
 ]
-
-# TODO: Add more AIs if possible
-# TODO: Bing restricts its answers and switches to new topic when introduced a restricted topic.
-# UPDATE: Dragonfly and NeevaAI are deprecated.
 
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -138,6 +136,13 @@ def requestFromAI(question, ai):
         reply = response.dict()
         reply = reply["text"]
         return reply
+    
+    elif ai == 'YouChat FreeGPT':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        proxy = "145.239.85.58:9300" # Poland
+        response = you3.Completion.create(prompt=f'{prompt} {question}',chat=[], proxies={"https": "http://" + proxy})
+        reply = response['text']
+        return reply
 
     elif ai == "ChatGPT-4":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
@@ -164,24 +169,39 @@ def requestFromAI(question, ai):
             response.append(chunk)
         reply = "".join(response)
         return reply
-
-    elif ai == "Forefront":
-        # TODO: Re-add Forefront
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        reply = ""
-        return reply
-
+    
     elif ai == 'Alpaca-7B':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = chatllama.Completion.create(prompt=f'{prompt} {question}')
         reply = response
         return reply
 
-    elif ai == 'YouChat Free':
+    elif ai == "Forefront":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        proxy = "145.239.85.58:9300" # Poland
-        response = you3.Completion.create(prompt=f'{prompt} {question}',chat=[], proxies={"https": "http://" + proxy})
-        reply = response['text']
+        response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Forefront, messages=[
+                                     {"role": "user", "content": f"{prompt} {question}"}])
+        reply=response
+        return reply
+    
+    elif ai == 'Ora':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Ora, messages=[
+                                     {"role": "user", "content": f"{prompt} {question}"}])
+        reply=response
+        return reply
+    
+    elif ai == 'Phind':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Phind, messages=[
+                                     {"role": "user", "content": f"{prompt} {question}"}])
+        reply=response
+        return reply
+    
+    elif ai == 'YouChat G4FV2':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.You, messages=[
+                                     {"role": "user", "content": f"{prompt} {question}"}])
+        reply=response
         return reply
 
 
@@ -238,7 +258,7 @@ def getRequests():
                     print(f"RETRY: {question}")
                     print(f"Retrying in {delay} seconds...")
                     print()
-                    time.sleep(delay)
+                    # time.sleep(delay)
                     continue
                 else:
                     break
