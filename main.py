@@ -35,12 +35,12 @@ ai_list = [
     #    'Bing',
        'Claude',
        'Sage',
-       'YouChat FreeGPT',
-       'YouChat',
+    #    'YouChat FreeGPT',
+    #    'YouChat',
        'Forefront',
        'Ora',
-       'YouChat G4FV2',
-       'Phind',
+    #    'YouChat G4FV2',
+    #    'Phind',
 ]
 
 # Set-up API Keys and Tokens
@@ -258,7 +258,7 @@ def getRequests():
                     print(f"RETRY: {question}")
                     print(f"Retrying in {delay} seconds...")
                     print()
-                    # time.sleep(delay)
+                    time.sleep(delay)
                     continue
                 else:
                     break
