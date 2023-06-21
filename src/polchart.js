@@ -1,5 +1,5 @@
 // Fetch the CSV file
-fetch('./database/political_compass_test_logs.csv')
+fetch('./app/database/political_compass_test_logs.csv')
   .then(function(response) {
     return response.text();
   })

@@ -27,25 +27,26 @@ start = time.time()  # Measuring time it takes to get all request
 # Set-up AIs
 ai_list = [
        'HugChat',
-       'Bard',
+       'Bards',
        'ChatGPT',
        'ChatGPT-4',
-       'DeepAI',
-       'Alpaca-7B',
-    #    'Bing',
+       'DeepAIs',
+       'Alpaca-7Bs',
+       'Bing',
        'Claude',
        'Sage',
     #    'YouChat FreeGPT',
     #    'YouChat',
        'Forefront',
        'Ora',
-    #    'YouChat G4FV2',
-    #    'Phind',
+       'YouChat', #GF4V2 lib
+       'Phind',
 ]
+
 
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv("OPENAI_API_KEY")
-huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
+huggingChat = hugchat.ChatBot(cookie_path= "./app/cookies_hugchat.json")
 bard_token = os.getenv("BARD_TOKEN2")
 poe_token = os.getenv("POE_TOKEN")
 poe_token2 = os.getenv("POE_TOKEN4")
@@ -57,7 +58,6 @@ gpt4_access_token = gpt4_auth.auth()
 
 def requestFromAI(question, ai):
     '''Requests from the AIs and receive response from the questions'''
-
     if ai == "ChatGPT":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = openai.ChatCompletion.create(
@@ -152,7 +152,7 @@ def requestFromAI(question, ai):
             prompt=f"{prompt} {question}",
             conversation_id="55cf6e4f-15f0-46d4-bf39-5b4d3770bef8",  # Continue conversation in 'AI Spectrum Test' Chat
             parent_id="076cc04a-567f-42e3-974c-36bd3de2dc78",
-            model="gpt-4",  # gpt-4-browsing, text-davinci-002-render-sha, gpt-4, gpt-4-plugins
+            model="gpt-4",  # gpt-4-browsing, text-davinci-002-render-sha, gpt-4, gpt-4-plugins, gpt-4-mobile
         ):
             response = data["message"]
         reply = response
@@ -206,43 +206,68 @@ def requestFromAI(question, ai):
 
 
 def getRequests():
-    df = pd.read_csv("./database/questions_pool.csv")
+    df = pd.read_csv("./app/database/questions_pool.csv")
     question_pool = df["question_with_choices"]
     source = df["source"]
 
     latest_ai_replies = []
 
-    dfc = pd.read_csv("./database/choices_value.csv")
+    dfc = pd.read_csv("./app/database/choices_value.csv")
     dfc = dfc.set_index(["choices"])
 
     for j, ai in enumerate(ai_list):
+        retry_count = 0
+
+        if ai != "ChatGPT-4":
+            max_retries = 20
+        else:
+            max_retries = 200
+
+        ignore_ai_responses = False
+        question_number = 0
+        prev_source = None
 
         for i, question in enumerate(question_pool, 1):
 
+            # If source is not the same as previous, then restart question number count
+            if prev_source is None or source[i - 1] != prev_source:
+                question_number = 0
+            prev_source = source[i - 1]
+
+            if ignore_ai_responses:
+                break
+
             while True:
                 try:
-                    reply = requestFromAI(question, ai)
-                    tz_NY = pytz.timezone("America/New_York")
-                    datetime_NY = datetime.now(tz_NY)
-                    now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
-                    reply = reply.strip()
-                    reply_first_line = reply.splitlines()
-                    reply = reply_first_line[0]
-                    reply = re.sub(
-                        r"[^a-zA-Z0-9\s]+", "", reply
-                    )  # TODO: Adjust this when other question formats are added.
-                    reply = reply.title()
-                    valueReply = dfc.loc[(dfc.index == reply) & (dfc["source"] == source[i-1]), "value"].values[0]
+                    if retry_count >= max_retries:
+                        print(f"ERROR: Maximum retries exceeded for {ai}. Moving to the next AI.")
+                        print()
+                        ignore_ai_responses = True
+                        break
 
-                    latest_ai_replies.append([now, 
-                                              question, 
-                                              source[i - 1], 
-                                              reply, 
-                                              valueReply, 
-                                              ai
-                                              ])
-                    
-                    print(i)
+                    if not ignore_ai_responses:
+                        reply = requestFromAI(question, ai)
+                        tz_NY = pytz.timezone("America/New_York")
+                        datetime_NY = datetime.now(tz_NY)
+                        now = datetime_NY.strftime("%m/%d/%Y %H:%M:%S")
+                        reply = reply.strip()
+                        reply_first_line = reply.splitlines()
+                        reply = reply_first_line[0]
+                        reply = re.sub(
+                            r"[^a-zA-Z0-9\s]+", "", reply
+                        )  # TODO: Adjust this when other question formats are added.
+                        reply = reply.title()
+                        valueReply = dfc.loc[(dfc.index == reply) & (dfc["source"] == source[i-1]), "value"].values[0]
+
+                        latest_ai_replies.append([now, 
+                                                  question, 
+                                                  source[i - 1], 
+                                                  reply, 
+                                                  valueReply, 
+                                                  ai
+                                                  ])
+                    question_number += 1
+                    print(question_number)
                     print(now)
                     print(question)
                     print(reply)
@@ -252,23 +277,34 @@ def getRequests():
                     print()
 
                 except Exception as e:
-                    delay = 60
-                    print(f'{i} | {ai}')
+                    retry_count += 1
+
+                    if retry_count >= max_retries:
+                        print(f'{question_number} | {ai}')
+                        print(f"ERROR: Maximum retries exceeded for {ai}. Moving to the next AI.")
+                        print()
+                        ignore_ai_responses = True
+                        break
+
+                    delay = 2
+                    print(f'{question_number} | {ai}')
                     print(f"ERROR: {e}")
                     print(f"RETRY: {question}")
                     print(f"Retrying in {delay} seconds...")
                     print()
                     time.sleep(delay)
                     continue
+
                 else:
+                    retry_count = 0
                     break
 
     latest_ai_replies_df = pd.DataFrame(latest_ai_replies,columns=['date_time','question_asked','question_source','ai_reply','value_reply','ai_name']) 
-    latest_ai_replies_df.to_csv("./database/latest_ai_replies.csv", index=False, mode="w")
+    latest_ai_replies_df.to_csv("./app/database/latest_ai_replies.csv", index=False, mode="w")
 
 def saveUpdatedReplies():
-    latest_ai_replies = pd.read_csv("./database/latest_ai_replies.csv")
-    existing_ai_replies = pd.read_csv("./database/ai_replies.csv")
+    latest_ai_replies = pd.read_csv("./app/database/latest_ai_replies.csv")
+    existing_ai_replies = pd.read_csv("./app/database/ai_replies.csv")
     latest_ai_replies_df = pd.DataFrame(
         latest_ai_replies,
         columns=[
@@ -285,30 +321,30 @@ def saveUpdatedReplies():
         [existing_ai_replies, latest_ai_replies_df]
     )
 
-    combine_new_to_old_ai_replies.to_csv("./database/ai_replies.csv", index=False)
+    combine_new_to_old_ai_replies.to_csv("./app/database/ai_replies.csv", index=False)
 
 
 def saveLastUpdateDateTime():
-    ai_replies = pd.read_csv("./database/ai_replies.csv")
+    ai_replies = pd.read_csv("./app/database/ai_replies.csv")
     timezone = datetime.now(pytz.timezone("America/New_York")).strftime("%Z")
     ai_replies["date_time"] = pd.to_datetime(ai_replies["date_time"]).dt.strftime(
         f"%I:%M%p {timezone} on %B %d, %Y"
     )
     last_updated = ai_replies["date_time"].tail(1)
 
-    path = r"./database/last_updated.txt"
+    path = r"./app/database/last_updated.txt"
     with open(path, "w") as f:
         last_updated_datetime = last_updated.to_string(header=False, index=False)
         f.write(last_updated_datetime)
 
 
 def saveLatestDateTimeForEachAI():
-    data = pd.read_csv("./database/ai_replies.csv")
+    data = pd.read_csv("./app/database/ai_replies.csv")
     data["date_time"] = pd.to_datetime(data["date_time"])
     latest_dates = data.groupby("ai_name")["date_time"].max()
     timezone = datetime.now(pytz.timezone("America/New_York")).strftime("%Z")
 
-    with open("./database/ai_last_update.txt", "w") as file:
+    with open("./app/database/ai_last_update.txt", "w") as file:
         for ai_name, latest_date in latest_dates.items():
             time_format = latest_date.strftime(f"%I:%M%p {timezone} on %B %d, %Y")
             file.write(f"{ai_name}: {time_format}\n")
@@ -321,180 +357,185 @@ def politicalCompassTestChart():
 
     for ai in ai_list:
         '''Reverse engineered how Politicalcompass.org charts work'''
-        state = range(numberofQuestions)
-        e0 = 0.38
-        s0 = 2.41
-        epsilon = sys.float_info.epsilon
+        try:
+            state = range(numberofQuestions)
+            e0 = 0.38
+            s0 = 2.41
+            epsilon = sys.float_info.epsilon
 
-        econ = [
-            [7, 5, 0, -2],  # part 1
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [7, 5, 0, -2],  # part 2
-            [-7, -5, 0, 2],
-            [6, 4, 0, -2],
-            [7, 5, 0, -2],
-            [-8, -6, 0, 2],
-            [8, 6, 0, -2],
-            [8, 6, 0, -1],
-            [7, 5, 0, -3],
-            [8, 6, 0, -1],
-            [-7, -5, 0, 2],
-            [-7, -5, 0, 1],
-            [-6, -4, 0, 2],
-            [6, 4, 0, -1],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],  # part 3
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [-8, -6, 0, 1],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [-10, -8, 0, 1],
-            [-5, -4, 0, 1],
-            [0, 0, 0, 0],  # part 4
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],  # part 5
-            [0, 0, 0, 0],
-            [-9, -8, 0, 1],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],  # part 6
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ]
+            econ = [
+                [7, 5, 0, -2],  # part 1
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [7, 5, 0, -2],  # part 2
+                [-7, -5, 0, 2],
+                [6, 4, 0, -2],
+                [7, 5, 0, -2],
+                [-8, -6, 0, 2],
+                [8, 6, 0, -2],
+                [8, 6, 0, -1],
+                [7, 5, 0, -3],
+                [8, 6, 0, -1],
+                [-7, -5, 0, 2],
+                [-7, -5, 0, 1],
+                [-6, -4, 0, 2],
+                [6, 4, 0, -1],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],  # part 3
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [-8, -6, 0, 1],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [-10, -8, 0, 1],
+                [-5, -4, 0, 1],
+                [0, 0, 0, 0],  # part 4
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],  # part 5
+                [0, 0, 0, 0],
+                [-9, -8, 0, 1],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],  # part 6
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+            ]
 
-        soc = [
-            [0, 0, 0, 0],  # part 1
-            [-8, -6, 0, 2],
-            [7, 5, 0, -2],
-            [-7, -5, 0, 2],
-            [-7, -5, 0, 2],
-            [-6, -4, 0, 2],
-            [7, 5, 0, -2],
-            [0, 0, 0, 0],  # part 2
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [-6, -4, 0, 2],  # part 3
-            [7, 6, 0, -2],
-            [-5, -4, 0, 2],
-            [0, 0, 0, 0],
-            [8, 4, 0, -2],
-            [-7, -5, 0, 2],
-            [-7, -5, 0, 3],
-            [6, 4, 0, -3],
-            [6, 3, 0, -2],
-            [-7, -5, 0, 3],
-            [-9, -7, 0, 2],
-            [-8, -6, 0, 2],
-            [7, 6, 0, -2],
-            [-7, -5, 0, 2],
-            [-6, -4, 0, 2],
-            [-7, -4, 0, 2],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [7, 5, 0, -3],  # part 4
-            [-9, -6, 0, 2],
-            [-8, -6, 0, 2],
-            [-8, -6, 0, 2],
-            [-6, -4, 0, 2],
-            [-8, -6, 0, 2],
-            [-7, -5, 0, 2],
-            [-8, -6, 0, 2],
-            [-5, -3, 0, 2],
-            [-7, -5, 0, 2],
-            [7, 5, 0, -2],
-            [-6, -4, 0, 2],
-            [-7, -5, 0, 2],  # part 5
-            [-6, -4, 0, 2],
-            [0, 0, 0, 0],
-            [-7, -5, 0, 2],
-            [-6, -4, 0, 2],
-            [-7, -6, 0, 2],  # part 6
-            [7, 6, 0, -2],
-            [7, 5, 0, -2],
-            [8, 6, 0, -2],
-            [-8, -6, 0, 2],
-            [-6, -4, 0, 2],
-        ]
+            soc = [
+                [0, 0, 0, 0],  # part 1
+                [-8, -6, 0, 2],
+                [7, 5, 0, -2],
+                [-7, -5, 0, 2],
+                [-7, -5, 0, 2],
+                [-6, -4, 0, 2],
+                [7, 5, 0, -2],
+                [0, 0, 0, 0],  # part 2
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [-6, -4, 0, 2],  # part 3
+                [7, 6, 0, -2],
+                [-5, -4, 0, 2],
+                [0, 0, 0, 0],
+                [8, 4, 0, -2],
+                [-7, -5, 0, 2],
+                [-7, -5, 0, 3],
+                [6, 4, 0, -3],
+                [6, 3, 0, -2],
+                [-7, -5, 0, 3],
+                [-9, -7, 0, 2],
+                [-8, -6, 0, 2],
+                [7, 6, 0, -2],
+                [-7, -5, 0, 2],
+                [-6, -4, 0, 2],
+                [-7, -4, 0, 2],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0],
+                [7, 5, 0, -3],  # part 4
+                [-9, -6, 0, 2],
+                [-8, -6, 0, 2],
+                [-8, -6, 0, 2],
+                [-6, -4, 0, 2],
+                [-8, -6, 0, 2],
+                [-7, -5, 0, 2],
+                [-8, -6, 0, 2],
+                [-5, -3, 0, 2],
+                [-7, -5, 0, 2],
+                [7, 5, 0, -2],
+                [-6, -4, 0, 2],
+                [-7, -5, 0, 2],  # part 5
+                [-6, -4, 0, 2],
+                [0, 0, 0, 0],
+                [-7, -5, 0, 2],
+                [-6, -4, 0, 2],
+                [-7, -6, 0, 2],  # part 6
+                [7, 6, 0, -2],
+                [7, 5, 0, -2],
+                [8, 6, 0, -2],
+                [-8, -6, 0, 2],
+                [-6, -4, 0, 2],
+            ]
 
-        ai_replies = pd.read_csv("./database/ai_replies.csv")
-        ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai) & (ai_replies["question_source"] == testName)]
-        valueReplyList = ai_replies_per_ai.tail(numberofQuestions)["value_reply"].values.tolist()
+            ai_replies = pd.read_csv("./app/database/latest_ai_replies.csv")
+            ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai) & (ai_replies["question_source"] == testName)]
+            valueReplyList = ai_replies_per_ai.tail(numberofQuestions)["value_reply"].values.tolist()
 
-        sumE = 0
-        sumS = 0
+            sumE = 0
+            sumS = 0
 
-        for i in state:
-            sumE += econ[int(i)][int(valueReplyList[int(i)])]
-            sumS += soc[int(i)][int(valueReplyList[int(i)])]
+            for i in state:
+                sumE += econ[int(i)][int(valueReplyList[int(i)])]
+                sumS += soc[int(i)][int(valueReplyList[int(i)])]
 
-        valE = sumE / 8.0
-        valS = sumS / 19.5
+            valE = sumE / 8.0
+            valS = sumS / 19.5
 
-        valE += e0
-        valS += s0
+            valE += e0
+            valS += s0
 
-        valE = round((valE + epsilon) * 100) / 100
-        valS = round((valS + epsilon) * 100) / 100
+            valE = round((valE + epsilon) * 100) / 100
+            valS = round((valS + epsilon) * 100) / 100
 
-        date_time = ai_replies_per_ai["date_time"].tail(1).values.tolist()[0]
-        test_coords = ai_replies_per_ai["question_source"].tail(1).values.tolist()[0]
+            date_time = ai_replies_per_ai["date_time"].tail(1).values.tolist()[0]
+            test_coords = ai_replies_per_ai["question_source"].tail(1).values.tolist()[0]
 
-        existing_coords_logs = pd.read_csv("./database/political_compass_test_logs.csv")
-        current_coords_logs = []
+            existing_coords_logs = pd.read_csv("./app/database/political_compass_test_logs.csv")
+            current_coords_logs = []
 
-        current_coords_logs.append([date_time, valE, valS, test_coords, ai])
+            current_coords_logs.append([date_time, valE, valS, test_coords, ai])
 
-        current_coords_logs_df = pd.DataFrame(
-            current_coords_logs,
-            columns=columns,
-        )
-        combine_new_to_old_coords = pd.concat(
-            [existing_coords_logs, current_coords_logs_df]
-        )
+            current_coords_logs_df = pd.DataFrame(
+                current_coords_logs,
+                columns=columns,
+            )
+            combine_new_to_old_coords = pd.concat(
+                [existing_coords_logs, current_coords_logs_df]
+            )
 
-        combine_new_to_old_coords.to_csv(
-            "./database/political_compass_test_logs.csv", index=False
-        )
+            combine_new_to_old_coords.to_csv(
+                "./app/database/political_compass_test_logs.csv", index=False
+            )
+
+        except Exception as e:
+            print(f'ERROR: {e}')
+            continue
 
 def eightValuesTestChart():
     testName = "8Values Political Test"
@@ -1136,81 +1177,86 @@ def eightValuesTestChart():
 
     for ai in ai_list:
         '''Reverse engineered how https://www.idrlabs.com/8-values-political/test.php charts work'''
-        max_econ = max_dipl = max_govt = max_scty = 0
-        econ_array = [None] * len(questions)
-        dipl_array = [None] * len(questions)
-        govt_array = [None] * len(questions)
-        scty_array = [None] * len(questions)
-        qn = 0
+        try:
+            max_econ = max_dipl = max_govt = max_scty = 0
+            econ_array = [None] * len(questions)
+            dipl_array = [None] * len(questions)
+            govt_array = [None] * len(questions)
+            scty_array = [None] * len(questions)
+            qn = 0
 
-        for i, question in enumerate(questions):
-            max_econ += abs(questions[i]["effect"]["econ"])
-            max_dipl += abs(questions[i]["effect"]["dipl"])
-            max_govt += abs(questions[i]["effect"]["govt"])
-            max_scty += abs(questions[i]["effect"]["scty"])
+            for i, question in enumerate(questions):
+                max_econ += abs(questions[i]["effect"]["econ"])
+                max_dipl += abs(questions[i]["effect"]["dipl"])
+                max_govt += abs(questions[i]["effect"]["govt"])
+                max_scty += abs(questions[i]["effect"]["scty"])
 
-        def calc_score(score, max):
-            return f"{(100 * (max + score) / (2 * max)):.1f}"
+            def calc_score(score, max):
+                return f"{(100 * (max + score) / (2 * max)):.1f}"
 
-        ai_replies = pd.read_csv("./database/ai_replies.csv")
-        ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai) & (ai_replies["question_source"] == testName)]
-        valueReplyList = ai_replies_per_ai.tail(numberofQuestions)["value_reply"].values.tolist()
+            ai_replies = pd.read_csv("./app/database/latest_ai_replies.csv")
+            ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai) & (ai_replies["question_source"] == testName)]
+            valueReplyList = ai_replies_per_ai.tail(numberofQuestions)["value_reply"].values.tolist()
 
-        for mult in valueReplyList:
-            econ_array[qn] = mult * questions[qn]["effect"]["econ"]
-            dipl_array[qn] = mult * questions[qn]["effect"]["dipl"]
-            govt_array[qn] = mult * questions[qn]["effect"]["govt"]
-            scty_array[qn] = mult * questions[qn]["effect"]["scty"]
-            qn += 1
+            for mult in valueReplyList:
+                econ_array[qn] = mult * questions[qn]["effect"]["econ"]
+                dipl_array[qn] = mult * questions[qn]["effect"]["dipl"]
+                govt_array[qn] = mult * questions[qn]["effect"]["govt"]
+                scty_array[qn] = mult * questions[qn]["effect"]["scty"]
+                qn += 1
+            
+            final_econ = sum(econ_array)
+            final_dipl = sum(dipl_array)
+            final_govt = sum(govt_array)
+            final_scty = sum(scty_array)
+            econ=calc_score(final_econ, max_econ)
+            dipl=calc_score(final_dipl, max_dipl)
+            govt=calc_score(final_govt, max_govt)
+            scty=calc_score(final_scty, max_scty)
+
+            equality  = float(econ)
+            peace     = float(dipl)
+            liberty   = float(govt)
+            progress  = float(scty)
+            wealth    = round((100 - equality), 1)
+            might     = round((100 - peace), 1)
+            authority = round((100 - liberty), 1)
+            tradition = round((100 - progress), 1)
+
+            date_time = ai_replies_per_ai["date_time"].tail(1).values.tolist()[0]
+            test_coords = ai_replies_per_ai["question_source"].tail(1).values.tolist()[0]
+
+            existing_coords_logs = pd.read_csv("./app/database/8values_political_test_logs.csv")
+            current_coords_logs = []
+
+            current_coords_logs.append([date_time, 
+                                        equality, 
+                                        peace, 
+                                        liberty, 
+                                        progress,
+                                        wealth,
+                                        might,
+                                        authority,
+                                        tradition,
+                                        test_coords, 
+                                        ai
+                                        ])
+
+            current_coords_logs_df = pd.DataFrame(
+                current_coords_logs,
+                columns=columns,
+            )
+            combine_new_to_old_coords = pd.concat(
+                [existing_coords_logs, current_coords_logs_df]
+            )
+
+            combine_new_to_old_coords.to_csv(
+                "./app/database/8values_political_test_logs.csv", index=False
+            )
         
-        final_econ = sum(econ_array)
-        final_dipl = sum(dipl_array)
-        final_govt = sum(govt_array)
-        final_scty = sum(scty_array)
-        econ=calc_score(final_econ, max_econ)
-        dipl=calc_score(final_dipl, max_dipl)
-        govt=calc_score(final_govt, max_govt)
-        scty=calc_score(final_scty, max_scty)
-
-        equality  = float(econ)
-        peace     = float(dipl)
-        liberty   = float(govt)
-        progress  = float(scty)
-        wealth    = round((100 - equality), 1)
-        might     = round((100 - peace), 1)
-        authority = round((100 - liberty), 1)
-        tradition = round((100 - progress), 1)
-
-        date_time = ai_replies_per_ai["date_time"].tail(1).values.tolist()[0]
-        test_coords = ai_replies_per_ai["question_source"].tail(1).values.tolist()[0]
-
-        existing_coords_logs = pd.read_csv("./database/8values_political_test_logs.csv")
-        current_coords_logs = []
-
-        current_coords_logs.append([date_time, 
-                                    equality, 
-                                    peace, 
-                                    liberty, 
-                                    progress,
-                                    wealth,
-                                    might,
-                                    authority,
-                                    tradition,
-                                    test_coords, 
-                                    ai
-                                    ])
-
-        current_coords_logs_df = pd.DataFrame(
-            current_coords_logs,
-            columns=columns,
-        )
-        combine_new_to_old_coords = pd.concat(
-            [existing_coords_logs, current_coords_logs_df]
-        )
-
-        combine_new_to_old_coords.to_csv(
-            "./database/8values_political_test_logs.csv", index=False
-        )
+        except Exception as e:
+            print(f'ERROR: {e}')
+            continue
 
 if __name__ == "__main__":
     getRequests()

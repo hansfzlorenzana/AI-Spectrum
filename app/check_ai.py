@@ -43,9 +43,11 @@ ai_list = [
        'Phind'
 ]
 
+APP_PATH = "./app/"
+
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv("OPENAI_API_KEY")
-huggingChat = hugchat.ChatBot(cookie_path="cookies_hugchat.json")
+huggingChat = hugchat.ChatBot(cookie_path= APP_PATH + "cookies_hugchat.json")
 bard_token = os.getenv("BARD_TOKEN2")
 poe_token = os.getenv("POE_TOKEN")
 poe_token2 = os.getenv("POE_TOKEN4")

@@ -1,7 +1,7 @@
 
 
 function loadCSV() {
-    Papa.parse("./database/8values_political_test_logs.csv", {
+    Papa.parse("./app/database/8values_political_test_logs.csv", {
       download: true,
       header: true,
       complete: function(results) {

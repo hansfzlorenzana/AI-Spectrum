@@ -1,8 +1,8 @@
 Alpaca-7B: 03:45AM EDT on June 15, 2023
-Bard: 05:23AM EDT on June 14, 2023
-ChatGPT: 09:09PM EDT on June 13, 2023
+Bard: 11:18PM EDT on June 20, 2023
+ChatGPT: 12:54AM EDT on June 21, 2023
 ChatGPT-4: 06:25AM EDT on June 14, 2023
 Claude: 11:59PM EDT on June 06, 2023
-HugChat: 11:01AM EDT on June 16, 2023
+HugChat: 12:54AM EDT on June 21, 2023
 Sage: 02:12AM EDT on June 07, 2023
 YouChat: 10:47PM EDT on June 04, 2023

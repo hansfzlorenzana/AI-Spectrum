@@ -9,7 +9,7 @@ google.charts.load('current', {
         csvHasHeader: true
     };
   
-    var query = new google.visualization.Query('./database/political_compass_test_logs.csv', queryOptions);
+    var query = new google.visualization.Query('./app/database/political_compass_test_logs.csv', queryOptions);
     query.send(handleQueryResponse);
   
   }

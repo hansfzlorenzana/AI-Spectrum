@@ -11,7 +11,7 @@ window.addEventListener('scroll', function() {
 
 // Last Updated
 var request = new XMLHttpRequest();
-request.open('GET', './database/last_updated.txt', false);
+request.open('GET', './app/database/last_updated.txt', false);
 request.send();
 var textFileContent = request.responseText
 document.getElementById("displayLastUpdated").innerHTML = textFileContent;
@@ -25,7 +25,7 @@ function autoRefresh() {
 }
 
 // Last Updated for each AI
-fetch('./database/ai_last_update.txt')
+fetch('./app/database/ai_last_update.txt')
     .then(response => response.text())
     .then(data => {
         const updateContainer = document.getElementById('displayAIUpdates');
