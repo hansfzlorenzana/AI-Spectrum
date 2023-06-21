@@ -148,7 +148,7 @@ def requestFromAI(question, ai):
             prompt=f"{prompt} {question}",
             conversation_id="55cf6e4f-15f0-46d4-bf39-5b4d3770bef8",  # Continue conversation in 'AI Spectrum Test' Chat
             parent_id="076cc04a-567f-42e3-974c-36bd3de2dc78",
-            model="gpt-4",  # gpt-4-browsing, text-davinci-002-render-sha, gpt-4, gpt-4-plugins
+            model="gpt-4-mobile",  # gpt-4-browsing, text-davinci-002-render-sha, gpt-4, gpt-4-plugins, gpt-4-mobile
         ):
             response = data["message"]
         reply = response
