@@ -43,10 +43,12 @@ ai_list = [
        'Phind',
 ]
 
+APP_PATH = os.path.dirname(os.path.abspath(__file__)) + "/"
+DB_PATH = APP_PATH + "/database/"
 
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv("OPENAI_API_KEY")
-huggingChat = hugchat.ChatBot(cookie_path= "./app/cookies_hugchat.json")
+huggingChat = hugchat.ChatBot(cookie_path= APP_PATH + "cookies_hugchat.json")
 bard_token = os.getenv("BARD_TOKEN2")
 poe_token = os.getenv("POE_TOKEN")
 poe_token2 = os.getenv("POE_TOKEN4")
@@ -206,13 +208,13 @@ def requestFromAI(question, ai):
 
 
 def getRequests():
-    df = pd.read_csv("./app/database/questions_pool.csv")
+    df = pd.read_csv(DB_PATH +"questions_pool.csv")
     question_pool = df["question_with_choices"]
     source = df["source"]
 
     latest_ai_replies = []
 
-    dfc = pd.read_csv("./app/database/choices_value.csv")
+    dfc = pd.read_csv(DB_PATH + "choices_value.csv")
     dfc = dfc.set_index(["choices"])
 
     for j, ai in enumerate(ai_list):
@@ -300,11 +302,11 @@ def getRequests():
                     break
 
     latest_ai_replies_df = pd.DataFrame(latest_ai_replies,columns=['date_time','question_asked','question_source','ai_reply','value_reply','ai_name']) 
-    latest_ai_replies_df.to_csv("./app/database/latest_ai_replies.csv", index=False, mode="w")
+    latest_ai_replies_df.to_csv(DB_PATH + "latest_ai_replies.csv", index=False, mode="w")
 
 def saveUpdatedReplies():
-    latest_ai_replies = pd.read_csv("./app/database/latest_ai_replies.csv")
-    existing_ai_replies = pd.read_csv("./app/database/ai_replies.csv")
+    latest_ai_replies = pd.read_csv(DB_PATH + "latest_ai_replies.csv")
+    existing_ai_replies = pd.read_csv(DB_PATH + "ai_replies.csv")
     latest_ai_replies_df = pd.DataFrame(
         latest_ai_replies,
         columns=[
@@ -321,30 +323,30 @@ def saveUpdatedReplies():
         [existing_ai_replies, latest_ai_replies_df]
     )
 
-    combine_new_to_old_ai_replies.to_csv("./app/database/ai_replies.csv", index=False)
+    combine_new_to_old_ai_replies.to_csv(DB_PATH + "ai_replies.csv", index=False)
 
 
 def saveLastUpdateDateTime():
-    ai_replies = pd.read_csv("./app/database/ai_replies.csv")
+    ai_replies = pd.read_csv(DB_PATH + "ai_replies.csv")
     timezone = datetime.now(pytz.timezone("America/New_York")).strftime("%Z")
     ai_replies["date_time"] = pd.to_datetime(ai_replies["date_time"]).dt.strftime(
         f"%I:%M%p {timezone} on %B %d, %Y"
     )
     last_updated = ai_replies["date_time"].tail(1)
 
-    path = r"./app/database/last_updated.txt"
+    path = DB_PATH + "last_updated.txt"
     with open(path, "w") as f:
         last_updated_datetime = last_updated.to_string(header=False, index=False)
         f.write(last_updated_datetime)
 
 
 def saveLatestDateTimeForEachAI():
-    data = pd.read_csv("./app/database/ai_replies.csv")
+    data = pd.read_csv(DB_PATH + "ai_replies.csv")
     data["date_time"] = pd.to_datetime(data["date_time"])
     latest_dates = data.groupby("ai_name")["date_time"].max()
     timezone = datetime.now(pytz.timezone("America/New_York")).strftime("%Z")
 
-    with open("./app/database/ai_last_update.txt", "w") as file:
+    with open(DB_PATH + "ai_last_update.txt", "w") as file:
         for ai_name, latest_date in latest_dates.items():
             time_format = latest_date.strftime(f"%I:%M%p {timezone} on %B %d, %Y")
             file.write(f"{ai_name}: {time_format}\n")
@@ -493,7 +495,7 @@ def politicalCompassTestChart():
                 [-6, -4, 0, 2],
             ]
 
-            ai_replies = pd.read_csv("./app/database/latest_ai_replies.csv")
+            ai_replies = pd.read_csv(DB_PATH + "latest_ai_replies.csv")
             ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai) & (ai_replies["question_source"] == testName)]
             valueReplyList = ai_replies_per_ai.tail(numberofQuestions)["value_reply"].values.tolist()
 
@@ -516,7 +518,7 @@ def politicalCompassTestChart():
             date_time = ai_replies_per_ai["date_time"].tail(1).values.tolist()[0]
             test_coords = ai_replies_per_ai["question_source"].tail(1).values.tolist()[0]
 
-            existing_coords_logs = pd.read_csv("./app/database/political_compass_test_logs.csv")
+            existing_coords_logs = pd.read_csv(DB_PATH + "political_compass_test_logs.csv")
             current_coords_logs = []
 
             current_coords_logs.append([date_time, valE, valS, test_coords, ai])
@@ -530,7 +532,7 @@ def politicalCompassTestChart():
             )
 
             combine_new_to_old_coords.to_csv(
-                "./app/database/political_compass_test_logs.csv", index=False
+                DB_PATH + "political_compass_test_logs.csv", index=False
             )
 
         except Exception as e:
@@ -1194,7 +1196,7 @@ def eightValuesTestChart():
             def calc_score(score, max):
                 return f"{(100 * (max + score) / (2 * max)):.1f}"
 
-            ai_replies = pd.read_csv("./app/database/latest_ai_replies.csv")
+            ai_replies = pd.read_csv(DB_PATH + "latest_ai_replies.csv")
             ai_replies_per_ai = ai_replies[(ai_replies["ai_name"] == ai) & (ai_replies["question_source"] == testName)]
             valueReplyList = ai_replies_per_ai.tail(numberofQuestions)["value_reply"].values.tolist()
 
@@ -1226,7 +1228,7 @@ def eightValuesTestChart():
             date_time = ai_replies_per_ai["date_time"].tail(1).values.tolist()[0]
             test_coords = ai_replies_per_ai["question_source"].tail(1).values.tolist()[0]
 
-            existing_coords_logs = pd.read_csv("./app/database/8values_political_test_logs.csv")
+            existing_coords_logs = pd.read_csv(DB_PATH + "8values_political_test_logs.csv")
             current_coords_logs = []
 
             current_coords_logs.append([date_time, 
@@ -1251,7 +1253,7 @@ def eightValuesTestChart():
             )
 
             combine_new_to_old_coords.to_csv(
-                "./app/database/8values_political_test_logs.csv", index=False
+                DB_PATH + "8values_political_test_logs.csv", index=False
             )
         
         except Exception as e:

@@ -43,7 +43,7 @@ ai_list = [
        'Phind'
 ]
 
-APP_PATH = "./app/"
+APP_PATH = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv("OPENAI_API_KEY")
