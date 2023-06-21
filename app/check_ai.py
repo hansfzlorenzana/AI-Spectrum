@@ -186,7 +186,7 @@ def requestFromAI(question, ai):
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Phind, messages=[
                                      {"role": "user", "content": f"{prompt} {question}"}])
-        reply=response
+        reply=response.strip("\n")
         return reply
     
     elif ai == 'YouChat G4FV2':

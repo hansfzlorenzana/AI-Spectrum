@@ -26,20 +26,20 @@ start = time.time()  # Measuring time it takes to get all request
 
 # Set-up AIs
 ai_list = [
-       'HugChat',
-       'Bards',
+    #    'HugChat',
+       'Bard',
        'ChatGPT',
        'ChatGPT-4',
-       'DeepAIs',
-       'Alpaca-7Bs',
+       'DeepAI',
+       'Alpaca-7B',
        'Bing',
        'Claude',
        'Sage',
-    #    'YouChat FreeGPT',
+       'YouChat FreeGPT',
     #    'YouChat',
        'Forefront',
        'Ora',
-       'YouChat', #GF4V2 lib
+    #    'YouChat', #GF4V2 lib
        'Phind',
 ]
 
@@ -196,7 +196,7 @@ def requestFromAI(question, ai):
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Phind, messages=[
                                      {"role": "user", "content": f"{prompt} {question}"}])
-        reply=response
+        reply=response.strip("\n")
         return reply
     
     elif ai == 'YouChat G4FV2':
@@ -288,7 +288,7 @@ def getRequests():
                         ignore_ai_responses = True
                         break
 
-                    delay = 2
+                    delay = 60
                     print(f'{question_number} | {ai}')
                     print(f"ERROR: {e}")
                     print(f"RETRY: {question}")

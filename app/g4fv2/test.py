@@ -1,10 +1,10 @@
-import g4f
+import g4fv2
 
 question = "\"If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations.\" Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
 prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
 
 # Set with provider
-response = g4f.ChatCompletion.create(model='gpt-3.5-turbo', provider=g4f.Provider.Forefront, messages=[
+response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Phind, messages=[
                                      {"role": "user", "content": f"{prompt} {question}"}])
 
 for message in response:
