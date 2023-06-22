@@ -37,7 +37,7 @@ fetch('./app/database/political_compass_test_logs.csv')
 		verticalAlign: 'middle',
 		itemStyle: {
 			color: '#000000',
-			fontSize: '13px' // Adjust the font size of the legend items
+			fontSize: '17px' // Adjust the font size of the legend items
 		},
 		itemHoverStyle: {
 			color: 'darkorange'
@@ -187,8 +187,8 @@ fetch('./app/database/political_compass_test_logs.csv')
         }],
         marker: {
           symbol: 'url(' + getMarkerSymbol(row.ai_name) + ')',
-          width: 25,
-          height: 25
+          width: 30,
+          height: 30
         },
         color: getRandomColor()
       };
@@ -205,6 +205,10 @@ fetch('./app/database/political_compass_test_logs.csv')
               verticalAlign: 'bottom',
               layout: 'horizontal',
 			  maxHeight: 380,
+			  itemStyle: {
+				color: '#000000',
+				fontSize: '12px' // Adjust the font size of the legend items
+				},
 			  navigation: {
 				activeColor: '#3E576F',
 				animation: true,

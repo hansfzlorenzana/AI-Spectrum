@@ -161,6 +161,21 @@ body {
   margin-bottom: 20px;
 }
 
+#choose-chart {
+  /* CSS properties for the button */
+  color: black;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+#choose-chart:hover {
+  /* CSS properties for the button when hovered */
+  background-color: lightblue;
+  color: black;
+}
+
+
 /* POLITICAL COMPASS TEST CHART */
 
 #politicalTestChart {

@@ -17,6 +17,7 @@
       <link rel="icon" href="./images/logo/logo.svg" type="image/svg+xml">
       <link rel="apple-touch-icon" href="./images/logo/logo.png">
       <link rel="stylesheet" href="./src/styles.css">
+      <link rel="stylesheet" type="text/css" href="./src/8values.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
@@ -54,40 +55,34 @@
         <b>Charts update daily</b> | Last Updated: <span id="displayLastUpdated"></span>
       </div>
 
-      <button id="choose-chart" class="8valuesChart" onclick="window.location.href='8values.html'" >VIEW NEW CHART: 8VALUES</button>
+      <button id="choose-chart" class="8valuesChart" onclick="window.location.href='index.html'" > BACK TO POLITICAL COMPASS TEST</button>
 
       <!-- CHARTS -->
-      <div id="politicalTestChart" class="testChart" style="width: 600px; height: 500px;"></div>
-      
-      <div id="dashboard_div">
-        <div id="zoom_buttons">
-          <button id="zoom-last-day" class="zoom-button zoom-button-last-day">Last Day</button>
-          <button id="zoom-last-week" class="zoom-button zoom-button-last-week">Last Week</button>
-          <button id="zoom-last-month" class="zoom-button zoom-button-last-month">Last Month</button>
-          <button id="zoom-max" class="zoom-button zoom-button-max">&#128269; MAX</button>
-        </div>
-        <div id="filter_options">
-          <select id="filter-select">
-            <option value="Reset">Select AI</option>
-            <option value="ChatGPT">ChatGPT (OpenAI)</option>
-            <option value="Bard">Bard (Google)</option>
-            <option value="HugChat">HugChat (HuggingFace)</option>
-            <option value="Claude">Claude (Anthropic)</option>
-            <option value="Sage">Sage (Claude)</option>
-            <option value="ChatGPT-4">ChatGPT-4 (OpenAI)</option>
-            <option value="YouChat">YouChat (YouCom)</option>
-            <option value="DeepAI">Deep AI Chat (DeepAI)</option>
-            <option value="Alpaca-7B">Alpaca 7B (Stanford)</option>
-            <option value="Forefront">Forefront Chat(Forefront)</option>
-            <option value="Ora">Ora (Ora.ai)</option>
-            <option value="Phind">Phind (Phind)</option>
-            <option value="Bing">Bing (Microsoft) - not active yet</option>
-            <option value="LLaMA">LLaMA (Meta) - not active yet</option>
-          </select>
-          <button id="filter-reset">Reset</button>
-        </div>
-        <div id="chart_div" class="chart"></div>
-        <div id="control_div" class="chart"></div>
+      <div id="title">8Values Political Test</div>
+      <div id="subtitle"><a href="https://www.idrlabs.com/8-values-political/test.php">https://www.idrlabs.com/8-values-political/test.php</a></div>
+    
+      <!-- Container for the chart -->
+      <div id="chartContainer"></div>
+      <div class="chartRow">
+        <div class="chartContainer" id="chartContainer-HugChat"></div>
+        <div class="chartContainer" id="chartContainer-Bard"></div>
+      </div>
+      <div class="chartRow">
+        <div class="chartContainer" id="chartContainer-ChatGPT"></div>
+        <div class="chartContainer" id="chartContainer-ChatGPT-4"></div>
+      </div>
+      <div class="chartRow">
+        <div class="chartContainer" id="chartContainer-Sage"></div>
+        <div class="chartContainer" id="chartContainer-Claude"></div>
+      </div>
+      <div class="chartRow">
+        <div class="chartContainer" id="chartContainer-DeepAI"></div>
+        <div class="chartContainer" id="chartContainer-YouChat"></div>
+      </div>
+      <div class="chartRow">
+        <div class="chartContainer" id="chartContainer-Alpaca-7B"></div>
+        <div class="chartContainer" id="chartContainer-Forefront"></div>
+      </div>
       </div>
 
       <div class="ai-update" onclick="toggleAIUpdatesContainer('displayAIUpdates')">
@@ -112,18 +107,17 @@
         </div>
       </footer>
       
-      <script src="https://www.gstatic.com/charts/loader.js"></script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="./src/polchartLine.js"></script>
-
-      <script src="./src/script.js"></script>
-
-      <script src="https://code.highcharts.com/highcharts.js"></script>
-      <script src="https://code.highcharts.com/modules/data.js"></script>
-      <script src="https://code.highcharts.com/modules/exporting.js"></script>
-      <script src="https://code.highcharts.com/modules/export-data.js"></script>
-      <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0"></script>
-      <script src="./src/polchart.js"></script>
+  <!-- Script section -->
+  <!-- Include Highcharts.js library -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <!-- Include Highcharts Data module -->
+  <script src="https://code.highcharts.com/modules/data.js"></script>
+  <!-- Include Highcharts CSV module -->
+  <script src="https://code.highcharts.com/modules/series-label.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0"></script>
+  <script src="./src/8values.js"></script>
+  <script src="./src/script.js"></script>
     </body>
   </html>

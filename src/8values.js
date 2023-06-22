@@ -164,27 +164,34 @@ function loadCSV() {
                   })
                   .add();
 
-                chart.renderer.text("Closest Match: ", axis1, axis2*5.0)
-                  .css({
-                    fontSize: '15px',
-                    fontWeight: 'bold',
-                    color: 'red'
-                  })
-                  .add();
+                // chart.renderer.text("Closest Match: ", axis1, axis2*5.0)
+                //   .css({
+                //     fontSize: '15px',
+                //     fontWeight: 'bold',
+                //     color: 'red'
+                //   })
+                //   .add();
 
-                chart.renderer.text(ideology, axis1 + 110, axis2*5.0)
-                .css({
-                  fontSize: '13px'
-                })
-                .add();
+                // chart.renderer.text(ideology, axis1 + 110, axis2*5.0)
+                // .css({
+                //   fontSize: '13px'
+                // })
+                // .add();
               }
             }
           },
           title: {
-            text: `${aiName}: ${ideology}`
+            text: `${aiName}: ${ideology}`,
+            useHTML: true,
+            text: `${aiName} ` + '<img src="./images/ai-icons/'+`${aiName}`+'.png" style="vertical-align: top; height: 20px; margin-right: 10px;">',
+            align: 'center'
           },
           subtitle: {
-            text: '8Values Poltiical Test'
+            useHTML: true,
+            text: '<a style="font-weight: bold">Closest Match: <a/>'+`${ideology}`,
+            style: {
+              fontSize: '14px'
+            }
           },
           xAxis: [{
             lineWidth: 0,
