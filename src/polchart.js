@@ -16,6 +16,31 @@ fetch('./app/database/political_compass_test_logs.csv')
 		// Filter and retrieve the latest rows of each AI
 		var latestData = getLatestRows(aiDataWithoutNull, 'ai_name');
 
+		var defaultNames = [
+			"ChatGPT",
+			"ChatGPT-4",
+			"Bard",
+			"Bing",
+			"Claude",
+			"HugChat"
+		];
+
+		latestData.sort(function(a, b) {
+			var aVisible = defaultNames.includes(a.ai_name);
+			var bVisible = defaultNames.includes(b.ai_name);
+		
+			// Sort by visibility
+			if (aVisible && !bVisible) {
+				return -1;
+			} else if (!aVisible && bVisible) {
+				return 1;
+			}
+		
+			// Sort alphabetically if visibility is the same
+			return a.ai_name.localeCompare(b.ai_name);
+		});
+		
+		
 		var chart = Highcharts.chart('politicalTestChart', {
 			chart: {
 				plotBackgroundImage: './images/chart-samples/political_compass.png',
@@ -37,12 +62,10 @@ fetch('./app/database/political_compass_test_logs.csv')
 				layout: 'vertical',
 				align: 'right',
 				verticalAlign: 'middle',
-				itemStyle: {
-					color: '#000000',
-					fontSize: '17px' // Adjust the font size of the legend items
-				},
 				itemHoverStyle: {
-					color: 'darkorange'
+					color: 'darkorange',
+					cursor: 'auto',
+					radius: 20
 				},
 				maxHeight: 300,
 				navigation: {
@@ -56,39 +79,9 @@ fetch('./app/database/political_compass_test_logs.csv')
 						fontSize: '13px'
 					}
 				},
-				labelFormatter: function() {
-					var disabledByDefault = [
-						"ChatGPT",
-						"ChatGPT-4",
-						"Bard",
-						"Bing",
-						"Claude",
-						"HugChat"
-					];
-
-					// Disable legend items by default
-					if (!disabledByDefault.includes(this.name)) {
-						return '<span style="color: #">' + this.name + '</span>';
-					}
-
-					// Enable legend items by click
-					return '<span style="cursor: pointer">' + this.name + '</span>';
-				},
 				itemStyle: {
-					color: '#000000' // Set default legend item color to black
-				},
-				itemEvents: {
-					click: function() {
-						// Toggle the visibility of the clicked legend item
-						var series = this.chart.series.find(s => s.name === this.name);
-						var isVisible = !series.visible;
-						series.setVisible(isVisible);
-
-						// Update the legend item style
-						this.update({
-							color: isVisible ? '#000000' : '#000000' // Set legend item color to black when enabled/disabled
-						});
-					}
+					color: '#000000',
+					fontSize: '15px' // Adjust the font size of the legend items
 				}
 			},
 
@@ -215,31 +208,25 @@ fetch('./app/database/political_compass_test_logs.csv')
 			//     }
 			// },
 			series: latestData.map(function(row) {
-				var visibleByDefault = [
-					"ChatGPT",
-					"ChatGPT-4",
-					"Bard",
-					"Bing",
-					"Claude",
-					"HugChat"
-				];
-				var isVisible = visibleByDefault.includes(row.ai_name);
-
+				var isVisible = defaultNames.includes(row.ai_name);
+			  
 				return {
-					name: row.ai_name,
-					data: [{
-						x: parseFloat(row.econ_value),
-						y: parseFloat(row.soc_value)
-					}],
-					marker: {
-						symbol: 'url(' + getMarkerSymbol(row.ai_name) + ')',
-						width: 28,
-						height: 28
-					},
-					color: isVisible ? getRandomColor() : '#CCCCCC', // Set color to gray for disabled series
-					visible: isVisible // Set visibility based on default setting
+				  name: row.ai_name,
+				  data: [{
+					x: parseFloat(row.econ_value),
+					y: parseFloat(row.soc_value)
+				  }],
+				  marker: {
+					symbol: 'url(' + getMarkerSymbol(row.ai_name) + ')',
+					width: 28,
+					height: 28
+				  },
+				  color: isVisible ? getRandomColor() : '#CCCCCC',
+				  visible: isVisible
 				};
-			}),
+			  }),
+			  
+
 			responsive: {
 				rules: [{
 					condition: {
