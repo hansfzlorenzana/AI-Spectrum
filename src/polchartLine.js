@@ -50,8 +50,16 @@ google.charts.load('current', {
                 position: 'top',
                 alignment: 'end',
                 textStyle: {
-                    color: 'grey',
+                    color: 'black',
                     bold: true
+                }
+            },
+            tooltip: { 
+                textStyle: { 
+                    fontSize: 13 
+                },
+                content: {
+                    
                 }
             },
             title: 'Political Compass Test Coordinates Over Time',
@@ -124,6 +132,10 @@ google.charts.load('current', {
     var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
     dashboard.bind(control, chart);
     dashboard.draw(data);
+
+      // Set default chart filter to "ChatGPT"
+    var defaultFilter = 'ChatGPT';
+
   
     function filterChart(filterValue) {
         var filterSelect = document.getElementById('filter-select');
@@ -133,7 +145,7 @@ google.charts.load('current', {
             filterChart(filterValue);
         });
   
-        var chartTitle = filterValue === 'Reset' ? 'Political Compass Test Coordinates Over Time' : filterValue + ' - Political Compass Test Coordinates Over Time';
+        var chartTitle = filterValue === 'Reset' ? 'Political Compass Test Coordinates Over Time' : 'Political Compass Test Coordinates Over Time (' + filterValue + ')';
   
         if (filterValue === 'Reset' || data.getFilteredRows([{
                 column: 4,
@@ -164,9 +176,9 @@ google.charts.load('current', {
             control.draw();
         }
   
-        if (filterValue === 'Reset') {
+        if (filterValue === 'ChatGPT') {
             // Reset the select element to the default option
-            filterSelect.value = 'Reset';
+            filterSelect.value = 'ChatGPT';
   
             control.setState({}); // Reset the zoom state
             control.draw();
@@ -255,14 +267,14 @@ google.charts.load('current', {
   
     var filterResetButton = document.getElementById('filter-reset');
     filterResetButton.addEventListener('click', function() {
-        filterChart('Reset');
+        filterChart(defaultFilter);
     });
   
-    filterChart('Reset');
+    filterChart(defaultFilter);
     
     // Make Chart Responsive to any screen
     function resizeHandler () {
-        filterChart('Reset');
+        filterChart(defaultFilter);
     
     }
     if (window.addEventListener) {

@@ -191,6 +191,7 @@ body {
 /* POLITICAL COMPASS TEST LINE CHART */
 #filter_options {
   margin: 10px 0;
+  margin-bottom: 40px;
   display: flex;
   align-items: center;
   justify-content: center; /* Add this line to center the elements horizontally */
@@ -341,6 +342,7 @@ footer {
 }
 
 @media (max-width: 768px) {
+
   #politicalTestChart {
     margin: 0 auto; 
     width: 100%; 
@@ -357,6 +359,7 @@ footer {
 
   #filter_options {
     margin: 10px 0;
+    margin-bottom: 40px;
     display: flex;
     align-items: center;
     justify-content: center; /* Add this line to center the elements horizontally */
