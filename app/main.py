@@ -13,7 +13,7 @@ from g4f import you
 from g4f import deepai
 from revChatGPT.V1 import Chatbot as chatgpt4 
 from OpenAIAuth import Auth0
-from freeGPT import gpt3 as you3 # Alternative YouChat API
+from freeGPT import c_a_l as you3 # Alternative YouChat API
 from freeGPT import alpaca_7b as chatllama
 import g4fv2 # Alternative G4F API. Supports Forefront, Ora, YouChat and Phind (and more...)
 
@@ -55,7 +55,7 @@ poe_token2 = os.getenv("POE_TOKEN4")
 gpt4_email = os.getenv("OPENAI_GPT4_EMAIL")
 gpt4_password = os.getenv("OPENAI_GPT4_PASSWORD")
 gpt4_auth = Auth0(email=gpt4_email, password=gpt4_password)
-gpt4_access_token = gpt4_auth.auth()
+gpt4_access_token = gpt4_auth.get_access_token()
 
 
 def requestFromAI(question, ai):
