@@ -13,11 +13,9 @@ from g4f import you
 from g4f import deepai
 from revChatGPT.V1 import Chatbot as chatgpt4 
 from OpenAIAuth import Auth0
-from freeGPT import c_a_l as you3 # Alternative YouChat API
-from freeGPT import alpaca_7b as chatllama
-import g4fv2 # Alternative G4F API. Supports Forefront, Ora, YouChat and Phind (and more...)
+import g4fv2 #Supports Forefront, Ora, YouChat and Phind (and more...)
 
-import os, sys, time, warnings, pytz, re
+import os, sys, time, warnings, pytz, re, asyncio
 
 load_dotenv()
 warnings.filterwarnings("ignore")
@@ -35,11 +33,9 @@ ai_list = [
        'Bing',
        'Claude',
        'Sage',
-       'YouChat FreeGPT',
        'YouChat',
        'Forefront',
        'Ora',
-       'YouChat G4FV2',
        'Phind'
 ]
 
@@ -132,13 +128,6 @@ def requestFromAI(question, ai):
         reply = response.dict()
         reply = reply["text"]
         return reply
-    
-    elif ai == 'YouChat FreeGPT':
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        proxy = "145.239.85.58:9300" # Poland
-        response = you3.Completion.create(prompt=f'{prompt} {question}',chat=[], proxies={"https": "http://" + proxy})
-        reply = response['text']
-        return reply
 
     elif ai == "ChatGPT-4":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
@@ -164,8 +153,7 @@ def requestFromAI(question, ai):
     
     elif ai == 'Alpaca-7B':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = chatllama.Completion.create(prompt=f'{prompt} {question}')
-        reply = response
+        reply = ""
         return reply
 
     elif ai == "Forefront":
@@ -186,14 +174,7 @@ def requestFromAI(question, ai):
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
         response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Phind, messages=[
                                      {"role": "user", "content": f"{prompt} {question}"}])
-        reply=response.strip("\n")
-        return reply
-    
-    elif ai == 'YouChat G4FV2':
-        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.You, messages=[
-                                     {"role": "user", "content": f"{prompt} {question}"}])
-        reply=response
+        reply=response.lstrip()
         return reply
 
 # question = "If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations. Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
