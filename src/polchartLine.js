@@ -91,7 +91,11 @@ google.charts.load('current', {
                     fontSize: 11,
                     bold: true
                 },
-                minValue: 0
+                minValue: 0,
+                viewWindow: {
+                    min: -10,
+                    max: 10
+                }
             },
             responsive: true
         }
