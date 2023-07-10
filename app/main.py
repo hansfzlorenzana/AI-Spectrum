@@ -11,6 +11,7 @@ import poe # For Poe and Sage. Claude and OpenAI are handled by different librar
 import openai # For ChatGPT3. GPT4 is handled by different library.
 from g4f import you 
 from g4f import deepai
+from freeGPT import alpaca_7b as alpaca
 from revChatGPT.V1 import Chatbot as chatgpt4 
 from OpenAIAuth import Auth0
 import g4fv2 # Alternative G4F API. Supports Forefront, Ora, YouChat and Phind (and more...)
@@ -163,7 +164,7 @@ def requestFromAI(question, ai):
     
     elif ai == 'Alpaca-7B':
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = ""
+        response = alpaca.Completion.create(prompt=f'{prompt} {question}')
         reply = response
         return reply
 
