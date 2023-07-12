@@ -9,28 +9,28 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
   }
 
   .chartContainer {
     flex-basis: calc(50% - 10px);
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
 
-  #title {
+  #chart-title {
     text-align: center;
     font-size: 24px;
     margin-bottom: 10px;
     font-weight: bold;
   }
 
-  #subtitle {
+  #chart-subtitle {
     text-align: center;
     font-size: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 
-  #subtitle a {
+  #chart-subtitle a {
     color: blue;
     text-decoration: underline;
   }
