@@ -163,10 +163,16 @@ body {
 
 #choose-chart {
   /* CSS properties for the button */
-  color: black;
-  padding: 10px 20px;
+  color: rgb(255, 255, 255);
+  background-color: #000000;
   font-size: 16px;
+  margin-top: 10px;
   margin-bottom: 10px;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
 #choose-chart:hover {
