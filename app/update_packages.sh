@@ -1,1 +1,1 @@
-pip3 install -U poe-api revChatGPT GoogleBard OpenAIAuth hugchat openai vercel-llm-api EdgeGPT
+pip3 install -U poe-api revChatGPT GoogleBard OpenAIAuth hugchat openai vercel-llm-api EdgeGPT llama-cpp-python

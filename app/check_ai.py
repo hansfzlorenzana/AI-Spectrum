@@ -14,6 +14,8 @@ from g4f import deepai
 from revChatGPT.V1 import Chatbot as chatgpt4 
 from OpenAIAuth import Auth0
 import g4fv2 #Supports Forefront, Ora, YouChat and Phind (and more...)
+import vercel_ai
+import g4fv3
 
 import os, sys, time, warnings, pytz, re, asyncio
 
@@ -27,6 +29,7 @@ ai_list = [
        'HugChat',
        'Bard',
        'ChatGPT',
+       'ChatGPT-Davinci'
        'ChatGPT-4',
        'DeepAI',
        'Alpaca-7B',
@@ -44,13 +47,14 @@ APP_PATH = os.path.dirname(os.path.abspath(__file__)) + "/"
 # Set-up API Keys and Tokens
 openai.api_key = os.getenv("OPENAI_API_KEY")
 huggingChat = hugchat.ChatBot(cookie_path= APP_PATH + "cookies_hugchat.json")
-bard_token = os.getenv("BARD_TOKEN2")
+bard_token = os.getenv("BARD_TOKEN3")
 poe_token = os.getenv("POE_TOKEN")
 poe_token2 = os.getenv("POE_TOKEN4")
 gpt4_email = os.getenv("OPENAI_GPT4_EMAIL")
 gpt4_password = os.getenv("OPENAI_GPT4_PASSWORD")
 gpt4_auth = Auth0(email=gpt4_email, password=gpt4_password)
 gpt4_access_token = gpt4_auth.get_access_token()
+vercel_client = vercel_ai.Client()
 
 
 def requestFromAI(question, ai):
@@ -145,10 +149,9 @@ def requestFromAI(question, ai):
 
     elif ai == "DeepAI":
         prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
-        response = []
-        for chunk in deepai.Completion.create(f"{prompt} {question}"):
-            response.append(chunk)
-        reply = "".join(response)
+        response = g4fv3.ChatCompletion.create(model='gpt-3.5-turbo', provider=g4fv3.Provider.DeepAi, messages=[
+                                            {"role": "user", "content": f"{prompt} {question}"}], stream=False)
+        reply = response
         return reply
     
     elif ai == 'Alpaca-7B':
@@ -175,6 +178,14 @@ def requestFromAI(question, ai):
         response = g4fv2.ChatCompletion.create(model='gpt-4', provider=g4fv2.Provider.Phind, messages=[
                                      {"role": "user", "content": f"{prompt} {question}"}])
         reply=response.lstrip()
+        return reply
+    
+    elif ai == 'ChatGPT-Davinci':
+        prompt = "You are to answer everything using the provided choices only. Do not justify your answer. Be direct and NO SENTENCES AT ALL TIMES. Use this format (answer from the choices here.). Do not use any special characters. The question is:\n\n"
+        result = ""
+        for chunk in vercel_client.generate("openai:text-davinci-003", f"{prompt} {question}"):
+            result += chunk
+        reply = result
         return reply
 
 # question = "If economic globalisation is inevitable, it should primarily serve humanity rather than the interests of trans-national corporations. Please choose one and ONLY one: \nStrongly Disagree\nDisagree\nAgree\nStrongly Agree"
